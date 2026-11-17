@@ -46,8 +46,6 @@ func formatTimestamp(ts *int64, style, lang string) string {
 	return formatDT(*ts, style)
 }
 
-func formatRelative(ts *int64, lang string) string { return formatTimestamp(ts, "R", lang) }
-
 // formatUTCDate is a plain YYYY-MM-DD for a UTC day bucket.
 func formatUTCDate(ts int64) string { return time.Unix(ts, 0).UTC().Format("2006-01-02") }
 
@@ -241,18 +239,6 @@ func joinCapped(items []string, lang string, limit int, sep string) string {
 		shown = append(shown, item)
 	}
 	return strings.Join(append(shown, t("common.and_more", lang, "count", len(items)-len(shown))), sep)
-}
-
-// truncateString cuts text to maxLen characters, ending in suffix.
-func truncateString(text string, maxLen int, suffix string) string {
-	r := []rune(text)
-	if len(r) <= maxLen {
-		return text
-	}
-	if maxLen < runeLen(suffix) {
-		return string(r[:max(maxLen, 0)])
-	}
-	return string(r[:maxLen-runeLen(suffix)]) + suffix
 }
 
 // formatHealthDelta is the localized change vs a previous window.

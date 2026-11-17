@@ -394,6 +394,10 @@ func (d *DB) GetRecentReturns(guildID, since int64, limit int) []MemberReturn {
 		r.Nickname = ptrStr(nick)
 		out = append(out, r)
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get recent returns for guild %d: %v", guildID, err)
+		return nil
+	}
 	return out
 }
 
@@ -446,10 +450,15 @@ func (d *DB) SearchMembersByName(guildID int64, query string, limit int) []NameP
 		var p NamePair
 		var nick sql.NullString
 		if err := rows.Scan(&p.Username, &nick); err != nil {
-			return out
+			log.Error("Failed to search members '%s' in guild %d: %v", query, guildID, err)
+			return nil
 		}
 		p.Nickname = ptrStr(nick)
 		out = append(out, p)
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to search members '%s' in guild %d: %v", query, guildID, err)
+		return nil
 	}
 	return out
 }
@@ -575,6 +584,10 @@ func (d *DB) GetTrackedUserIDs(guildID int64) *UserFilter {
 				break
 			}
 		}
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get tracked user ids for guild %d: %v", guildID, err)
+		return nil
 	}
 	return f
 }

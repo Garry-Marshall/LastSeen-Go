@@ -803,7 +803,7 @@ func (b *Bot) roleNameModal(guildID snowflake.ID, cfg *db.GuildConfig, admin boo
 		}
 		// @everyone would make every member a bot admin (and is ignored by
 		// the admin check anyway), so it is refused.
-		if admin && strings.ToLower(name) == strings.ToLower(b.defaultRoleName(guildID)) {
+		if admin && strings.EqualFold(name, b.defaultRoleName(guildID)) {
 			fail(t("admin.role.everyone_not_allowed", lang))
 			return
 		}

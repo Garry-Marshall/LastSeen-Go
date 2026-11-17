@@ -314,6 +314,10 @@ func (d *DB) GetMembersLastSeen(guildID int64, userIDs []int64) map[int64]*int64
 		}
 		out[uid] = ptrInt(ls)
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to batch-read last_seen for guild %d: %v", guildID, err)
+		return map[int64]*int64{}
+	}
 	return out
 }
 

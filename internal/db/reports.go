@@ -95,6 +95,10 @@ func (d *DB) GetHealthHistory(guildID int64, points, stepDays int) []HealthSnaps
 		}
 		all = append(all, s)
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get health history for guild %d: %v", guildID, err)
+		return nil
+	}
 	if len(all) == 0 {
 		return nil
 	}
@@ -162,6 +166,10 @@ func (d *DB) messageCounts(what string, guildID int64, query string, args ...any
 		m.Nickname, m.TotalMessages = ptrStr(nick), total.Int64
 		out = append(out, m)
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get %s for guild %d: %v", what, guildID, err)
+		return nil
+	}
 	return out
 }
 
@@ -224,6 +232,10 @@ func (d *DB) GetActivityByDay(guildID int64, days int, f *UserFilter, tz string)
 		}
 		counts[pyWeekdayOf(time.Unix(ts, 0).In(loc))] += n.Int64
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get activity by day for guild %d: %v", guildID, err)
+		return counts, false
+	}
 	return counts, true
 }
 
@@ -274,6 +286,10 @@ func (d *DB) GetServerActivityWindows(guildID int64, days int, tz string, f *Use
 		grid[wd][h] += n.Int64
 		dates[[3]int{local.Year(), int(local.Month()), local.Day()}] = true
 		w.Total += n.Int64
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to build server activity windows for guild %d: %v", guildID, err)
+		return ActivityWindows{}
 	}
 	if w.Total == 0 {
 		return ActivityWindows{}
@@ -344,6 +360,10 @@ func (d *DB) GetGuildsWithReportsEnabled() []ReportGuild {
 		g.DayWeekly, g.DayMonthly, g.LastWeekly, g.LastMonthly, g.Hour = ptrInt(dw), ptrInt(dm), ptrInt(lw), ptrInt(lm), ptrInt(hr)
 		out = append(out, g)
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get guilds with reports enabled: %v", err)
+		return nil
+	}
 	return out
 }
 
@@ -381,6 +401,10 @@ func (d *DB) periodMembers(what string, guildID int64, departed bool, query stri
 			m.JoinDate, m.JoinPosition = ptrInt(a), ptrInt(b)
 		}
 		out = append(out, m)
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get %s for guild %d: %v", what, guildID, err)
+		return nil
 	}
 	return out
 }
@@ -453,6 +477,10 @@ func (d *DB) CleanupAllGuildsMessageActivity() (daily, hourly int64, guilds int)
 		list = append(list, g)
 	}
 	rows.Close()
+	if err := rows.Err(); err != nil { // valid after Close
+		log.Error("Failed to run global cleanup: %v", err)
+		return 0, 0, 0
+	}
 	for _, g := range list {
 		a, b := d.CleanupOldMessageActivity(g.id, g.days)
 		daily += a

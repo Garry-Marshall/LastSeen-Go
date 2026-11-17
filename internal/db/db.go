@@ -498,6 +498,9 @@ func (d *DB) initialize() error {
 			all = append(all, r)
 		}
 		rows.Close()
+		if err := rows.Err(); err != nil { // valid after Close
+			return err
+		}
 		counters := map[int64]int64{}
 		for _, r := range all {
 			counters[r.gid]++

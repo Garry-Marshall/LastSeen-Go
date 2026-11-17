@@ -953,7 +953,7 @@ func (b *Bot) cmdAbout(ix *Ix) {
 func (b *Bot) latency() time.Duration {
 	var sum time.Duration
 	n := 0
-	for g := range b.Client.ShardManager.Shards() {
+	for _, g := range b.shards() {
 		sum += g.Latency()
 		n++
 	}

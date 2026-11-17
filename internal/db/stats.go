@@ -156,6 +156,10 @@ func (d *DB) GetLifecycleSegments(guildID int64) LifecycleSegments {
 		}
 		r[b] = n
 	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get lifecycle segments for guild %d: %v", guildID, err)
+		return r
+	}
 	return r
 }
 
@@ -189,6 +193,10 @@ func (d *DB) segmentMembers(what string, guildID int64, query string, args []any
 		}
 		m.Nickname, m.LastSeen = ptrStr(nick), ptrInt(last)
 		out = append(out, m)
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get %s for guild %d: %v", what, guildID, err)
+		return nil
 	}
 	return out
 }

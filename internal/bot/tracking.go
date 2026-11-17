@@ -1345,7 +1345,7 @@ func (tr *Tracking) rotateStatus() {
 	ctx, cancel := context.WithTimeout(tr.ctx, 10*time.Second)
 	defer cancel()
 	var errs []error
-	for s := range tr.b.Client.ShardManager.Shards() {
+	for _, s := range tr.b.shards() { // a snapshot: SetPresenceForShard takes the shard manager's lock
 		if err := tr.b.Client.SetPresenceForShard(ctx, s.ShardID(), gateway.WithCustomActivity(name)); err != nil {
 			errs = append(errs, err)
 		}

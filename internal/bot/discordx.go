@@ -2,15 +2,26 @@ package bot
 
 import (
 	"errors"
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/gateway"
 	"github.com/disgoorg/disgo/rest"
 	"github.com/disgoorg/snowflake/v2"
 )
 
 // Small Discord helpers standing in for discord.py conveniences.
+
+// shards is a snapshot of the shard manager's shards. Always use this
+// instead of ranging over ShardManager.Shards() directly: that iterator
+// holds the manager's lock (a plain, non-reentrant mutex) for the whole
+// loop, so any shard-manager call inside the loop (SetPresenceForShard,
+// Shard, ShardByGuildID...) deadlocks and blocks every later caller.
+func (b *Bot) shards() []gateway.Gateway {
+	return slices.Collect(b.Client.ShardManager.Shards())
+}
 
 // restStatus is the HTTP status of a failed REST call (0 when the error is
 // not an HTTP response, e.g. a network failure).

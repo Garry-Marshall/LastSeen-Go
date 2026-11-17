@@ -92,9 +92,14 @@ func (d *DB) GetRoleHistory(guildID, userID int64, limit int) []RoleChange {
 	for rows.Next() {
 		var c RoleChange
 		if err := rows.Scan(&c.RoleName, &c.Action, &c.Timestamp); err != nil {
-			return out
+			log.Error("Failed to get role history for user %d in guild %d: %v", userID, guildID, err)
+			return nil
 		}
 		out = append(out, c)
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get role history for user %d in guild %d: %v", userID, guildID, err)
+		return nil
 	}
 	return out
 }
@@ -385,10 +390,15 @@ func (d *DB) GetGuildActivityTotals(guildID int64, days int) map[int64]ActivityT
 		var t ActivityTotals
 		var total, week, today sql.NullInt64
 		if err := rows.Scan(&uid, &total, &week, &today); err != nil {
-			return out
+			log.Error("Failed to get activity totals for guild %d: %v", guildID, err)
+			return map[int64]ActivityTotals{}
 		}
 		t.Total, t.ThisWeek, t.Today = total.Int64, week.Int64, today.Int64
 		out[uid] = t
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get activity totals for guild %d: %v", guildID, err)
+		return map[int64]ActivityTotals{}
 	}
 	return out
 }
@@ -406,9 +416,14 @@ func (d *DB) GetGuildLastActive(guildID int64) map[int64]int64 {
 	for rows.Next() {
 		var uid, la int64
 		if err := rows.Scan(&uid, &la); err != nil {
-			return out
+			log.Error("Failed to get last active days for guild %d: %v", guildID, err)
+			return map[int64]int64{}
 		}
 		out[uid] = la
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get last active days for guild %d: %v", guildID, err)
+		return map[int64]int64{}
 	}
 	return out
 }
@@ -475,10 +490,15 @@ func (d *DB) GetMessageActivityTrend(guildID, userID int64, days int) []DayCount
 		var c DayCount
 		var n sql.NullInt64
 		if err := rows.Scan(&c.Date, &n); err != nil {
-			return out
+			log.Error("Failed to get message activity trend for user %d: %v", userID, err)
+			return nil
 		}
 		c.Count = n.Int64
 		out = append(out, c)
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to get message activity trend for user %d: %v", userID, err)
+		return nil
 	}
 	return out
 }
@@ -524,6 +544,10 @@ func (d *DB) GetActivityProfile(guildID, userID int64, days int, tzName string) 
 		y, m, dd := local.Date()
 		perDate[ymd{y, int(m), dd}] += cnt.Int64
 		p.Total += cnt.Int64
+	}
+	if err := rows.Err(); err != nil {
+		log.Error("Failed to build activity profile for user %d in guild %d: %v", userID, guildID, err)
+		return empty
 	}
 	rows.Close()
 	if p.Total == 0 {

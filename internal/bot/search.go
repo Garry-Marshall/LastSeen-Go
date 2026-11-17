@@ -216,7 +216,7 @@ func (b *Bot) parseSearchFilters(guildID snowflake.ID, roles, status, inactive, 
 			}
 			found := false
 			for _, r := range guildRoles {
-				if strings.ToLower(r.Name) == strings.ToLower(rs) {
+				if strings.EqualFold(r.Name, rs) {
 					f.roles = append(f.roles, r.ID)
 					clog.Info("  Found role by name: '%s' -> %s (ID: %d)", rs, r.Name, r.ID)
 					found = true
