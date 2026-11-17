@@ -4,30 +4,44 @@
 # build.ps1 puts this script in dist/linux-amd64 together with the binary,
 # locales/ and lastseen.service. Copy that whole folder to the server and run:
 #
-#   sudo sh linux-amd64/install.sh
+#   sudo sh linux-amd64/install.sh [name]
+#
+# name (default "lastseen") names the instance: its system user, its folder
+# /opt/<name> and its service <name>.service. Use another name to run a second
+# bot next to the first, e.g. a test bot: sudo sh linux-amd64/install.sh lastseen-dev
 #
 # Every run: installs the binary, locales/ and the systemd service into
-# /opt/lastseen, then (re)starts the bot.
-# First run: also creates the "lastseen" system user and /opt/lastseen.
+# /opt/<name>, then (re)starts the bot.
+# First run: also creates the system user and /opt/<name>.
 #
 # Put a .env and/or a database (e.g. lastseen_bot.db from the Python bot) in
 # the folder next to this script to have them installed too. They are only
-# installed when /opt/lastseen doesn't have one yet: an existing .env or
+# installed when /opt/<name> doesn't have one yet: an existing .env or
 # database is never overwritten.
 #
-# For local changes to the service, use "sudo systemctl edit lastseen": this
-# script replaces /etc/systemd/system/lastseen.service on every run.
+# The script refuses to replace a service of the same name that it didn't
+# install itself (such as the Python bot's). For local changes to the service,
+# use "sudo systemctl edit <name>": this script rewrites
+# /etc/systemd/system/<name>.service on every run.
 
 set -eu
 
-APP_DIR=/opt/lastseen
-APP_USER=lastseen
-SERVICE=lastseen
+NAME=${1:-lastseen}
+case "$NAME" in
+    "" | -* | *[!a-z0-9-]*)
+        echo "Invalid name \"$NAME\": use lowercase letters, digits and dashes, e.g. lastseen-dev." >&2
+        exit 1
+        ;;
+esac
+APP_DIR=/opt/$NAME
+APP_USER=$NAME
+SERVICE=$NAME
 UNIT=/etc/systemd/system/$SERVICE.service
+MARKER="Managed by LastSeen's install.sh"
 SRC=$(cd "$(dirname "$0")" && pwd)
 
 if [ "$(id -u)" -ne 0 ]; then
-    echo "Run this as root: sudo sh $0" >&2
+    echo "Run this as root: sudo sh $0 $*" >&2
     exit 1
 fi
 for f in lastseen locales lastseen.service; do
@@ -36,6 +50,29 @@ for f in lastseen locales lastseen.service; do
         exit 1
     fi
 done
+
+# --- Never take over someone else's service --------------------------------
+# Check both the unit systemd has loaded (wherever it lives) and our own path.
+loaded=$(systemctl show -p FragmentPath --value "$SERVICE" 2>/dev/null || true)
+for f in "$loaded" "$UNIT"; do
+    if [ -n "$f" ] && [ -f "$f" ] && ! grep -q "$MARKER" "$f"; then
+        echo "A $SERVICE service already exists ($f) that this script didn't install," >&2
+        echo "for example the Python bot's. Nothing was changed." >&2
+        echo >&2
+        echo "To run this bot next to it, use another name:" >&2
+        echo "  sudo sh $0 lastseen-dev" >&2
+        echo "To replace it, stop the old service and set its file aside first:" >&2
+        echo "  sudo systemctl disable --now $SERVICE" >&2
+        echo "  sudo mv $f /root/$SERVICE.service.old" >&2
+        echo "  sudo systemctl daemon-reload" >&2
+        exit 1
+    fi
+done
+if [ -f "$APP_DIR/main.py" ]; then
+    echo "$APP_DIR looks like the Python bot's folder (it has main.py). Nothing was changed." >&2
+    echo "Install this bot under another name, e.g.: sudo sh $0 lastseen-go" >&2
+    exit 1
+fi
 
 # --- User and folder (first run) --------------------------------------------
 if ! id "$APP_USER" >/dev/null 2>&1; then
@@ -102,8 +139,22 @@ for db in "$SRC"/*.db; do
 done
 
 # --- systemd service (every run) --------------------------------------------
-if ! cmp -s "$SRC/lastseen.service" "$UNIT"; then
-    install -o root -g root -m 644 "$SRC/lastseen.service" "$UNIT"
+# lastseen.service is written for the default name; adapt it to this one.
+unit_tmp=$(mktemp)
+trap 'rm -f "$unit_tmp"' EXIT
+sed -e "s|/opt/lastseen|$APP_DIR|g" \
+    -e "s|^User=lastseen\$|User=$APP_USER|" \
+    -e "s|^Group=lastseen\$|Group=$APP_USER|" \
+    "$SRC/lastseen.service" >"$unit_tmp"
+if [ "$NAME" != lastseen ]; then
+    sed -i "s|^Description=.*|& ($NAME)|" "$unit_tmp"
+fi
+if ! grep -q "$MARKER" "$unit_tmp"; then
+    echo "$SRC/lastseen.service lacks the line \"$MARKER\"; not installing it." >&2
+    exit 1
+fi
+if ! cmp -s "$unit_tmp" "$UNIT"; then
+    install -o root -g root -m 644 "$unit_tmp" "$UNIT"
     systemctl daemon-reload
     echo "Installed $UNIT"
 fi

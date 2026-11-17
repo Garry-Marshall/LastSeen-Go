@@ -1,8 +1,9 @@
-# systemd service for the LastSeen Discord bot.
+# systemd service for the LastSeen Discord bot (Go version).
 #
-# install.sh installs this file (see README.md, "Deploying on Linux"); it
-# replaces it on every update, so make local changes with
-# "sudo systemctl edit lastseen" instead of editing it in place.
+# Managed by LastSeen's install.sh (see README.md, "Deploying on Linux"). It
+# installs this file, adapted to the instance name, and replaces it on every
+# update: make local changes with "sudo systemctl edit lastseen" instead of
+# editing it in place. Keep the line above: install.sh looks for it.
 #
 # Expects the bot in /opt/lastseen (binary, locales/, .env, database),
 # running as the system user "lastseen".

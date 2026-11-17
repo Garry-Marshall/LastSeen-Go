@@ -276,6 +276,17 @@ sudo systemctl stop lastseen               # clean shutdown
 
 The service restarts the bot 5 seconds after a crash and starts it at boot. It does **not** restart after a configuration error, such as a missing or rejected token: fix `.env`, then start it again. If Discord refuses the privileged intents, the bot waits 10 minutes before exiting, so restarts stay well under Discord's daily login limit.
 
+**A second bot on the same server (e.g. a test bot)**
+
+Give the installer a name. That name is used for the user, the folder and the service, so the two bots don't touch each other:
+```bash
+sudo sh linux-amd64/install.sh lastseen-dev
+```
+
+This installs into `/opt/lastseen-dev`, as user `lastseen-dev`, with the service `lastseen-dev` (`sudo journalctl -u lastseen-dev -f`, and so on). Pass the same name every time you update it. Give it its own `.env` with the test bot's token, and leave `STATS_PUSH_ENABLED` off and the bot-list tokens empty, so it doesn't overwrite the production bot's numbers.
+
+The installer never takes over a service it didn't install itself. If another `lastseen` service already exists, such as the Python bot's, it stops without changing anything and says what to do.
+
 ### Exit codes
 
 | Code | Meaning | Restarted? |
@@ -293,6 +304,35 @@ The Go bot uses the same database schema and the same `.env` settings, so there 
 3. Start the Go bot.
 
 Never run both bots at the same time: they share a token and would both answer commands. You can switch back by stopping the Go bot and starting the Python bot on the same database.
+
+**On Linux, when the Python bot runs as a service named `lastseen`:**
+
+1. Stop the Python bot and set its service file aside, so the installer can install the Go bot's service under the same name. The installer's message shows the file's exact path.
+   ```bash
+   sudo systemctl disable --now lastseen
+   ```
+   ```bash
+   sudo mv /etc/systemd/system/lastseen.service /root/lastseen-python.service && sudo systemctl daemon-reload
+   ```
+2. Copy the Python bot's `.env` and database (with `lastseen_bot.db-wal` if it exists) next to `install.sh`, and run it:
+   ```bash
+   sudo cp /path/to/python-bot/.env /path/to/python-bot/lastseen_bot.db* ~/linux-amd64/
+   ```
+   ```bash
+   sudo sh linux-amd64/install.sh
+   ```
+
+To switch back, stop the Go bot, copy its database back to the Python bot's folder (it holds everything recorded since the switch), and restore the Python service:
+```bash
+sudo systemctl disable --now lastseen
+```
+```bash
+sudo cp /opt/lastseen/lastseen_bot.db* /path/to/python-bot/
+```
+```bash
+sudo mv /root/lastseen-python.service /etc/systemd/system/lastseen.service && sudo systemctl daemon-reload && sudo systemctl enable --now lastseen
+```
+Check that the copied files belong to the user the Python bot runs as.
 
 ## Configuration
 
