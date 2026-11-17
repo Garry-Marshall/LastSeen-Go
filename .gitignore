@@ -1,0 +1,39 @@
+# Build output
+dist/
+*.exe
+/lastseen
+/lastseen-*
+
+# Environment variables (bot token, bot-list tokens, scp destination)
+.env
+
+# Bot data files
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+stats.json
+
+# Logs and backups
+logs/
+Logs/
+*.log
+backups/
+*.backup
+*.bak
+
+# Go tooling
+*.test
+*.out
+coverage.*
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.github
+.claude
+CLAUDE.md

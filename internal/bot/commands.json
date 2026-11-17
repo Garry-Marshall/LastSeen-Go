@@ -1,0 +1,407 @@
+[
+ {
+  "name": "whois",
+  "description": "👤 Get information about a user",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "user",
+    "description": "Username, nickname, or @mention of the user",
+    "required": true,
+    "autocomplete": true
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "lastseen",
+  "description": "👁️ Check when a user was last seen online",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "user",
+    "description": "Username, nickname, or @mention of the user",
+    "required": true,
+    "autocomplete": true
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "seen",
+  "description": "👁️ Alias for /lastseen - Check when a user was last seen",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "user",
+    "description": "Username, nickname, or @mention of the user",
+    "required": true,
+    "autocomplete": true
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "role-history",
+  "description": "📜 View role change history for a member (Admin only)",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "user",
+    "description": "Username, nickname, or @mention of the user",
+    "required": true,
+    "autocomplete": true
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "inactive",
+  "description": "💤 List inactive members — Admin only (add days to override threshold)",
+  "type": 1,
+  "options": [
+   {
+    "type": 4,
+    "name": "days",
+    "description": "Override default threshold - specify number of days (1-365)",
+    "required": false
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "chat-history",
+  "description": "📈 View extended message activity history (365 days)",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "user",
+    "description": "Yourself, or anyone if you're a bot admin (leave empty for server-wide stats)",
+    "required": false,
+    "autocomplete": true
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "mystats",
+  "description": "📊 View your own activity statistics",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "forgetme",
+  "description": "🗑️ Delete your tracked data and opt out of tracking",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "optin",
+  "description": "✅ Re-enable activity tracking for your account",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "no-watch",
+  "description": "🙈 Toggle whether admins can set presence-watch alerts on you",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "about",
+  "description": "ℹ️ About this bot",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": true,
+  "default_member_permissions": null,
+  "contexts": null,
+  "integration_types": null
+ },
+ {
+  "name": "search",
+  "description": "🔍 Search and filter server members",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "roles",
+    "description": "Filter by roles (comma-separated, e.g., @Mod,@Admin)",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "status",
+    "description": "Filter by presence: online, offline, idle, dnd, or all",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "inactive",
+    "description": "Days since last seen - use >30 (more than), <7 (less than), or =14 (exactly)",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "activity",
+    "description": "Messages in last 30 days - examples: >100, <10, =50",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "silent",
+    "description": "Days since last message (recent joiners excluded) - use >60 (more than), <7, or =14",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "joined",
+    "description": "Join date filter - format: >2024-01-01, <2023-06-01, =2025-01-15",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "departed",
+    "description": "Left-date filter (lists members who left) - format: >2024-01-01, <2023-06-01, =2025-01-15",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "username",
+    "description": "Search username (partial match, case-insensitive)",
+    "required": false
+   },
+   {
+    "type": 3,
+    "name": "export",
+    "description": "Export results as file: csv, txt, or none",
+    "required": false
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "user-stats",
+  "description": "📊 View server statistics and analytics (Admin only)",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "config",
+  "description": "⚙️ Configure bot settings (Admin only)",
+  "type": 1,
+  "options": [],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "help",
+  "description": "❓ Show bot information and available commands",
+  "type": 1,
+  "options": [
+   {
+    "type": 3,
+    "name": "command",
+    "description": "Optional: a command name for detailed help (e.g. watch)",
+    "required": false,
+    "autocomplete": true
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": [
+   0
+  ],
+  "integration_types": null
+ },
+ {
+  "name": "watch",
+  "description": "👀 Manage presence watches and activity alerts (Admin only)",
+  "type": 1,
+  "options": [
+   {
+    "name": "online",
+    "description": "🔔 Alert when a member/role comes back online",
+    "type": 1,
+    "options": [
+     {
+      "type": 9,
+      "name": "target",
+      "description": "The user or role to watch",
+      "required": true
+     },
+     {
+      "type": 3,
+      "name": "after",
+      "description": "Only alert if they'd been away at least this long, e.g. 7d (optional)",
+      "required": false
+     },
+     {
+      "type": 7,
+      "name": "channel",
+      "description": "Where to post the alert (defaults to this channel; leave empty if using dm)",
+      "required": false,
+      "channel_types": [
+       0,
+       5
+      ]
+     },
+     {
+      "type": 5,
+      "name": "dm",
+      "description": "DM the alert to you instead — don't also set a channel",
+      "required": false
+     }
+    ]
+   },
+   {
+    "name": "offline",
+    "description": "💤 Alert when a member/role has been offline for a duration",
+    "type": 1,
+    "options": [
+     {
+      "type": 9,
+      "name": "target",
+      "description": "The user or role to watch",
+      "required": true
+     },
+     {
+      "type": 3,
+      "name": "duration",
+      "description": "How long offline before alerting, e.g. 48h or 7d",
+      "required": true
+     },
+     {
+      "type": 7,
+      "name": "channel",
+      "description": "Where to post the alert (defaults to this channel; leave empty if using dm)",
+      "required": false,
+      "channel_types": [
+       0,
+       5
+      ]
+     },
+     {
+      "type": 5,
+      "name": "dm",
+      "description": "DM the alert to you instead — don't also set a channel",
+      "required": false
+     }
+    ]
+   },
+   {
+    "name": "list",
+    "description": "📋 List this server's watches",
+    "type": 1,
+    "options": []
+   },
+   {
+    "name": "remove",
+    "description": "🗑️ Remove a watch by its number, or by the watched user/role",
+    "type": 1,
+    "options": [
+     {
+      "type": 3,
+      "name": "target",
+      "description": "A watch number from /watch list, or a username, nickname, user ID, or role",
+      "required": true,
+      "autocomplete": true
+     }
+    ]
+   }
+  ],
+  "nsfw": false,
+  "dm_permission": false,
+  "default_member_permissions": null,
+  "contexts": null,
+  "integration_types": null
+ }
+]

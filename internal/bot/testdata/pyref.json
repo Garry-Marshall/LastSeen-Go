@@ -1,0 +1,6693 @@
+{
+ "views": [
+  {
+   "name": "config/en/0",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Notification Channel",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Inactive Days",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Timezone",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Language",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Bot Admin Role",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set User Role",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "User Role Required = OFF",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Track Only Roles",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Allowed Channels",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Configure Reports",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Disable Reports",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Quick Setup",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "View Config",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/en/1",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Notification Channel",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Inactive Days",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Timezone",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Language",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Bot Admin Role",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set User Role",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "User Role Required = ON",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Track Only Roles",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Set Allowed Channels",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Configure Reports",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Disable Reports",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Quick Setup",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "View Config",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "quick_setup/en",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "◀️ Previous",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Next ▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Skip",
+      "emoji": "",
+      "disabled": true
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 3,
+      "label": "⚙️ Configure",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "❌ Cancel Setup",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "disable_reports/en",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Yes, Disable Reports",
+      "emoji": "✅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Cancel",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "language/en",
+   "rows": [
+    [
+     {
+      "type": 3,
+      "placeholder": "Select a language",
+      "min": 1,
+      "max": 1,
+      "options": [
+       {
+        "label": "English",
+        "value": "en",
+        "default": true
+       },
+       {
+        "label": "Español",
+        "value": "es",
+        "default": false
+       },
+       {
+        "label": "Français",
+        "value": "fr",
+        "default": false
+       },
+       {
+        "label": "Nederlands",
+        "value": "nl",
+        "default": false
+       },
+       {
+        "label": "Polski",
+        "value": "pl",
+        "default": false
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "forgetme/en",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Yes, delete my data",
+      "emoji": "🗑️",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Cancel",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "user_stats/en",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📊 Retention Report",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📈 Server Growth",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "💓 Community Pulse",
+      "emoji": "",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🏆 Leaderboard",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔥 Activity Heatmap",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "👥 Participation",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔄 Lifecycle",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📋 Export Report",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "journey/en",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🧬 Journey",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/en/1/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/en/1/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/en/3/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/en/3/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/es/0",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer canal de notificaciones",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer días de inactividad",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer zona horaria",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer idioma",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer rol de administrador del bot",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer rol de usuario",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Rol de usuario requerido = DESACTIVADO",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer roles a rastrear",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer canales permitidos",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Configurar informes",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Desactivar informes",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Configuración rápida",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Ver configuración",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/es/1",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer canal de notificaciones",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer días de inactividad",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer zona horaria",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer idioma",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer rol de administrador del bot",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer rol de usuario",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "Rol de usuario requerido = ACTIVADO",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer roles a rastrear",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Establecer canales permitidos",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Configurar informes",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Desactivar informes",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Configuración rápida",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Ver configuración",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "quick_setup/es",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "◀️ Anterior",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Siguiente ▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Omitir",
+      "emoji": "",
+      "disabled": true
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 3,
+      "label": "⚙️ Configurar",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "❌ Cancelar configuración",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "disable_reports/es",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Sí, desactivar informes",
+      "emoji": "✅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Cancelar",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "language/es",
+   "rows": [
+    [
+     {
+      "type": 3,
+      "placeholder": "Selecciona un idioma",
+      "min": 1,
+      "max": 1,
+      "options": [
+       {
+        "label": "English",
+        "value": "en",
+        "default": false
+       },
+       {
+        "label": "Español",
+        "value": "es",
+        "default": true
+       },
+       {
+        "label": "Français",
+        "value": "fr",
+        "default": false
+       },
+       {
+        "label": "Nederlands",
+        "value": "nl",
+        "default": false
+       },
+       {
+        "label": "Polski",
+        "value": "pl",
+        "default": false
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "forgetme/es",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Sí, eliminar mis datos",
+      "emoji": "🗑️",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Cancelar",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "user_stats/es",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📊 Informe de retención",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📈 Crecimiento del servidor",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "💓 Pulso de la comunidad",
+      "emoji": "",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🏆 Clasificación",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔥 Mapa de calor de actividad",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "👥 Participación",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔄 Ciclo de vida",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📋 Exportar informe",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "journey/es",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🧬 Trayectoria",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/es/1/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/es/1/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/es/3/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/es/3/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/fr/0",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le salon de notifications",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir les jours d'inactivité",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le fuseau horaire",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir la langue",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le rôle d'administrateur du bot",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le rôle utilisateur",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Rôle utilisateur requis = DÉSACTIVÉ",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir les rôles à suivre",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir les salons autorisés",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Configurer les rapports",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Désactiver les rapports",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Configuration rapide",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Voir la configuration",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/fr/1",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le salon de notifications",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir les jours d'inactivité",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le fuseau horaire",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir la langue",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le rôle d'administrateur du bot",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir le rôle utilisateur",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "Rôle utilisateur requis = ACTIVÉ",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir les rôles à suivre",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Définir les salons autorisés",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Configurer les rapports",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Désactiver les rapports",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Configuration rapide",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Voir la configuration",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "quick_setup/fr",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "◀️ Précédent",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Suivant ▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Ignorer",
+      "emoji": "",
+      "disabled": true
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 3,
+      "label": "⚙️ Configurer",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "❌ Annuler la configuration",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "disable_reports/fr",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Oui, désactiver les rapports",
+      "emoji": "✅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Annuler",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "language/fr",
+   "rows": [
+    [
+     {
+      "type": 3,
+      "placeholder": "Sélectionnez une langue",
+      "min": 1,
+      "max": 1,
+      "options": [
+       {
+        "label": "English",
+        "value": "en",
+        "default": false
+       },
+       {
+        "label": "Español",
+        "value": "es",
+        "default": false
+       },
+       {
+        "label": "Français",
+        "value": "fr",
+        "default": true
+       },
+       {
+        "label": "Nederlands",
+        "value": "nl",
+        "default": false
+       },
+       {
+        "label": "Polski",
+        "value": "pl",
+        "default": false
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "forgetme/fr",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Oui, supprimer mes données",
+      "emoji": "🗑️",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Annuler",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "user_stats/fr",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📊 Rapport de rétention",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📈 Croissance du serveur",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "💓 Pouls de la communauté",
+      "emoji": "",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🏆 Classement",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔥 Carte thermique d'activité",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "👥 Participation",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔄 Cycle de vie",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📋 Exporter le rapport",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "journey/fr",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🧬 Parcours",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/fr/1/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/fr/1/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/fr/3/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/fr/3/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/nl/0",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Meldingskanaal instellen",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Inactieve dagen instellen",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Tijdzone instellen",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Taal instellen",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Botbeheerdersrol instellen",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Gebruikersrol instellen",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Gebruikersrol vereist = UIT",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Alleen-volgen-rollen instellen",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Toegestane kanalen instellen",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Rapporten configureren",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Rapporten uitschakelen",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Snelle setup",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Configuratie bekijken",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/nl/1",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Meldingskanaal instellen",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Inactieve dagen instellen",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Tijdzone instellen",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Taal instellen",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Botbeheerdersrol instellen",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Gebruikersrol instellen",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "Gebruikersrol vereist = AAN",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Alleen-volgen-rollen instellen",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Toegestane kanalen instellen",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Rapporten configureren",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Rapporten uitschakelen",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Snelle setup",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Configuratie bekijken",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "quick_setup/nl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "◀️ Vorige",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Volgende ▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Overslaan",
+      "emoji": "",
+      "disabled": true
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 3,
+      "label": "⚙️ Configureren",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "❌ Setup annuleren",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "disable_reports/nl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Ja, rapporten uitschakelen",
+      "emoji": "✅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Annuleren",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "language/nl",
+   "rows": [
+    [
+     {
+      "type": 3,
+      "placeholder": "Selecteer een taal",
+      "min": 1,
+      "max": 1,
+      "options": [
+       {
+        "label": "English",
+        "value": "en",
+        "default": false
+       },
+       {
+        "label": "Español",
+        "value": "es",
+        "default": false
+       },
+       {
+        "label": "Français",
+        "value": "fr",
+        "default": false
+       },
+       {
+        "label": "Nederlands",
+        "value": "nl",
+        "default": true
+       },
+       {
+        "label": "Polski",
+        "value": "pl",
+        "default": false
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "forgetme/nl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Ja, verwijder mijn gegevens",
+      "emoji": "🗑️",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Annuleren",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "user_stats/nl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📊 Retentierapport",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📈 Servergroei",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "💓 Community-puls",
+      "emoji": "",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🏆 Ranglijst",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔥 Activiteitsheatmap",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "👥 Participatie",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔄 Levenscyclus",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📋 Rapport exporteren",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "journey/nl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🧬 Ledenreis",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/nl/1/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/nl/1/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/nl/3/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/nl/3/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/pl/0",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw kanał powiadomień",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw dni nieaktywności",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw strefę czasową",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw język",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw rolę administratora bota",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw rolę użytkownika",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Rola użytkownika wymagana = WYŁĄCZONE",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw role do śledzenia",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw dozwolone kanały",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Skonfiguruj raporty",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Wyłącz raporty",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Szybka konfiguracja",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Zobacz konfigurację",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "config/pl/1",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw kanał powiadomień",
+      "emoji": "📢",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw dni nieaktywności",
+      "emoji": "📅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw strefę czasową",
+      "emoji": "🌍",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw język",
+      "emoji": "🌐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw rolę administratora bota",
+      "emoji": "👑",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw rolę użytkownika",
+      "emoji": "👤",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "Rola użytkownika wymagana = WŁĄCZONE",
+      "emoji": "🔐",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw role do śledzenia",
+      "emoji": "🎯",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Ustaw dozwolone kanały",
+      "emoji": "📝",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Skonfiguruj raporty",
+      "emoji": "📊",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Wyłącz raporty",
+      "emoji": "⏹️",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🚀 Szybka konfiguracja",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Zobacz konfigurację",
+      "emoji": "⚙️",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "quick_setup/pl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "◀️ Poprzedni",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "Następny ▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Pomiń",
+      "emoji": "",
+      "disabled": true
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 3,
+      "label": "⚙️ Konfiguruj",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 4,
+      "label": "❌ Anuluj konfigurację",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "disable_reports/pl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Tak, wyłącz raporty",
+      "emoji": "✅",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Anuluj",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "language/pl",
+   "rows": [
+    [
+     {
+      "type": 3,
+      "placeholder": "Wybierz język",
+      "min": 1,
+      "max": 1,
+      "options": [
+       {
+        "label": "English",
+        "value": "en",
+        "default": false
+       },
+       {
+        "label": "Español",
+        "value": "es",
+        "default": false
+       },
+       {
+        "label": "Français",
+        "value": "fr",
+        "default": false
+       },
+       {
+        "label": "Nederlands",
+        "value": "nl",
+        "default": false
+       },
+       {
+        "label": "Polski",
+        "value": "pl",
+        "default": true
+       }
+      ]
+     }
+    ]
+   ]
+  },
+  {
+   "name": "forgetme/pl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 4,
+      "label": "Tak, usuń moje dane",
+      "emoji": "🗑️",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "Anuluj",
+      "emoji": "❌",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "user_stats/pl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📊 Raport retencji",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "📈 Wzrost serwera",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "💓 Puls społeczności",
+      "emoji": "",
+      "disabled": false
+     }
+    ],
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🏆 Ranking",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔥 Mapa cieplna aktywności",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "👥 Uczestnictwo",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🔄 Cykl życia",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📋 Eksportuj raport",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "journey/pl",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 1,
+      "label": "🧬 Ścieżka",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/pl/1/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/pl/1/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": true
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/pl/3/False",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  },
+  {
+   "name": "pagination/pl/3/True",
+   "rows": [
+    [
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏮️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "◀️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 1,
+      "label": "▶️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 2,
+      "label": "⏭️",
+      "emoji": "",
+      "disabled": false
+     },
+     {
+      "type": 2,
+      "style": 3,
+      "label": "📄 Export CSV",
+      "emoji": "",
+      "disabled": false
+     }
+    ]
+   ]
+  }
+ ],
+ "parse_duration": [
+  {
+   "in": "30m",
+   "out": 1800
+  },
+  {
+   "in": "48h",
+   "out": 172800
+  },
+  {
+   "in": "7d",
+   "out": 604800
+  },
+  {
+   "in": " 7D ",
+   "out": 604800
+  },
+  {
+   "in": "5 m",
+   "out": 300
+  },
+  {
+   "in": "0m",
+   "out": null
+  },
+  {
+   "in": "00h",
+   "out": null
+  },
+  {
+   "in": "-5m",
+   "out": null
+  },
+  {
+   "in": "5x",
+   "out": null
+  },
+  {
+   "in": "",
+   "out": null
+  },
+  {
+   "in": "m",
+   "out": null
+  },
+  {
+   "in": "1.5h",
+   "out": null
+  },
+  {
+   "in": "10mm",
+   "out": null
+  },
+  {
+   "in": "\t12h\n",
+   "out": 43200
+  },
+  {
+   "in": " 3d",
+   "out": 259200
+  },
+  {
+   "in": "99999999999999999999d",
+   "out": 8639999999999999999913600
+  }
+ ],
+ "format_duration": [
+  {
+   "in": 0,
+   "out": "0d"
+  },
+  {
+   "in": 1,
+   "out": "0m"
+  },
+  {
+   "in": 59,
+   "out": "0m"
+  },
+  {
+   "in": 60,
+   "out": "1m"
+  },
+  {
+   "in": 61,
+   "out": "1m"
+  },
+  {
+   "in": 3599,
+   "out": "59m"
+  },
+  {
+   "in": 3600,
+   "out": "1h"
+  },
+  {
+   "in": 3660,
+   "out": "61m"
+  },
+  {
+   "in": 7200,
+   "out": "2h"
+  },
+  {
+   "in": 86399,
+   "out": "1439m"
+  },
+  {
+   "in": 86400,
+   "out": "1d"
+  },
+  {
+   "in": 90000,
+   "out": "25h"
+  },
+  {
+   "in": 172800,
+   "out": "2d"
+  },
+  {
+   "in": 604800,
+   "out": "7d"
+  },
+  {
+   "in": -30,
+   "out": "0m"
+  },
+  {
+   "in": -90000,
+   "out": "-25h"
+  }
+ ],
+ "format_away": [
+  {
+   "in": 0,
+   "out": "0m"
+  },
+  {
+   "in": 1,
+   "out": "0m"
+  },
+  {
+   "in": 59,
+   "out": "0m"
+  },
+  {
+   "in": 60,
+   "out": "1m"
+  },
+  {
+   "in": 61,
+   "out": "1m"
+  },
+  {
+   "in": 3599,
+   "out": "59m"
+  },
+  {
+   "in": 3600,
+   "out": "1h"
+  },
+  {
+   "in": 3660,
+   "out": "1h"
+  },
+  {
+   "in": 7200,
+   "out": "2h"
+  },
+  {
+   "in": 86399,
+   "out": "23h"
+  },
+  {
+   "in": 86400,
+   "out": "1d"
+  },
+  {
+   "in": 90000,
+   "out": "1d"
+  },
+  {
+   "in": 172800,
+   "out": "2d"
+  },
+  {
+   "in": 604800,
+   "out": "7d"
+  },
+  {
+   "in": -30,
+   "out": "0m"
+  },
+  {
+   "in": -90000,
+   "out": "0m"
+  }
+ ],
+ "escape_markdown": [
+  {
+   "in": "plain",
+   "out": "plain"
+  },
+  {
+   "in": "under_score",
+   "out": "under\\_score"
+  },
+  {
+   "in": "**bold**",
+   "out": "\\*\\*bold\\*\\*"
+  },
+  {
+   "in": "~~strike~~",
+   "out": "\\~\\~strike\\~\\~"
+  },
+  {
+   "in": "||spoiler||",
+   "out": "\\|\\|spoiler\\|\\|"
+  },
+  {
+   "in": "`code`",
+   "out": "\\`code\\`"
+  },
+  {
+   "in": "back\\slash",
+   "out": "back\\\\slash"
+  },
+  {
+   "in": "> quote",
+   "out": "\\> quote"
+  },
+  {
+   "in": ">>> block",
+   "out": "\\>>> block"
+  },
+  {
+   "in": "# heading",
+   "out": "\\# heading"
+  },
+  {
+   "in": "### h3",
+   "out": "\\### h3"
+  },
+  {
+   "in": "#### h4",
+   "out": "\\#### h4"
+  },
+  {
+   "in": "- item",
+   "out": "\\- item"
+  },
+  {
+   "in": "  - nested",
+   "out": "\\  - nested"
+  },
+  {
+   "in": "[link](http://x.y)",
+   "out": "\\[link](http://x.y)"
+  },
+  {
+   "in": "see https://example.com/a_b*c for more",
+   "out": "see https://example.com/a_b*c for more"
+  },
+  {
+   "in": "<https://example.com/a_b>",
+   "out": "<https://example.com/a_b>"
+  },
+  {
+   "in": "steam://run/123_4",
+   "out": "steam://run/123_4"
+  },
+  {
+   "in": "multi\n> line\n# two",
+   "out": "multi\n\\> line\n\\# two"
+  },
+  {
+   "in": "a|b~c*d",
+   "out": "a\\|b\\~c\\*d"
+  },
+  {
+   "in": "emoji_🙂_name",
+   "out": "emoji\\_🙂\\_name"
+  },
+  {
+   "in": "x [y](z) w",
+   "out": "x \\[y](z) w"
+  },
+  {
+   "in": "trailing.http://a.b/c_d.",
+   "out": "trailing.http://a.b/c_d."
+  }
+ ],
+ "diff_member_state": [
+  {
+   "cache": {
+    "10": true,
+    "26": false,
+    "42": true,
+    "4": true,
+    "5": true,
+    "53": true,
+    "35": true,
+    "7": false,
+    "24": true,
+    "38": true
+   },
+   "rows": {
+    "38": [
+     1700000000,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "37": [
+     1700000000,
+     0
+    ],
+    "59": [
+     1700000000,
+     0
+    ],
+    "26": [
+     1700000000,
+     0
+    ],
+    "58": [
+     0,
+     1
+    ],
+    "15": [
+     0,
+     1
+    ],
+    "3": [
+     1700000000,
+     1
+    ],
+    "36": [
+     0,
+     1
+    ],
+    "9": [
+     null,
+     0
+    ],
+    "19": [
+     1700000000,
+     0
+    ],
+    "27": [
+     null,
+     1
+    ],
+    "10": [
+     1700000000,
+     1
+    ],
+    "35": [
+     0,
+     1
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "57": [
+     null,
+     1
+    ],
+    "20": [
+     null,
+     1
+    ],
+    "51": [
+     null,
+     1
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "7": [
+     1700000000,
+     0
+    ]
+   },
+   "online": [
+    10
+   ],
+   "offline": [],
+   "rejoined": [
+    4,
+    7,
+    26,
+    38
+   ],
+   "new": [
+    5,
+    24,
+    42,
+    53
+   ],
+   "departed": [
+    3,
+    15,
+    20,
+    27,
+    36,
+    51,
+    57,
+    58
+   ]
+  },
+  {
+   "cache": {
+    "36": false,
+    "37": true,
+    "51": false,
+    "53": true,
+    "21": false,
+    "22": true,
+    "45": true,
+    "23": true,
+    "39": false,
+    "32": true,
+    "38": false,
+    "30": true,
+    "5": true,
+    "6": true,
+    "18": true,
+    "31": true,
+    "43": true,
+    "47": false,
+    "4": false,
+    "20": false,
+    "58": false,
+    "29": true,
+    "19": true,
+    "25": true
+   },
+   "rows": {
+    "15": [
+     1700000000,
+     0
+    ],
+    "43": [
+     0,
+     1
+    ],
+    "1": [
+     null,
+     0
+    ],
+    "32": [
+     0,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    4,
+    5,
+    6,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    25,
+    29,
+    30,
+    31,
+    36,
+    37,
+    38,
+    39,
+    45,
+    47,
+    51,
+    53,
+    58
+   ],
+   "departed": []
+  },
+  {
+   "cache": {
+    "37": true,
+    "21": true,
+    "9": true,
+    "45": false,
+    "55": true,
+    "33": true,
+    "40": false,
+    "42": true,
+    "44": false,
+    "48": false,
+    "4": false,
+    "30": false,
+    "51": true,
+    "36": true,
+    "26": true,
+    "56": false,
+    "47": false,
+    "43": false,
+    "7": true
+   },
+   "rows": {
+    "55": [
+     0,
+     1
+    ],
+    "32": [
+     0,
+     0
+    ],
+    "30": [
+     null,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    30
+   ],
+   "new": [
+    4,
+    7,
+    9,
+    21,
+    26,
+    33,
+    36,
+    37,
+    40,
+    42,
+    43,
+    44,
+    45,
+    47,
+    48,
+    51,
+    56
+   ],
+   "departed": []
+  },
+  {
+   "cache": {
+    "22": true,
+    "48": true,
+    "17": false,
+    "31": false,
+    "54": false,
+    "45": false,
+    "11": false,
+    "34": false,
+    "2": true,
+    "14": true,
+    "52": true,
+    "24": false,
+    "10": true,
+    "55": true,
+    "35": false,
+    "51": false,
+    "49": false,
+    "20": true,
+    "6": true,
+    "57": false,
+    "43": true,
+    "58": false,
+    "53": false
+   },
+   "rows": {
+    "24": [
+     1700000000,
+     0
+    ],
+    "6": [
+     0,
+     1
+    ],
+    "15": [
+     1700000000,
+     0
+    ],
+    "7": [
+     1700000000,
+     0
+    ],
+    "57": [
+     0,
+     0
+    ],
+    "31": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     1
+    ],
+    "22": [
+     null,
+     1
+    ],
+    "14": [
+     0,
+     1
+    ],
+    "54": [
+     1700000000,
+     0
+    ],
+    "40": [
+     1700000000,
+     0
+    ]
+   },
+   "online": [
+    22
+   ],
+   "offline": [],
+   "rejoined": [
+    24,
+    31,
+    54,
+    57
+   ],
+   "new": [
+    2,
+    10,
+    11,
+    17,
+    20,
+    34,
+    35,
+    43,
+    45,
+    48,
+    49,
+    51,
+    52,
+    53,
+    55,
+    58
+   ],
+   "departed": [
+    13
+   ]
+  },
+  {
+   "cache": {
+    "9": true,
+    "2": false,
+    "10": false,
+    "38": false,
+    "58": true
+   },
+   "rows": {
+    "10": [
+     1700000000,
+     0
+    ],
+    "36": [
+     0,
+     0
+    ],
+    "58": [
+     null,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "1": [
+     1700000000,
+     1
+    ],
+    "52": [
+     0,
+     1
+    ],
+    "47": [
+     null,
+     0
+    ],
+    "42": [
+     1700000000,
+     1
+    ],
+    "7": [
+     0,
+     1
+    ],
+    "34": [
+     1700000000,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    2,
+    9,
+    10,
+    58
+   ],
+   "new": [
+    38
+   ],
+   "departed": [
+    1,
+    7,
+    42,
+    52
+   ]
+  },
+  {
+   "cache": {
+    "10": true,
+    "34": false,
+    "33": false,
+    "2": true,
+    "29": false,
+    "50": false,
+    "12": true,
+    "39": true,
+    "1": true,
+    "54": true,
+    "59": true,
+    "53": true,
+    "49": false,
+    "31": true,
+    "40": true,
+    "8": false,
+    "36": false
+   },
+   "rows": {
+    "45": [
+     0,
+     0
+    ],
+    "18": [
+     1700000000,
+     1
+    ],
+    "29": [
+     1700000000,
+     0
+    ],
+    "33": [
+     0,
+     0
+    ],
+    "35": [
+     0,
+     0
+    ],
+    "52": [
+     0,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    29,
+    33
+   ],
+   "new": [
+    1,
+    2,
+    8,
+    10,
+    12,
+    31,
+    34,
+    36,
+    39,
+    40,
+    49,
+    50,
+    53,
+    54,
+    59
+   ],
+   "departed": [
+    18,
+    52
+   ]
+  },
+  {
+   "cache": {
+    "5": false,
+    "43": true,
+    "16": false,
+    "28": false,
+    "59": true,
+    "14": false,
+    "58": false,
+    "20": true,
+    "51": false,
+    "8": true
+   },
+   "rows": {
+    "11": [
+     1700000000,
+     1
+    ],
+    "43": [
+     null,
+     1
+    ],
+    "54": [
+     1700000000,
+     1
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "59": [
+     0,
+     1
+    ],
+    "46": [
+     1700000000,
+     1
+    ],
+    "28": [
+     1700000000,
+     0
+    ],
+    "33": [
+     null,
+     0
+    ],
+    "26": [
+     null,
+     0
+    ],
+    "22": [
+     0,
+     1
+    ],
+    "27": [
+     null,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "23": [
+     0,
+     1
+    ],
+    "21": [
+     0,
+     0
+    ],
+    "6": [
+     1700000000,
+     1
+    ]
+   },
+   "online": [
+    43
+   ],
+   "offline": [],
+   "rejoined": [
+    28
+   ],
+   "new": [
+    5,
+    8,
+    14,
+    16,
+    20,
+    51,
+    58
+   ],
+   "departed": [
+    6,
+    11,
+    22,
+    23,
+    46,
+    54
+   ]
+  },
+  {
+   "cache": {
+    "21": true,
+    "6": false,
+    "18": false,
+    "4": true,
+    "52": true,
+    "45": false,
+    "12": true,
+    "28": true,
+    "5": true,
+    "57": true,
+    "2": true,
+    "41": true,
+    "58": true,
+    "17": false,
+    "47": true,
+    "39": false,
+    "15": true,
+    "51": true,
+    "46": true,
+    "8": true,
+    "30": true,
+    "1": false
+   },
+   "rows": {
+    "13": [
+     0,
+     0
+    ],
+    "33": [
+     1700000000,
+     0
+    ],
+    "31": [
+     0,
+     1
+    ],
+    "16": [
+     null,
+     0
+    ],
+    "29": [
+     null,
+     0
+    ],
+    "7": [
+     1700000000,
+     1
+    ],
+    "43": [
+     0,
+     0
+    ],
+    "42": [
+     null,
+     0
+    ],
+    "28": [
+     1700000000,
+     1
+    ],
+    "53": [
+     1700000000,
+     1
+    ],
+    "32": [
+     1700000000,
+     0
+    ],
+    "35": [
+     1700000000,
+     1
+    ],
+    "26": [
+     null,
+     1
+    ],
+    "58": [
+     null,
+     0
+    ],
+    "20": [
+     0,
+     1
+    ],
+    "14": [
+     null,
+     1
+    ],
+    "15": [
+     0,
+     1
+    ]
+   },
+   "online": [
+    28
+   ],
+   "offline": [],
+   "rejoined": [
+    58
+   ],
+   "new": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    12,
+    17,
+    18,
+    21,
+    30,
+    39,
+    41,
+    45,
+    46,
+    47,
+    51,
+    52,
+    57
+   ],
+   "departed": [
+    7,
+    14,
+    20,
+    26,
+    31,
+    35,
+    53
+   ]
+  },
+  {
+   "cache": {
+    "21": false,
+    "16": true,
+    "3": true,
+    "20": true,
+    "14": true,
+    "23": true,
+    "12": true,
+    "1": true,
+    "22": true,
+    "25": false,
+    "6": false,
+    "31": false,
+    "18": false,
+    "33": false,
+    "42": false,
+    "13": true,
+    "58": true
+   },
+   "rows": {
+    "10": [
+     1700000000,
+     0
+    ],
+    "19": [
+     1700000000,
+     0
+    ],
+    "47": [
+     null,
+     0
+    ],
+    "40": [
+     null,
+     0
+    ],
+    "42": [
+     1700000000,
+     1
+    ],
+    "59": [
+     null,
+     1
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "46": [
+     1700000000,
+     0
+    ],
+    "33": [
+     1700000000,
+     0
+    ],
+    "41": [
+     0,
+     1
+    ],
+    "28": [
+     null,
+     1
+    ],
+    "57": [
+     null,
+     0
+    ],
+    "45": [
+     1700000000,
+     0
+    ],
+    "51": [
+     1700000000,
+     1
+    ],
+    "9": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    3,
+    33
+   ],
+   "new": [
+    1,
+    6,
+    12,
+    13,
+    14,
+    16,
+    18,
+    20,
+    21,
+    22,
+    23,
+    25,
+    31,
+    58
+   ],
+   "departed": [
+    28,
+    41,
+    51,
+    59
+   ]
+  },
+  {
+   "cache": {
+    "16": true,
+    "47": true,
+    "49": true,
+    "14": false,
+    "15": false,
+    "48": false,
+    "42": false,
+    "30": true
+   },
+   "rows": {
+    "22": [
+     1700000000,
+     1
+    ],
+    "17": [
+     1700000000,
+     0
+    ],
+    "42": [
+     null,
+     1
+    ],
+    "48": [
+     null,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    14,
+    15,
+    16,
+    30,
+    47,
+    49
+   ],
+   "departed": [
+    22
+   ]
+  },
+  {
+   "cache": {
+    "44": false,
+    "7": true,
+    "45": true,
+    "14": true,
+    "59": false,
+    "32": true,
+    "19": false,
+    "46": false
+   },
+   "rows": {},
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    7,
+    14,
+    19,
+    32,
+    44,
+    45,
+    46,
+    59
+   ],
+   "departed": []
+  },
+  {
+   "cache": {
+    "30": true,
+    "5": true,
+    "53": false,
+    "33": true,
+    "29": true,
+    "18": false,
+    "25": false,
+    "14": true,
+    "52": true
+   },
+   "rows": {
+    "15": [
+     0,
+     1
+    ],
+    "32": [
+     1700000000,
+     0
+    ],
+    "57": [
+     0,
+     1
+    ],
+    "58": [
+     0,
+     1
+    ],
+    "26": [
+     null,
+     1
+    ],
+    "2": [
+     null,
+     1
+    ],
+    "11": [
+     0,
+     1
+    ],
+    "1": [
+     null,
+     0
+    ],
+    "56": [
+     1700000000,
+     0
+    ],
+    "44": [
+     1700000000,
+     1
+    ],
+    "29": [
+     0,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    5,
+    14,
+    18,
+    25,
+    30,
+    33,
+    52,
+    53
+   ],
+   "departed": [
+    2,
+    11,
+    15,
+    26,
+    44,
+    57,
+    58
+   ]
+  },
+  {
+   "cache": {
+    "26": false,
+    "25": false
+   },
+   "rows": {
+    "28": [
+     null,
+     0
+    ],
+    "49": [
+     0,
+     1
+    ],
+    "18": [
+     1700000000,
+     1
+    ],
+    "55": [
+     null,
+     1
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "57": [
+     1700000000,
+     1
+    ],
+    "7": [
+     1700000000,
+     0
+    ],
+    "56": [
+     1700000000,
+     0
+    ],
+    "43": [
+     null,
+     1
+    ],
+    "19": [
+     0,
+     0
+    ],
+    "41": [
+     1700000000,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    25,
+    26
+   ],
+   "departed": [
+    18,
+    41,
+    43,
+    49,
+    55,
+    57
+   ]
+  },
+  {
+   "cache": {
+    "4": false,
+    "36": true,
+    "9": false,
+    "11": true,
+    "31": true,
+    "27": true,
+    "22": true,
+    "19": false,
+    "20": true,
+    "17": true,
+    "48": false,
+    "49": false,
+    "42": true,
+    "50": true,
+    "26": true
+   },
+   "rows": {
+    "12": [
+     1700000000,
+     0
+    ],
+    "22": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    22
+   ],
+   "new": [
+    4,
+    9,
+    11,
+    17,
+    19,
+    20,
+    26,
+    27,
+    31,
+    36,
+    42,
+    48,
+    49,
+    50
+   ],
+   "departed": []
+  },
+  {
+   "cache": {
+    "17": true,
+    "52": true,
+    "37": false,
+    "13": true,
+    "2": false,
+    "48": true,
+    "27": false,
+    "25": false,
+    "53": false,
+    "54": false,
+    "34": true
+   },
+   "rows": {
+    "25": [
+     null,
+     0
+    ],
+    "26": [
+     null,
+     1
+    ],
+    "42": [
+     1700000000,
+     1
+    ],
+    "29": [
+     1700000000,
+     1
+    ],
+    "28": [
+     null,
+     0
+    ],
+    "20": [
+     0,
+     1
+    ],
+    "53": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    25,
+    53
+   ],
+   "new": [
+    2,
+    13,
+    17,
+    27,
+    34,
+    37,
+    48,
+    52,
+    54
+   ],
+   "departed": [
+    20,
+    26,
+    29,
+    42
+   ]
+  },
+  {
+   "cache": {
+    "7": false,
+    "15": true,
+    "10": true,
+    "57": false,
+    "34": false,
+    "44": true,
+    "59": true,
+    "47": false,
+    "45": true,
+    "42": true,
+    "49": true,
+    "30": false,
+    "6": false,
+    "36": false,
+    "3": true,
+    "1": true,
+    "9": true,
+    "58": false,
+    "37": false,
+    "51": true,
+    "20": true,
+    "43": true,
+    "17": false,
+    "55": true,
+    "28": true
+   },
+   "rows": {
+    "28": [
+     null,
+     0
+    ],
+    "24": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     1
+    ],
+    "32": [
+     null,
+     1
+    ],
+    "3": [
+     1700000000,
+     0
+    ],
+    "45": [
+     null,
+     1
+    ],
+    "22": [
+     0,
+     0
+    ],
+    "46": [
+     1700000000,
+     0
+    ],
+    "27": [
+     0,
+     0
+    ],
+    "58": [
+     null,
+     0
+    ],
+    "44": [
+     1700000000,
+     0
+    ],
+    "26": [
+     0,
+     0
+    ],
+    "13": [
+     1700000000,
+     0
+    ],
+    "1": [
+     null,
+     1
+    ],
+    "19": [
+     0,
+     1
+    ],
+    "33": [
+     1700000000,
+     0
+    ],
+    "5": [
+     null,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ],
+    "56": [
+     null,
+     1
+    ],
+    "47": [
+     null,
+     1
+    ],
+    "20": [
+     1700000000,
+     1
+    ]
+   },
+   "online": [
+    1,
+    20,
+    45
+   ],
+   "offline": [],
+   "rejoined": [
+    3,
+    28,
+    44,
+    58
+   ],
+   "new": [
+    6,
+    7,
+    9,
+    10,
+    17,
+    30,
+    34,
+    36,
+    37,
+    42,
+    43,
+    49,
+    51,
+    55,
+    57,
+    59
+   ],
+   "departed": [
+    19,
+    32,
+    56
+   ]
+  },
+  {
+   "cache": {
+    "22": false,
+    "29": false,
+    "11": true,
+    "7": false,
+    "1": true,
+    "6": false,
+    "18": true,
+    "54": false,
+    "23": true,
+    "27": false,
+    "8": true
+   },
+   "rows": {
+    "24": [
+     0,
+     0
+    ],
+    "48": [
+     0,
+     0
+    ],
+    "31": [
+     0,
+     0
+    ],
+    "2": [
+     null,
+     1
+    ],
+    "41": [
+     null,
+     0
+    ],
+    "27": [
+     1700000000,
+     1
+    ],
+    "16": [
+     0,
+     1
+    ],
+    "52": [
+     0,
+     0
+    ],
+    "55": [
+     0,
+     1
+    ],
+    "50": [
+     0,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    1,
+    6,
+    7,
+    8,
+    11,
+    18,
+    22,
+    23,
+    29,
+    54
+   ],
+   "departed": [
+    2,
+    16,
+    50,
+    55
+   ]
+  },
+  {
+   "cache": {},
+   "rows": {
+    "49": [
+     0,
+     1
+    ],
+    "39": [
+     0,
+     1
+    ],
+    "52": [
+     1700000000,
+     0
+    ],
+    "41": [
+     1700000000,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ],
+    "2": [
+     null,
+     1
+    ],
+    "53": [
+     null,
+     0
+    ],
+    "15": [
+     0,
+     1
+    ],
+    "7": [
+     null,
+     1
+    ],
+    "31": [
+     null,
+     0
+    ],
+    "46": [
+     0,
+     0
+    ],
+    "30": [
+     null,
+     0
+    ],
+    "25": [
+     0,
+     1
+    ],
+    "17": [
+     1700000000,
+     1
+    ],
+    "28": [
+     null,
+     0
+    ],
+    "32": [
+     null,
+     1
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "44": [
+     1700000000,
+     0
+    ],
+    "12": [
+     0,
+     1
+    ],
+    "1": [
+     0,
+     1
+    ],
+    "20": [
+     0,
+     1
+    ],
+    "10": [
+     1700000000,
+     1
+    ],
+    "16": [
+     null,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [],
+   "departed": [
+    1,
+    2,
+    7,
+    10,
+    12,
+    15,
+    16,
+    17,
+    20,
+    25,
+    32,
+    39,
+    49
+   ]
+  },
+  {
+   "cache": {
+    "12": true,
+    "16": true,
+    "58": false,
+    "10": false,
+    "19": true,
+    "38": false,
+    "13": false
+   },
+   "rows": {
+    "7": [
+     null,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    10,
+    12,
+    13,
+    16,
+    19,
+    38,
+    58
+   ],
+   "departed": [
+    7
+   ]
+  },
+  {
+   "cache": {
+    "54": true,
+    "29": false,
+    "24": false,
+    "3": true,
+    "19": true,
+    "15": false,
+    "8": true
+   },
+   "rows": {
+    "17": [
+     null,
+     0
+    ],
+    "50": [
+     null,
+     1
+    ],
+    "58": [
+     0,
+     1
+    ],
+    "43": [
+     null,
+     1
+    ],
+    "1": [
+     null,
+     0
+    ],
+    "7": [
+     null,
+     1
+    ],
+    "41": [
+     1700000000,
+     1
+    ],
+    "39": [
+     null,
+     1
+    ],
+    "46": [
+     null,
+     1
+    ],
+    "40": [
+     1700000000,
+     0
+    ],
+    "23": [
+     1700000000,
+     0
+    ],
+    "14": [
+     1700000000,
+     0
+    ],
+    "3": [
+     0,
+     1
+    ],
+    "24": [
+     0,
+     1
+    ],
+    "22": [
+     1700000000,
+     1
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "47": [
+     0,
+     1
+    ],
+    "48": [
+     0,
+     1
+    ],
+    "59": [
+     null,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [
+    24
+   ],
+   "rejoined": [],
+   "new": [
+    8,
+    15,
+    19,
+    29,
+    54
+   ],
+   "departed": [
+    7,
+    22,
+    39,
+    41,
+    43,
+    46,
+    47,
+    48,
+    50,
+    58,
+    59
+   ]
+  },
+  {
+   "cache": {
+    "13": true,
+    "26": false,
+    "47": true,
+    "58": false,
+    "14": false,
+    "1": false,
+    "28": true,
+    "11": true,
+    "53": true,
+    "8": true,
+    "6": true,
+    "56": true,
+    "37": false,
+    "24": false,
+    "30": false,
+    "52": true,
+    "9": false,
+    "54": true,
+    "4": false,
+    "36": true
+   },
+   "rows": {
+    "41": [
+     0,
+     0
+    ],
+    "25": [
+     0,
+     1
+    ],
+    "6": [
+     null,
+     0
+    ],
+    "46": [
+     null,
+     0
+    ],
+    "40": [
+     null,
+     0
+    ],
+    "45": [
+     1700000000,
+     1
+    ],
+    "53": [
+     null,
+     1
+    ],
+    "11": [
+     1700000000,
+     1
+    ],
+    "59": [
+     1700000000,
+     1
+    ],
+    "15": [
+     1700000000,
+     1
+    ],
+    "55": [
+     0,
+     0
+    ],
+    "26": [
+     0,
+     1
+    ],
+    "49": [
+     1700000000,
+     1
+    ],
+    "13": [
+     0,
+     1
+    ],
+    "31": [
+     null,
+     0
+    ],
+    "12": [
+     null,
+     1
+    ],
+    "37": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     1
+    ],
+    "3": [
+     null,
+     1
+    ]
+   },
+   "online": [
+    11,
+    53
+   ],
+   "offline": [
+    14,
+    26
+   ],
+   "rejoined": [
+    6,
+    37
+   ],
+   "new": [
+    1,
+    4,
+    8,
+    9,
+    24,
+    28,
+    30,
+    36,
+    47,
+    52,
+    54,
+    56,
+    58
+   ],
+   "departed": [
+    3,
+    12,
+    15,
+    25,
+    45,
+    49,
+    59
+   ]
+  },
+  {
+   "cache": {
+    "7": true,
+    "5": false,
+    "9": true,
+    "23": false,
+    "28": false,
+    "24": false,
+    "6": true,
+    "52": false,
+    "29": true,
+    "33": false,
+    "50": true,
+    "43": false
+   },
+   "rows": {
+    "47": [
+     1700000000,
+     1
+    ],
+    "45": [
+     0,
+     0
+    ],
+    "53": [
+     0,
+     1
+    ],
+    "8": [
+     null,
+     1
+    ],
+    "13": [
+     1700000000,
+     0
+    ],
+    "9": [
+     0,
+     1
+    ],
+    "32": [
+     null,
+     0
+    ],
+    "19": [
+     null,
+     1
+    ],
+    "51": [
+     null,
+     1
+    ],
+    "11": [
+     1700000000,
+     1
+    ],
+    "44": [
+     0,
+     0
+    ],
+    "59": [
+     0,
+     0
+    ],
+    "15": [
+     1700000000,
+     0
+    ],
+    "5": [
+     1700000000,
+     1
+    ],
+    "23": [
+     0,
+     0
+    ],
+    "40": [
+     0,
+     1
+    ],
+    "17": [
+     1700000000,
+     1
+    ],
+    "50": [
+     0,
+     1
+    ],
+    "21": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    23
+   ],
+   "new": [
+    6,
+    7,
+    24,
+    28,
+    29,
+    33,
+    43,
+    52
+   ],
+   "departed": [
+    8,
+    11,
+    17,
+    19,
+    40,
+    47,
+    51,
+    53
+   ]
+  },
+  {
+   "cache": {
+    "22": true,
+    "49": false,
+    "6": false,
+    "29": false,
+    "15": false,
+    "12": true,
+    "40": true,
+    "48": true,
+    "4": true,
+    "19": false,
+    "34": true
+   },
+   "rows": {
+    "24": [
+     1700000000,
+     1
+    ],
+    "58": [
+     1700000000,
+     0
+    ],
+    "4": [
+     0,
+     1
+    ],
+    "9": [
+     1700000000,
+     0
+    ],
+    "32": [
+     null,
+     1
+    ],
+    "15": [
+     1700000000,
+     1
+    ],
+    "40": [
+     null,
+     0
+    ],
+    "42": [
+     null,
+     0
+    ],
+    "3": [
+     1700000000,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "57": [
+     null,
+     0
+    ],
+    "1": [
+     1700000000,
+     1
+    ],
+    "37": [
+     0,
+     1
+    ],
+    "23": [
+     null,
+     0
+    ],
+    "20": [
+     1700000000,
+     1
+    ],
+    "7": [
+     1700000000,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    40
+   ],
+   "new": [
+    6,
+    12,
+    19,
+    22,
+    29,
+    34,
+    48,
+    49
+   ],
+   "departed": [
+    1,
+    7,
+    20,
+    24,
+    32,
+    37
+   ]
+  },
+  {
+   "cache": {
+    "34": false,
+    "47": true,
+    "32": true,
+    "16": false,
+    "11": false,
+    "1": false,
+    "3": true,
+    "4": false,
+    "35": false,
+    "2": true,
+    "26": false,
+    "12": false,
+    "56": false,
+    "55": true,
+    "52": false,
+    "7": true,
+    "54": true,
+    "40": false,
+    "36": true
+   },
+   "rows": {
+    "29": [
+     0,
+     1
+    ],
+    "12": [
+     1700000000,
+     0
+    ],
+    "15": [
+     null,
+     0
+    ],
+    "7": [
+     null,
+     1
+    ],
+    "17": [
+     null,
+     0
+    ],
+    "57": [
+     null,
+     1
+    ],
+    "42": [
+     null,
+     1
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     1
+    ],
+    "22": [
+     0,
+     0
+    ],
+    "48": [
+     null,
+     1
+    ],
+    "45": [
+     1700000000,
+     0
+    ],
+    "55": [
+     1700000000,
+     1
+    ],
+    "46": [
+     null,
+     1
+    ],
+    "4": [
+     1700000000,
+     0
+    ],
+    "18": [
+     1700000000,
+     0
+    ],
+    "41": [
+     null,
+     0
+    ],
+    "36": [
+     null,
+     0
+    ],
+    "28": [
+     null,
+     0
+    ],
+    "34": [
+     0,
+     0
+    ]
+   },
+   "online": [
+    7,
+    55
+   ],
+   "offline": [],
+   "rejoined": [
+    3,
+    4,
+    12,
+    34,
+    36
+   ],
+   "new": [
+    1,
+    2,
+    11,
+    16,
+    26,
+    32,
+    35,
+    40,
+    47,
+    52,
+    54,
+    56
+   ],
+   "departed": [
+    8,
+    29,
+    42,
+    46,
+    48,
+    57
+   ]
+  },
+  {
+   "cache": {
+    "2": true,
+    "59": true,
+    "3": false,
+    "9": false,
+    "45": false,
+    "42": true,
+    "41": false,
+    "57": false,
+    "55": true,
+    "5": true,
+    "48": false,
+    "52": false,
+    "50": true,
+    "38": true,
+    "24": true,
+    "13": true,
+    "35": false,
+    "47": true,
+    "25": false,
+    "7": false,
+    "16": false,
+    "14": false
+   },
+   "rows": {
+    "55": [
+     1700000000,
+     0
+    ],
+    "19": [
+     1700000000,
+     0
+    ],
+    "40": [
+     1700000000,
+     1
+    ],
+    "48": [
+     null,
+     1
+    ],
+    "2": [
+     null,
+     0
+    ],
+    "51": [
+     0,
+     0
+    ],
+    "27": [
+     null,
+     1
+    ],
+    "59": [
+     0,
+     0
+    ],
+    "28": [
+     0,
+     0
+    ],
+    "34": [
+     0,
+     1
+    ],
+    "7": [
+     1700000000,
+     1
+    ],
+    "23": [
+     1700000000,
+     0
+    ],
+    "31": [
+     0,
+     0
+    ],
+    "46": [
+     1700000000,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    2,
+    55,
+    59
+   ],
+   "new": [
+    3,
+    5,
+    9,
+    13,
+    14,
+    16,
+    24,
+    25,
+    35,
+    38,
+    41,
+    42,
+    45,
+    47,
+    50,
+    52,
+    57
+   ],
+   "departed": [
+    27,
+    34,
+    40
+   ]
+  },
+  {
+   "cache": {
+    "41": true,
+    "50": false,
+    "6": false
+   },
+   "rows": {
+    "41": [
+     null,
+     1
+    ],
+    "21": [
+     0,
+     0
+    ],
+    "23": [
+     0,
+     0
+    ]
+   },
+   "online": [
+    41
+   ],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    6,
+    50
+   ],
+   "departed": []
+  },
+  {
+   "cache": {
+    "14": true,
+    "20": false,
+    "17": false,
+    "28": false,
+    "35": true,
+    "33": false,
+    "11": false,
+    "25": false,
+    "41": true,
+    "15": false,
+    "30": true
+   },
+   "rows": {
+    "29": [
+     0,
+     1
+    ],
+    "45": [
+     1700000000,
+     0
+    ],
+    "50": [
+     1700000000,
+     0
+    ],
+    "17": [
+     null,
+     1
+    ],
+    "38": [
+     1700000000,
+     1
+    ],
+    "15": [
+     null,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "22": [
+     0,
+     0
+    ],
+    "30": [
+     null,
+     0
+    ],
+    "42": [
+     null,
+     1
+    ],
+    "58": [
+     null,
+     0
+    ],
+    "16": [
+     0,
+     1
+    ],
+    "33": [
+     0,
+     1
+    ],
+    "13": [
+     null,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [
+    33
+   ],
+   "rejoined": [
+    15,
+    30
+   ],
+   "new": [
+    11,
+    14,
+    20,
+    25,
+    28,
+    35,
+    41
+   ],
+   "departed": [
+    16,
+    29,
+    38,
+    42
+   ]
+  },
+  {
+   "cache": {
+    "59": false,
+    "7": true,
+    "18": true,
+    "14": false,
+    "25": false,
+    "30": false,
+    "3": false,
+    "1": false,
+    "26": false,
+    "28": false,
+    "45": false,
+    "15": false,
+    "33": false,
+    "41": true,
+    "19": true,
+    "54": true,
+    "2": true,
+    "10": true,
+    "17": false,
+    "39": false
+   },
+   "rows": {
+    "51": [
+     0,
+     1
+    ],
+    "26": [
+     0,
+     0
+    ],
+    "46": [
+     1700000000,
+     1
+    ],
+    "57": [
+     1700000000,
+     0
+    ],
+    "41": [
+     1700000000,
+     1
+    ],
+    "11": [
+     null,
+     1
+    ],
+    "17": [
+     0,
+     0
+    ]
+   },
+   "online": [
+    41
+   ],
+   "offline": [],
+   "rejoined": [
+    17,
+    26
+   ],
+   "new": [
+    1,
+    2,
+    3,
+    7,
+    10,
+    14,
+    15,
+    18,
+    19,
+    25,
+    28,
+    30,
+    33,
+    39,
+    45,
+    54,
+    59
+   ],
+   "departed": [
+    11,
+    46,
+    51
+   ]
+  },
+  {
+   "cache": {
+    "17": false
+   },
+   "rows": {
+    "46": [
+     null,
+     1
+    ],
+    "51": [
+     1700000000,
+     0
+    ],
+    "13": [
+     1700000000,
+     1
+    ],
+    "34": [
+     1700000000,
+     0
+    ],
+    "23": [
+     1700000000,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    17
+   ],
+   "departed": [
+    13,
+    23,
+    46
+   ]
+  },
+  {
+   "cache": {
+    "22": true,
+    "27": true,
+    "48": true,
+    "30": true,
+    "14": false,
+    "44": false,
+    "12": false,
+    "26": false,
+    "33": true,
+    "49": true,
+    "8": true,
+    "47": false,
+    "40": false,
+    "23": false,
+    "41": false,
+    "4": true
+   },
+   "rows": {
+    "9": [
+     null,
+     1
+    ],
+    "50": [
+     1700000000,
+     0
+    ],
+    "5": [
+     null,
+     1
+    ],
+    "52": [
+     1700000000,
+     1
+    ],
+    "41": [
+     0,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [
+    41
+   ],
+   "rejoined": [],
+   "new": [
+    4,
+    8,
+    12,
+    14,
+    22,
+    23,
+    26,
+    27,
+    30,
+    33,
+    40,
+    44,
+    47,
+    48,
+    49
+   ],
+   "departed": [
+    5,
+    9,
+    52
+   ]
+  },
+  {
+   "cache": {
+    "36": true,
+    "42": true,
+    "9": false,
+    "50": false,
+    "54": true,
+    "31": false,
+    "23": false,
+    "51": true,
+    "15": false,
+    "18": false,
+    "46": false,
+    "25": true,
+    "44": false,
+    "17": false,
+    "28": true,
+    "47": true,
+    "12": false,
+    "55": false,
+    "1": true,
+    "56": true,
+    "53": true,
+    "16": true,
+    "20": false,
+    "21": true
+   },
+   "rows": {
+    "14": [
+     1700000000,
+     0
+    ],
+    "58": [
+     1700000000,
+     0
+    ],
+    "26": [
+     1700000000,
+     1
+    ],
+    "51": [
+     null,
+     1
+    ]
+   },
+   "online": [
+    51
+   ],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    1,
+    9,
+    12,
+    15,
+    16,
+    17,
+    18,
+    20,
+    21,
+    23,
+    25,
+    28,
+    31,
+    36,
+    42,
+    44,
+    46,
+    47,
+    50,
+    53,
+    54,
+    55,
+    56
+   ],
+   "departed": [
+    26
+   ]
+  },
+  {
+   "cache": {
+    "14": true,
+    "34": true,
+    "6": false,
+    "48": false,
+    "54": true,
+    "29": true,
+    "43": false,
+    "8": true,
+    "36": true,
+    "52": true,
+    "17": true,
+    "27": false,
+    "15": false,
+    "9": true,
+    "31": true,
+    "32": false,
+    "51": true,
+    "4": true,
+    "45": false,
+    "30": false,
+    "10": false,
+    "44": true
+   },
+   "rows": {
+    "32": [
+     1700000000,
+     0
+    ],
+    "49": [
+     0,
+     1
+    ],
+    "10": [
+     0,
+     1
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     1
+    ],
+    "46": [
+     0,
+     1
+    ],
+    "27": [
+     0,
+     1
+    ],
+    "41": [
+     1700000000,
+     1
+    ],
+    "9": [
+     1700000000,
+     1
+    ],
+    "22": [
+     null,
+     1
+    ],
+    "7": [
+     null,
+     1
+    ],
+    "43": [
+     null,
+     1
+    ],
+    "24": [
+     1700000000,
+     1
+    ],
+    "50": [
+     null,
+     0
+    ],
+    "31": [
+     null,
+     1
+    ]
+   },
+   "online": [
+    9,
+    31
+   ],
+   "offline": [
+    10,
+    27
+   ],
+   "rejoined": [
+    32
+   ],
+   "new": [
+    4,
+    6,
+    8,
+    15,
+    17,
+    29,
+    30,
+    34,
+    36,
+    44,
+    45,
+    48,
+    51,
+    52,
+    54
+   ],
+   "departed": [
+    7,
+    22,
+    24,
+    41,
+    46,
+    49
+   ]
+  },
+  {
+   "cache": {
+    "36": true,
+    "57": false,
+    "26": false,
+    "35": true,
+    "37": false,
+    "4": false,
+    "58": true,
+    "20": true,
+    "7": false,
+    "1": true,
+    "3": false,
+    "13": true,
+    "31": true,
+    "39": false,
+    "43": false,
+    "54": true,
+    "33": true,
+    "56": true,
+    "40": false,
+    "25": false,
+    "10": false,
+    "6": true,
+    "14": false
+   },
+   "rows": {
+    "50": [
+     1700000000,
+     1
+    ],
+    "52": [
+     0,
+     0
+    ],
+    "27": [
+     null,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [
+    1,
+    3,
+    4,
+    6,
+    7,
+    10,
+    13,
+    14,
+    20,
+    25,
+    26,
+    31,
+    33,
+    35,
+    36,
+    37,
+    39,
+    40,
+    43,
+    54,
+    56,
+    57,
+    58
+   ],
+   "departed": [
+    27,
+    50
+   ]
+  },
+  {
+   "cache": {
+    "38": false,
+    "43": false,
+    "10": true,
+    "31": true,
+    "50": true,
+    "27": true,
+    "36": false,
+    "7": true,
+    "6": false,
+    "42": false,
+    "56": true,
+    "14": false,
+    "57": false,
+    "41": true,
+    "1": false,
+    "28": true,
+    "45": false,
+    "58": true,
+    "8": false
+   },
+   "rows": {
+    "59": [
+     1700000000,
+     0
+    ],
+    "4": [
+     0,
+     1
+    ],
+    "46": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "1": [
+     0,
+     1
+    ],
+    "58": [
+     1700000000,
+     1
+    ],
+    "55": [
+     0,
+     0
+    ],
+    "42": [
+     null,
+     0
+    ]
+   },
+   "online": [
+    58
+   ],
+   "offline": [
+    1
+   ],
+   "rejoined": [
+    42
+   ],
+   "new": [
+    6,
+    7,
+    8,
+    10,
+    14,
+    27,
+    28,
+    31,
+    36,
+    38,
+    41,
+    43,
+    45,
+    50,
+    56,
+    57
+   ],
+   "departed": [
+    4
+   ]
+  },
+  {
+   "cache": {
+    "42": false,
+    "11": false,
+    "41": true,
+    "52": true,
+    "27": false,
+    "31": false,
+    "25": false,
+    "50": true,
+    "51": false,
+    "29": false,
+    "18": false
+   },
+   "rows": {
+    "54": [
+     null,
+     0
+    ],
+    "20": [
+     0,
+     0
+    ],
+    "38": [
+     1700000000,
+     0
+    ],
+    "28": [
+     0,
+     1
+    ],
+    "16": [
+     0,
+     0
+    ],
+    "25": [
+     1700000000,
+     1
+    ],
+    "59": [
+     0,
+     0
+    ],
+    "44": [
+     1700000000,
+     0
+    ],
+    "53": [
+     0,
+     0
+    ],
+    "39": [
+     1700000000,
+     1
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "29": [
+     0,
+     0
+    ],
+    "19": [
+     0,
+     1
+    ],
+    "45": [
+     1700000000,
+     0
+    ],
+    "1": [
+     1700000000,
+     1
+    ],
+    "21": [
+     null,
+     0
+    ],
+    "17": [
+     0,
+     1
+    ],
+    "18": [
+     1700000000,
+     1
+    ],
+    "56": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    29
+   ],
+   "new": [
+    11,
+    27,
+    31,
+    41,
+    42,
+    50,
+    51,
+    52
+   ],
+   "departed": [
+    1,
+    17,
+    19,
+    28,
+    39
+   ]
+  },
+  {
+   "cache": {
+    "14": true,
+    "13": false,
+    "6": true,
+    "12": false,
+    "52": false,
+    "45": true
+   },
+   "rows": {
+    "24": [
+     1700000000,
+     0
+    ],
+    "56": [
+     null,
+     0
+    ],
+    "7": [
+     null,
+     1
+    ],
+    "59": [
+     1700000000,
+     0
+    ],
+    "41": [
+     0,
+     1
+    ],
+    "30": [
+     0,
+     0
+    ],
+    "51": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "21": [
+     null,
+     1
+    ],
+    "39": [
+     null,
+     0
+    ],
+    "2": [
+     null,
+     0
+    ],
+    "23": [
+     1700000000,
+     1
+    ],
+    "18": [
+     1700000000,
+     1
+    ],
+    "34": [
+     0,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    6
+   ],
+   "new": [
+    12,
+    13,
+    14,
+    45,
+    52
+   ],
+   "departed": [
+    7,
+    18,
+    21,
+    23,
+    41
+   ]
+  },
+  {
+   "cache": {
+    "41": false,
+    "26": true,
+    "8": true,
+    "46": true,
+    "6": true,
+    "17": false,
+    "21": false,
+    "37": false,
+    "15": true,
+    "42": false,
+    "55": false,
+    "43": false,
+    "33": false,
+    "58": true,
+    "12": true,
+    "29": false,
+    "11": false,
+    "24": false,
+    "16": true
+   },
+   "rows": {
+    "29": [
+     0,
+     0
+    ],
+    "49": [
+     null,
+     0
+    ],
+    "42": [
+     null,
+     0
+    ],
+    "7": [
+     1700000000,
+     1
+    ],
+    "31": [
+     1700000000,
+     0
+    ],
+    "21": [
+     0,
+     0
+    ],
+    "24": [
+     0,
+     0
+    ],
+    "17": [
+     1700000000,
+     0
+    ],
+    "25": [
+     0,
+     1
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "53": [
+     0,
+     0
+    ],
+    "55": [
+     1700000000,
+     1
+    ],
+    "51": [
+     null,
+     1
+    ],
+    "11": [
+     null,
+     0
+    ],
+    "59": [
+     null,
+     1
+    ],
+    "16": [
+     1700000000,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "1": [
+     0,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    8,
+    11,
+    16,
+    17,
+    21,
+    24,
+    29,
+    42
+   ],
+   "new": [
+    6,
+    12,
+    15,
+    26,
+    33,
+    37,
+    41,
+    43,
+    46,
+    58
+   ],
+   "departed": [
+    1,
+    7,
+    25,
+    51,
+    59
+   ]
+  },
+  {
+   "cache": {
+    "16": true,
+    "10": true,
+    "2": true,
+    "18": false,
+    "37": false,
+    "54": false,
+    "19": false,
+    "22": false,
+    "11": false,
+    "17": true,
+    "32": false,
+    "7": false,
+    "21": true
+   },
+   "rows": {
+    "16": [
+     1700000000,
+     1
+    ],
+    "59": [
+     null,
+     0
+    ],
+    "7": [
+     0,
+     1
+    ],
+    "25": [
+     1700000000,
+     0
+    ],
+    "19": [
+     0,
+     0
+    ],
+    "27": [
+     1700000000,
+     1
+    ],
+    "11": [
+     null,
+     1
+    ],
+    "4": [
+     0,
+     0
+    ]
+   },
+   "online": [
+    16
+   ],
+   "offline": [
+    7
+   ],
+   "rejoined": [
+    19
+   ],
+   "new": [
+    2,
+    10,
+    17,
+    18,
+    21,
+    22,
+    32,
+    37,
+    54
+   ],
+   "departed": [
+    27
+   ]
+  },
+  {
+   "cache": {
+    "14": false,
+    "18": false,
+    "37": false,
+    "12": false,
+    "9": false,
+    "54": true,
+    "56": true,
+    "34": false,
+    "50": false,
+    "15": true,
+    "46": true,
+    "53": true,
+    "13": false
+   },
+   "rows": {
+    "27": [
+     1700000000,
+     1
+    ],
+    "54": [
+     null,
+     0
+    ],
+    "47": [
+     1700000000,
+     1
+    ],
+    "4": [
+     null,
+     0
+    ],
+    "34": [
+     1700000000,
+     1
+    ],
+    "52": [
+     1700000000,
+     0
+    ],
+    "23": [
+     0,
+     1
+    ],
+    "22": [
+     1700000000,
+     0
+    ],
+    "19": [
+     null,
+     1
+    ],
+    "41": [
+     1700000000,
+     0
+    ],
+    "32": [
+     0,
+     1
+    ],
+    "6": [
+     1700000000,
+     0
+    ],
+    "1": [
+     0,
+     0
+    ],
+    "59": [
+     1700000000,
+     1
+    ],
+    "31": [
+     0,
+     0
+    ],
+    "9": [
+     1700000000,
+     0
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [
+    9,
+    54
+   ],
+   "new": [
+    12,
+    13,
+    14,
+    15,
+    18,
+    37,
+    46,
+    50,
+    53,
+    56
+   ],
+   "departed": [
+    19,
+    23,
+    27,
+    32,
+    47,
+    59
+   ]
+  },
+  {
+   "cache": {},
+   "rows": {
+    "6": [
+     0,
+     0
+    ],
+    "15": [
+     null,
+     0
+    ],
+    "40": [
+     1700000000,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "11": [
+     1700000000,
+     1
+    ],
+    "7": [
+     1700000000,
+     0
+    ],
+    "20": [
+     1700000000,
+     1
+    ]
+   },
+   "online": [],
+   "offline": [],
+   "rejoined": [],
+   "new": [],
+   "departed": [
+    11,
+    20
+   ]
+  }
+ ]
+}

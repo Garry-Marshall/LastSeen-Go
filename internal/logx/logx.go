@@ -1,0 +1,314 @@
+// Package logx is the bot's logger. It writes the same line format as the
+// Python bot ("2026-01-27 14:03:11 [INFO] cogs.tracking: message") to the
+// console and to logs/bot.log, which rotates at UTC midnight into
+// logs/YYYY-MM-DD.log (the date of the day that ended).
+package logx
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"log/slog"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"sync"
+	"time"
+)
+
+// Level mirrors Python's logging levels.
+type Level int
+
+const (
+	Debug   Level = 10
+	Info    Level = 20
+	Warning Level = 30
+	Error   Level = 40
+)
+
+func (l Level) String() string {
+	switch {
+	case l <= Debug:
+		return "DEBUG"
+	case l <= Info:
+		return "INFO"
+	case l <= Warning:
+		return "WARNING"
+	case l <= Error:
+		return "ERROR"
+	}
+	return "CRITICAL"
+}
+
+// ParseLevel maps a DEBUG_LEVEL value (case-insensitive) to a Level; unknown
+// values give Info, like getattr(logging, name, logging.INFO).
+func ParseLevel(s string) Level {
+	switch strings.ToUpper(strings.TrimSpace(s)) {
+	case "DEBUG":
+		return Debug
+	case "WARNING", "WARN":
+		return Warning
+	case "ERROR":
+		return Error
+	case "CRITICAL", "FATAL":
+		return 50
+	}
+	return Info
+}
+
+var (
+	mu       sync.Mutex
+	minLevel             = Info
+	outputs  []io.Writer = []io.Writer{os.Stderr}
+	file     *rotatingFile
+)
+
+// Logger is a named logger (the name is the Python module name it replaces).
+type Logger struct{ name string }
+
+// Get returns the logger with the given name.
+func Get(name string) *Logger { return &Logger{name: name} }
+
+func (l *Logger) Debug(format string, args ...any) { l.log(Debug, format, args...) }
+func (l *Logger) Info(format string, args ...any)  { l.log(Info, format, args...) }
+func (l *Logger) Warn(format string, args ...any)  { l.log(Warning, format, args...) }
+func (l *Logger) Error(format string, args ...any) { l.log(Error, format, args...) }
+
+// Enabled reports whether a message at level would be written.
+func (l *Logger) Enabled(level Level) bool {
+	mu.Lock()
+	defer mu.Unlock()
+	return level >= minLevel
+}
+
+func (l *Logger) log(level Level, format string, args ...any) {
+	msg := format
+	if len(args) > 0 {
+		msg = fmt.Sprintf(format, args...)
+	}
+	write(level, l.name, msg)
+}
+
+func write(level Level, name, msg string) {
+	now := time.Now()
+	line := fmt.Sprintf("%s [%s] %s: %s\n", now.Format("2006-01-02 15:04:05"), level, name, msg)
+	mu.Lock()
+	defer mu.Unlock()
+	if level < minLevel {
+		return
+	}
+	for _, w := range outputs {
+		_, _ = io.WriteString(w, line)
+	}
+	if file != nil {
+		file.write(now, line)
+	}
+}
+
+// Setup configures the level and the rotating file in dir/bot.log, after
+// deleting dated log files older than keepDays (like Config.setup_logging).
+func Setup(dir string, level Level, keepDays int) error {
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return err
+	}
+	CleanupOldLogs(dir, keepDays)
+	rf, err := openRotating(dir, keepDays)
+	if err != nil {
+		return err
+	}
+	mu.Lock()
+	minLevel = level
+	if file != nil {
+		file.close()
+	}
+	file = rf
+	mu.Unlock()
+	Get("bot.config").Info("Logging configured: %s", filepath.Join(dir, "bot.log"))
+	return nil
+}
+
+// SetLevel changes the minimum level.
+func SetLevel(level Level) {
+	mu.Lock()
+	minLevel = level
+	mu.Unlock()
+}
+
+// Close flushes and closes the log file.
+func Close() {
+	mu.Lock()
+	defer mu.Unlock()
+	if file != nil {
+		file.close()
+		file = nil
+	}
+}
+
+var datePattern = regexp.MustCompile(`^(?:.*\.)?(\d{4}-\d{2}-\d{2})`)
+
+// CleanupOldLogs deletes dated log files (YYYY-MM-DD.log, bot.log.YYYY-MM-DD)
+// older than keepDays; bot.log itself is never touched.
+func CleanupOldLogs(dir string, keepDays int) {
+	log := Get("bot.config")
+	matches, err := filepath.Glob(filepath.Join(dir, "*.log*"))
+	if err != nil {
+		log.Error("Error during log cleanup: %v", err)
+		return
+	}
+	cutoff := time.Now().UTC().AddDate(0, 0, -keepDays)
+	deleted := 0
+	for _, p := range matches {
+		name := filepath.Base(p)
+		if name == "bot.log" {
+			continue
+		}
+		m := datePattern.FindStringSubmatch(name)
+		if m == nil {
+			log.Debug("Skipping file without date pattern: %s", name)
+			continue
+		}
+		d, err := time.ParseInLocation("2006-01-02", m[1], time.UTC)
+		if err != nil {
+			log.Debug("Skipping non-date log file: %s", name)
+			continue
+		}
+		if d.Before(cutoff) {
+			if err := os.Remove(p); err != nil {
+				log.Warn("Failed to delete log file %s: %v", name, err)
+				continue
+			}
+			deleted++
+			log.Info("Deleted old log file: %s", name)
+		}
+	}
+	if deleted > 0 {
+		log.Info("Cleaned up %d old log file(s)", deleted)
+	}
+}
+
+type rotatingFile struct {
+	dir        string
+	keepDays   int
+	f          *os.File
+	rolloverAt time.Time
+}
+
+func nextUTCMidnight(t time.Time) time.Time {
+	u := t.UTC()
+	return time.Date(u.Year(), u.Month(), u.Day(), 0, 0, 0, 0, time.UTC).AddDate(0, 0, 1)
+}
+
+func openRotating(dir string, keepDays int) (*rotatingFile, error) {
+	path := filepath.Join(dir, "bot.log")
+	rf := &rotatingFile{dir: dir, keepDays: keepDays}
+	start := time.Now()
+	if st, err := os.Stat(path); err == nil {
+		start = st.ModTime() // an existing file belongs to the day it was last written
+	}
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o644)
+	if err != nil {
+		return nil, err
+	}
+	rf.f = f
+	rf.rolloverAt = nextUTCMidnight(start)
+	return rf, nil
+}
+
+// write is called with mu held.
+func (r *rotatingFile) write(now time.Time, line string) {
+	if !now.Before(r.rolloverAt) {
+		r.rotate(now)
+	}
+	if r.f != nil {
+		_, _ = r.f.WriteString(line)
+	}
+}
+
+func (r *rotatingFile) rotate(now time.Time) {
+	path := filepath.Join(r.dir, "bot.log")
+	ended := r.rolloverAt.AddDate(0, 0, -1).Format("2006-01-02")
+	r.f.Close()
+	dated := filepath.Join(r.dir, ended+".log")
+	if _, err := os.Stat(dated); err == nil {
+		// Never overwrite an existing day's log: append to it instead.
+		if data, err := os.ReadFile(path); err == nil {
+			if df, err := os.OpenFile(dated, os.O_APPEND|os.O_WRONLY, 0o644); err == nil {
+				_, _ = df.Write(data)
+				df.Close()
+				_ = os.Remove(path)
+			}
+		}
+	} else {
+		_ = os.Rename(path, dated)
+	}
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o644)
+	if err != nil {
+		r.f = nil
+		return
+	}
+	r.f = f
+	r.rolloverAt = nextUTCMidnight(now)
+	go CleanupOldLogs(r.dir, r.keepDays)
+}
+
+func (r *rotatingFile) close() {
+	if r.f != nil {
+		r.f.Close()
+		r.f = nil
+	}
+}
+
+// SlogHandler adapts library logging (disgo uses log/slog) to this logger.
+// Records below minLevel are dropped; the Python bot keeps discord.py's own
+// loggers at INFO even in debug mode, so pass Info for library loggers.
+type SlogHandler struct {
+	name  string
+	min   slog.Level
+	attrs []slog.Attr
+}
+
+// NewSlogHandler returns a slog.Handler writing as logger name.
+func NewSlogHandler(name string, min slog.Level) *SlogHandler {
+	return &SlogHandler{name: name, min: min}
+}
+
+func (h *SlogHandler) Enabled(_ context.Context, l slog.Level) bool { return l >= h.min }
+
+func (h *SlogHandler) Handle(_ context.Context, r slog.Record) error {
+	var b strings.Builder
+	b.WriteString(r.Message)
+	add := func(a slog.Attr) bool {
+		if a.Key == "name" {
+			return true
+		}
+		b.WriteString(" ")
+		b.WriteString(a.Key)
+		b.WriteString("=")
+		b.WriteString(a.Value.String())
+		return true
+	}
+	for _, a := range h.attrs {
+		add(a)
+	}
+	r.Attrs(add)
+	lvl := Info
+	switch {
+	case r.Level >= slog.LevelError:
+		lvl = Error
+	case r.Level >= slog.LevelWarn:
+		lvl = Warning
+	case r.Level < slog.LevelInfo:
+		lvl = Debug
+	}
+	write(lvl, h.name, b.String())
+	return nil
+}
+
+func (h *SlogHandler) WithAttrs(as []slog.Attr) slog.Handler {
+	n := *h
+	n.attrs = append(append([]slog.Attr{}, h.attrs...), as...)
+	return &n
+}
+
+func (h *SlogHandler) WithGroup(string) slog.Handler { return h }
