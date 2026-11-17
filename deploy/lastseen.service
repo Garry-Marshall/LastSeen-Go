@@ -1,0 +1,51 @@
+# systemd service for the LastSeen Discord bot.
+#
+# install.sh installs this file (see README.md, "Deploying on Linux"); it
+# replaces it on every update, so make local changes with
+# "sudo systemctl edit lastseen" instead of editing it in place.
+#
+# Expects the bot in /opt/lastseen (binary, locales/, .env, database),
+# running as the system user "lastseen".
+
+[Unit]
+Description=LastSeen Discord bot
+Wants=network-online.target
+After=network-online.target
+# Never stop restarting after repeated crashes (like the Python bot's start_bot.bat loop).
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=lastseen
+Group=lastseen
+# .env, the database, locales/, logs/ and backups/ are relative to this.
+WorkingDirectory=/opt/lastseen
+ExecStart=/opt/lastseen/lastseen
+
+# Exit codes: 0 = clean stop (no restart), 1 = crash (restart after 5s),
+# 2 = configuration error such as a bad token (no restart: fix .env first).
+Restart=on-failure
+RestartSec=5
+RestartPreventExitStatus=2
+
+# systemctl stop sends SIGTERM: the bot flushes its buffers, disconnects
+# and closes the database, then exits 0.
+TimeoutStopSec=30
+
+# New files (database, backups, logs) are not readable by other users.
+UMask=0027
+
+# Hardening: the bot only needs to write inside its own folder.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/lastseen
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

@@ -49,7 +49,7 @@ var durationRe = regexp.MustCompile(`(?i)^\s*(\d+)\s*([mhd])\s*$`)
 // parseDuration parses '30m' / '48h' / '7d' into seconds (ok=false when the
 // format is unrecognised; the range is not enforced here).
 func parseDuration(text string) (int64, bool) {
-	m := durationRe.FindStringSubmatch(strings.TrimSpace(text)) // Python's s also strips Unicode spaces
+	m := durationRe.FindStringSubmatch(strings.TrimSpace(text)) // Python's \s also matches Unicode spaces
 	if m == nil {
 		return 0, false
 	}

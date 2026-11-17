@@ -1,0 +1,4 @@
+# Files that run on Linux keep LF line endings, even in a Windows checkout
+# (core.autocrlf would otherwise turn them into CRLF, which breaks sh).
+*.sh      text eol=lf
+*.service text eol=lf

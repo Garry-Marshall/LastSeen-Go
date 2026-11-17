@@ -1,4 +1,5 @@
-# Builds LastSeen for Windows and Linux into dist\<os>-<arch>\.
+# Builds LastSeen for Windows and Linux into dist\<os>-<arch>\, together with
+# locales\ (and, for Linux, install.sh and lastseen.service).
 #
 #   .\build.ps1                          # windows/amd64 and linux/amd64
 #   .\build.ps1 linux/arm64              # other targets (e.g. a Raspberry Pi 4/5)
@@ -39,6 +40,16 @@ try {
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Build failed for $target" -ForegroundColor Red
             $failed = $true
+            continue
+        }
+
+        # Make the folder complete: the bot needs locales\ next to it, and a
+        # Linux folder can be copied to a server as-is and installed with
+        # install.sh (see README.md, "Deploying on Linux").
+        if (Test-Path "$dir\locales") { Remove-Item -Recurse -Force "$dir\locales" }
+        Copy-Item -Recurse locales "$dir\locales"
+        if ($os -eq "linux") {
+            Copy-Item deploy\install.sh, deploy\lastseen.service $dir
         }
     }
 } finally {
