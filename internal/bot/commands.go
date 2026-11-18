@@ -931,6 +931,7 @@ func (b *Bot) cmdAbout(ix *Ix) {
 		dbStatus = "✅ Healthy"
 	}
 	system := "```\n" +
+		fmt.Sprintf("Version:   %s\n", Version) +
 		fmt.Sprintf("Memory:    %s MB\n", textfmt.Value(ps.memMB, ".1f")) +
 		fmt.Sprintf("CPU:       %s%%\n", textfmt.Value(ps.cpuPct, ".1f")) +
 		fmt.Sprintf("Threads:   %d\n", ps.threads) +

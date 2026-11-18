@@ -45,6 +45,10 @@ const (
 	IntentsRetryDelay = 600 * time.Second
 )
 
+// Version is the build's version ("v1.0.0-4-g9b79055"), shown in /about.
+// main sets it from the version stamped in at build time.
+var Version = "dev"
+
 // Exit codes (start_bot.bat / systemd restart policy).
 const (
 	ExitOK     = 0

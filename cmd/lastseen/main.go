@@ -86,6 +86,7 @@ func run() (int, string) {
 	// Reclaim space freed by removed guilds and pruned activity. Only here,
 	// before connecting: VACUUM blocks all writes while it runs.
 	database.VacuumIfFragmented()
+	bot.Version = version
 	b := bot.New(cfg, database)
 	defer b.Close()
 
