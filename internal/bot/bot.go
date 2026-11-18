@@ -607,17 +607,30 @@ func (b *Bot) onReady() {
 // chunkGuildsBackground fills every guild's member cache, announcing each
 // complete one so tracking can reconcile it. A failed or timed-out chunk is
 // never announced (a partial cache would make real members look departed).
+//
+// Guilds Discord sent no data for (unavailable) are skipped: Discord doesn't
+// answer member requests for them, so asking would only time out.
+// onGuildAvailable chunks them when they arrive.
 func (b *Bot) chunkGuildsBackground() {
-	var toChunk []snowflake.ID
+	var toChunk, unavailable []snowflake.ID
 	for _, id := range b.guildIDs() {
-		if b.isChunked(id) {
+		_, cached := b.Client.Caches.Guild(id)
+		switch {
+		case !cached:
+			unavailable = append(unavailable, id)
+		case b.isChunked(id):
 			b.tracking.onGuildChunked(id)
-		} else {
+		default:
 			toChunk = append(toChunk, id)
 		}
 	}
+	for _, id := range unavailable {
+		log.Warn("Guild %s is unavailable (Discord sent no data for it); it will be chunked when it becomes available", id)
+	}
 	if len(toChunk) == 0 {
-		log.Info("All guild member caches already complete, no chunking needed")
+		if len(unavailable) == 0 {
+			log.Info("All guild member caches already complete, no chunking needed")
+		}
 		return
 	}
 	log.Info("Chunking %d guild(s) in background...", len(toChunk))
@@ -650,7 +663,11 @@ func (b *Bot) chunkGuildsBackground() {
 		}(id)
 	}
 	wg.Wait()
-	log.Info("Background chunking finished: %d/%d guild(s) chunked", len(toChunk)-int(failed.Load()), len(toChunk))
+	summary := fmt.Sprintf("Background chunking finished: %d/%d guild(s) chunked", len(toChunk)-int(failed.Load()), len(toChunk))
+	if len(unavailable) > 0 {
+		summary += fmt.Sprintf(", %d unavailable", len(unavailable))
+	}
+	log.Info("%s", summary)
 }
 
 // onGuildAvailable chunks a guild that came back after startup (outage
