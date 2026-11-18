@@ -13,12 +13,12 @@ import (
 	"lastseen/internal/db"
 	"lastseen/internal/locale"
 	"lastseen/internal/logx"
-	"lastseen/internal/pyfmt"
+	"lastseen/internal/textfmt"
 )
 
-// Port of cogs/commands.py: the user-facing commands.
+// The user commands: /whois, /lastseen, /mystats, /about and the others.
 
-var clog = logx.Get("cogs.commands")
+var clog = logx.Get("commands")
 
 // numFloat reads a db.Num (int64 or float64) as a float.
 func numFloat(n db.Num) float64 {
@@ -293,7 +293,7 @@ func (b *Bot) cmdWhois(ix *Ix) {
 					d.WriteString(t(key, lang))
 				}
 				if pc := panel.Percentile; pc != nil {
-					filled := int(pyfmt.Round(float64(pc.Percentile) / 10))
+					filled := int(textfmt.Round(float64(pc.Percentile) / 10))
 					filled = max(0, min(filled, 10))
 					bar := strings.Repeat("█", filled) + strings.Repeat("░", 10-filled)
 					d.WriteString(t("commands.whois.profile_activity_bar", lang, "bar", bar, "percentile", pc.Percentile))
@@ -678,7 +678,7 @@ func (b *Bot) cmdChatHistory(ix *Ix) {
 		}
 	}
 	trackedDays := max(b.DB.GetMemberDaysWithData(gid, md.UserID, 365), 1)
-	avg := pyfmt.RoundTo(float64(total)/float64(trackedDays), 1)
+	avg := textfmt.RoundTo(float64(total)/float64(trackedDays), 1)
 	s30 := b.DB.GetMessageActivityPeriod(gid, md.UserID, 30)
 	s90 := b.DB.GetMessageActivityPeriod(gid, md.UserID, 90)
 
@@ -885,7 +885,7 @@ func (b *Bot) cmdNoWatch(ix *Ix) {
 
 // ==================== /about ====================
 
-func commaInt(n int64) string { return pyfmt.MustValue(n, ",") }
+func commaInt(n int64) string { return textfmt.Value(n, ",") }
 
 func (b *Bot) cmdAbout(ix *Ix) {
 	ix.Defer(true)
@@ -924,21 +924,21 @@ func (b *Bot) cmdAbout(ix *Ix) {
 			uptime = fmt.Sprintf("%dm %ds", m, s)
 		}
 	}
-	latency := pyfmt.Round(b.latency().Seconds() * 1000)
+	latency := textfmt.Round(b.latency().Seconds() * 1000)
 	health := b.DB.GetDatabaseHealth()
 	dbStatus := "❌ Unhealthy"
 	if health.Status == "healthy" {
 		dbStatus = "✅ Healthy"
 	}
 	system := "```\n" +
-		fmt.Sprintf("Memory:    %s MB\n", pyfmt.MustValue(ps.memMB, ".1f")) +
-		fmt.Sprintf("CPU:       %s%%\n", pyfmt.MustValue(ps.cpuPct, ".1f")) +
+		fmt.Sprintf("Memory:    %s MB\n", textfmt.Value(ps.memMB, ".1f")) +
+		fmt.Sprintf("CPU:       %s%%\n", textfmt.Value(ps.cpuPct, ".1f")) +
 		fmt.Sprintf("Threads:   %d\n", ps.threads) +
 		fmt.Sprintf("Uptime:    %s\n", uptime) +
 		fmt.Sprintf("Latency:   %d ms\n", latency) +
 		fmt.Sprintf("Go:        %s\n", goVersion()) +
 		fmt.Sprintf("Database:  %s\n", dbStatus) +
-		fmt.Sprintf("DB Size:   %s MB\n", pyfmt.MustValue(health.FileSizeMB, ".2f")) +
+		fmt.Sprintf("DB Size:   %s MB\n", textfmt.Value(health.FileSizeMB, ".2f")) +
 		"```"
 	e.Fields = append(e.Fields,
 		field(t("commands.about.system_resources", lang), system, false),

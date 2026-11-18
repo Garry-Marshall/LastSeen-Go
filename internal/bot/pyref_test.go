@@ -242,7 +242,7 @@ func TestDiffMemberStateMatchesPython(t *testing.T) {
 	}
 }
 
-func TestPyParseInt(t *testing.T) {
+func TestParseIntInput(t *testing.T) {
 	for _, c := range []struct {
 		in   string
 		n    int64
@@ -252,9 +252,9 @@ func TestPyParseInt(t *testing.T) {
 		{"", 0, false}, {"abc", 0, false}, {"1__0", 0, false}, {"_1", 0, false}, {"1_", 0, false},
 		{"+-1", 0, false}, {"1.5", 0, false}, {"99999999999999999999999", -1, true},
 	} {
-		n, ok := pyParseInt(c.in)
+		n, ok := parseIntInput(c.in)
 		if ok != c.isOK || (ok && n != c.n) {
-			t.Errorf("pyParseInt(%q) = %d, %v; want %d, %v", c.in, n, ok, c.n, c.isOK)
+			t.Errorf("parseIntInput(%q) = %d, %v; want %d, %v", c.in, n, ok, c.n, c.isOK)
 		}
 	}
 }

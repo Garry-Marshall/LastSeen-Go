@@ -16,17 +16,9 @@ import (
 	"lastseen/internal/tzdb"
 )
 
-// Port of cogs/admin: /config with its panel, modals and quick-setup wizard,
-// and /help.
+// /config with its panel, dialogs and quick-setup wizard, and /help.
 
-var (
-	alog  = logx.Get("cogs.admin.admin_cog")
-	cvlog = logx.Get("cogs.admin.config_view")
-	cclog = logx.Get("cogs.admin.channel_config")
-	rclog = logx.Get("cogs.admin.role_config")
-	cflog = logx.Get("cogs.admin.channel_filter")
-	qslog = logx.Get("cogs.admin.quick_setup")
-)
+var alog = logx.Get("admin")
 
 const (
 	defaultUserRoleName = "LastSeen User"
@@ -59,11 +51,11 @@ func (b *Bot) checkAdminPermission(ix *Ix, guildID snowflake.ID) bool {
 	return false
 }
 
-// pyParseInt is Python's int(s) for the values typed into the dialogs:
-// surrounding whitespace, a sign and single underscores between digits are
-// accepted. A number too large for int64 parses (as Python's would) but
-// yields -1, which no channel, day or hour matches.
-func pyParseInt(s string) (int64, bool) {
+// parseIntInput parses a whole number typed into a dialog: surrounding
+// whitespace, a sign and single underscores between digits are accepted. A
+// number too large for int64 still parses but yields -1, which no channel,
+// day or hour matches.
+func parseIntInput(s string) (int64, bool) {
 	s = strings.TrimSpace(s)
 	body := strings.TrimLeft(s, "+-")
 	if len(s)-len(body) > 1 || body == "" || body[0] == '_' || body[len(body)-1] == '_' || strings.Contains(body, "__") {
@@ -81,8 +73,7 @@ func pyParseInt(s string) (int64, bool) {
 	return n, true
 }
 
-// channelNoThread is guild.get_channel: a cached channel of the guild, but
-// never a thread.
+// channelNoThread returns a cached channel of the guild, but never a thread.
 func (b *Bot) channelNoThread(guildID snowflake.ID, id int64) (discord.GuildChannel, bool) {
 	ch, ok := b.guildChannel(guildID, sf(id))
 	if !ok || isThreadType(ch.Type()) {
@@ -96,14 +87,14 @@ func isThreadType(ct discord.ChannelType) bool {
 		ct == discord.ChannelTypeGuildNewsThread
 }
 
-// isTextChannel is isinstance(channel, discord.TextChannel) (text and
-// announcement channels).
+// isTextChannel reports whether ch is a text or announcement channel.
 func isTextChannel(ch discord.GuildChannel) bool {
 	return ch.Type() == discord.ChannelTypeGuildText || ch.Type() == discord.ChannelTypeGuildNews
 }
 
-// pyChannelClass is type(channel).__name__ for a non-thread guild channel.
-func pyChannelClass(ch discord.GuildChannel) string {
+// channelTypeName names a (non-thread) channel's type for the "not a text
+// channel" error, e.g. "VoiceChannel".
+func channelTypeName(ch discord.GuildChannel) string {
 	switch ch.Type() {
 	case discord.ChannelTypeGuildText, discord.ChannelTypeGuildNews:
 		return "TextChannel"
@@ -150,13 +141,13 @@ func (b *Bot) textChannelByName(guildID snowflake.ID, name string) (discord.Guil
 // a text channel name (with or without #).
 func (b *Bot) resolveChannelInput(guildID snowflake.ID, s string) (discord.GuildChannel, bool) {
 	if strings.HasPrefix(s, "<#") && strings.HasSuffix(s, ">") {
-		if id, ok := pyParseInt(s[2 : len(s)-1]); ok {
+		if id, ok := parseIntInput(s[2 : len(s)-1]); ok {
 			if ch, ok := b.channelNoThread(guildID, id); ok {
 				return ch, true
 			}
 		}
 	}
-	if id, ok := pyParseInt(s); ok {
+	if id, ok := parseIntInput(s); ok {
 		if ch, ok := b.channelNoThread(guildID, id); ok {
 			return ch, true
 		}
@@ -182,8 +173,8 @@ func (b *Bot) defaultRoleName(guildID snowflake.ID) string {
 	return everyoneRoleName
 }
 
-// pyTitle is str.title() for the ASCII report frequencies.
-func pyTitle(s string) string {
+// capitalizeWord capitalizes a report frequency: "weekly" -> "Weekly".
+func capitalizeWord(s string) string {
 	if s == "" {
 		return s
 	}
@@ -353,7 +344,7 @@ func (b *Bot) configView(guildID snowflake.ID, cfg *db.GuildConfig) *View {
 			key = "admin.config_view.user_role_enabled"
 		}
 		ix.Followup(embedMsg(successEmbed(t(key, lang), lang), true))
-		cvlog.Info("User role requirement toggled to %s in guild %s", pyBool(newValue), ix.GuildName())
+		alog.Info("User role requirement toggled to %t in guild %s", newValue, ix.GuildName())
 	})
 	toggle.Label, toggle.Style = toggleLabel(cfg != nil && cfg.UserRoleRequired)
 
@@ -381,20 +372,12 @@ func (b *Bot) configView(guildID snowflake.ID, cfg *db.GuildConfig) *View {
 		}
 		view, embed := b.quickSetupView(guildID, fresh())
 		ix.Respond(Msg{Embeds: []discord.Embed{embed}, View: view, Ephemeral: true})
-		cvlog.Info("Quick setup wizard started for guild %s", ix.GuildName())
+		alog.Info("Quick setup wizard started for guild %s", ix.GuildName())
 	})
 	v.Button(label("view_config"), discord.ButtonStyleSecondary, "⚙️", 4, func(ix *Ix) {
 		b.viewConfig(ix, guildID, lang)
 	})
 	return v
-}
-
-// pyBool is str(bool).
-func pyBool(v bool) string {
-	if v {
-		return "True"
-	}
-	return "False"
 }
 
 // viewConfig answers with the current configuration overview.
@@ -424,7 +407,7 @@ func (b *Bot) viewConfig(ix *Ix, guildID snowflake.ID, lang string) {
 	add("timezone", cfg.Timezone)
 
 	if cfg.ReportFrequency != nil && *cfg.ReportFrequency != "" {
-		channelMention := "Unknown (" + pyOptInt(cfg.ReportChannelID) + ")"
+		channelMention := "Unknown (" + intOrNone(cfg.ReportChannelID) + ")"
 		if cfg.ReportChannelID != nil && *cfg.ReportChannelID != 0 {
 			if _, ok := b.channelNoThread(guildID, *cfg.ReportChannelID); ok {
 				channelMention = mentionChannel(*cfg.ReportChannelID)
@@ -433,7 +416,7 @@ func (b *Bot) viewConfig(ix *Ix, guildID snowflake.ID, lang string) {
 		typesStr := t("admin.view_config.types_none", lang)
 		if cfg.ReportTypes != nil && *cfg.ReportTypes != "" {
 			if types, ok := db.LoadStrings(*cfg.ReportTypes); !ok {
-				cvlog.Error("Failed to parse report_types JSON for guild %d", guildID)
+				alog.Error("Failed to parse report_types JSON for guild %d", guildID)
 				typesStr = t("admin.view_config.types_invalid", lang)
 			} else if len(types) > 0 {
 				typesStr = strings.Join(types, ", ")
@@ -458,7 +441,7 @@ func (b *Bot) viewConfig(ix *Ix, guildID snowflake.ID, lang string) {
 	trackStr := t("admin.view_config.all_roles", lang)
 	if cfg.TrackOnlyRoles != nil && *cfg.TrackOnlyRoles != "" {
 		if roles, ok := db.LoadStrings(*cfg.TrackOnlyRoles); !ok {
-			cvlog.Error("Failed to parse track_only_roles JSON")
+			alog.Error("Failed to parse track_only_roles JSON")
 			trackStr = t("admin.view_config.error_parsing_roles", lang)
 		} else if len(roles) > 0 {
 			trackStr = joinCapped(roles, lang, 1024, ", ")
@@ -469,7 +452,7 @@ func (b *Bot) viewConfig(ix *Ix, guildID snowflake.ID, lang string) {
 	allowedStr := t("admin.view_config.all_channels", lang)
 	if cfg.AllowedChannels != nil && *cfg.AllowedChannels != "" {
 		if ids, ok := db.LoadInts(*cfg.AllowedChannels); !ok {
-			cvlog.Error("Failed to parse allowed_channels JSON")
+			alog.Error("Failed to parse allowed_channels JSON")
 			allowedStr = t("admin.view_config.error_parsing_channels", lang)
 		} else if len(ids) > 0 {
 			mentions := make([]string, len(ids))
@@ -526,7 +509,7 @@ func (b *Bot) languageSelectView(guildID snowflake.ID, cfg *db.GuildConfig) *Vie
 		}
 		msg := t("admin.language.set", newLang, "language", locale.LanguageName(newLang))
 		ix.Update(Msg{Embeds: []discord.Embed{successEmbed(msg, newLang)}, ClearView: true})
-		cvlog.Info("Language set to '%s' in guild %s", newLang, ix.GuildName())
+		alog.Info("Language set to '%s' in guild %s", newLang, ix.GuildName())
 	})
 	return v
 }
@@ -542,7 +525,7 @@ func (b *Bot) channelModal(guildID snowflake.ID, cfg *db.GuildConfig) *Modal {
 		if s == "" {
 			if b.DB.SetNotificationChannel(i64(guildID), nil, ix.GuildName()) {
 				ix.Respond(embedMsg(successEmbed(t("channel_config.channel.cleared", lang), lang), true))
-				cclog.Info("Notification channel cleared in guild %s", ix.GuildName())
+				alog.Info("Notification channel cleared in guild %s", ix.GuildName())
 			} else {
 				ix.Respond(embedMsg(errorEmbed(t("channel_config.channel.update_failed", lang), lang), true))
 			}
@@ -555,13 +538,13 @@ func (b *Bot) channelModal(guildID snowflake.ID, cfg *db.GuildConfig) *Modal {
 		}
 		if !isTextChannel(ch) {
 			ix.Respond(embedMsg(errorEmbed(t("channel_config.channel.invalid_type", lang,
-				"channel", ch.Name(), "type", pyChannelClass(ch)), lang), true))
+				"channel", ch.Name(), "type", channelTypeName(ch)), lang), true))
 			return
 		}
 		id := i64(ch.ID())
 		if b.DB.SetNotificationChannel(i64(guildID), &id, ix.GuildName()) {
 			ix.Respond(embedMsg(successEmbed(t("channel_config.channel.set", lang, "channel", mentionChannel(id)), lang), true))
-			cclog.Info("Notification channel set to %s in guild %s", ch.Name(), ix.GuildName())
+			alog.Info("Notification channel set to %s in guild %s", ch.Name(), ix.GuildName())
 		} else {
 			ix.Respond(embedMsg(errorEmbed(t("channel_config.channel.update_failed", lang), lang), true))
 		}
@@ -585,7 +568,7 @@ func (b *Bot) inactiveDaysModal(guildID snowflake.ID, cfg *db.GuildConfig) *Moda
 	lang := guildLang(cfg)
 	var input string
 	md := b.newModal(t("channel_config.inactive_days.modal_title", lang), func(ix *Ix) {
-		days, ok := pyParseInt(strings.TrimSpace(ix.Text(input)))
+		days, ok := parseIntInput(strings.TrimSpace(ix.Text(input)))
 		if !ok {
 			ix.Respond(embedMsg(errorEmbed(t("channel_config.inactive_days.invalid", lang), lang), true))
 			return
@@ -596,7 +579,7 @@ func (b *Bot) inactiveDaysModal(guildID snowflake.ID, cfg *db.GuildConfig) *Moda
 		}
 		if b.DB.SetInactiveDays(i64(guildID), int(days), ix.GuildName()) {
 			ix.Respond(embedMsg(successEmbed(t("channel_config.inactive_days.set", lang, "days", days), lang), true))
-			cclog.Info("Inactive days threshold set to %d in guild %s", days, ix.GuildName())
+			alog.Info("Inactive days threshold set to %d in guild %s", days, ix.GuildName())
 		} else {
 			ix.Respond(embedMsg(errorEmbed(t("channel_config.inactive_days.update_failed", lang), lang), true))
 		}
@@ -616,7 +599,8 @@ func (b *Bot) inactiveDaysModal(guildID snowflake.ID, cfg *db.GuildConfig) *Moda
 	return md
 }
 
-// timezoneModal is TimezoneModal: validated against the pytz zone list.
+// timezoneModal asks for the server's time zone, checked against the known
+// zone names (tzdb).
 func (b *Bot) timezoneModal(guildID snowflake.ID, cfg *db.GuildConfig) *Modal {
 	lang := guildLang(cfg)
 	var input string
@@ -638,7 +622,7 @@ func (b *Bot) timezoneModal(guildID snowflake.ID, cfg *db.GuildConfig) *Modal {
 		}
 		b.DB.SetTimezone(i64(guildID), tz, ix.GuildName())
 		ix.Respond(embedMsg(successEmbed(t("channel_config.timezone.set", lang, "tz", tz), lang), true))
-		cclog.Info("Timezone set to %s for guild %s", tz, ix.GuildName())
+		alog.Info("Timezone set to %s for guild %s", tz, ix.GuildName())
 	})
 	md.TextDisplay(t("channel_config.timezone.info", lang))
 	def := ""
@@ -696,7 +680,7 @@ func (b *Bot) reportsConfigModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mod
 				parts[i] = strings.TrimSpace(parts[i])
 			}
 			if parts[0] != "" {
-				n, ok := pyParseInt(parts[0])
+				n, ok := parseIntInput(parts[0])
 				if !ok {
 					fail(ix, "weekly_day_nan")
 					return
@@ -708,7 +692,7 @@ func (b *Bot) reportsConfigModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mod
 				dayWeekly = int(n) - 1 // user 1-7 → internal 0-6
 			}
 			if len(parts) >= 2 && parts[1] != "" {
-				n, ok := pyParseInt(parts[1])
+				n, ok := parseIntInput(parts[1])
 				if !ok {
 					fail(ix, "monthly_day_nan")
 					return
@@ -721,7 +705,7 @@ func (b *Bot) reportsConfigModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mod
 			}
 		}
 		if hourStr := strings.TrimSpace(ix.Text(hourIn)); hourStr != "" {
-			n, ok := pyParseInt(hourStr)
+			n, ok := parseIntInput(hourStr)
 			if !ok {
 				fail(ix, "hour_nan")
 				return
@@ -743,8 +727,8 @@ func (b *Bot) reportsConfigModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mod
 		}
 		schedule := reportSchedule("channel_config.reports", frequency, dayWeekly, dayMonthly, hour, tz, lang)
 		ix.Respond(embedMsg(successEmbed(t(p+"success", lang, "channel", mentionChannel(i64(ch.ID())),
-			"frequency", pyTitle(frequency), "types", strings.Join(types, ", "), "schedule", schedule), lang), true))
-		cclog.Info("Reports configured for guild %s: %s to %s at %02d:00 %s", ix.GuildName(), frequency, ch.Name(), hour, tz)
+			"frequency", capitalizeWord(frequency), "types", strings.Join(types, ", "), "schedule", schedule), lang), true))
+		alog.Info("Reports configured for guild %s: %s to %s at %02d:00 %s", ix.GuildName(), frequency, ch.Name(), hour, tz)
 	})
 
 	chDef, freqDef, typesDef, daysDef, hourDef := "", "", strings.Join(validReportTypes, ","), "", "9"
@@ -759,7 +743,7 @@ func (b *Bot) reportsConfigModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mod
 			if types, ok := db.LoadStrings(*cfg.ReportTypes); ok {
 				typesDef = strings.Join(types, ",")
 			} else {
-				cclog.Error("Failed to parse report_types JSON for guild %d", guildID)
+				alog.Error("Failed to parse report_types JSON for guild %d", guildID)
 			}
 		}
 		daysDef = strconv.Itoa(cfg.ReportDayWeekly+1) + "," + strconv.Itoa(cfg.ReportDayMonthly)
@@ -811,7 +795,7 @@ func (b *Bot) roleNameModal(guildID snowflake.ID, cfg *db.GuildConfig, admin boo
 			// A warning, not an error: the setting is saved anyway.
 			fail(t("admin.role.not_exist_warning", lang, "role", name))
 			set(i64(guildID), name, ix.GuildName())
-			rclog.Info("%s set to '%s' in guild %s (role doesn't exist yet)", kind, name, ix.GuildName())
+			alog.Info("%s set to '%s' in guild %s (role doesn't exist yet)", kind, name, ix.GuildName())
 			return
 		}
 		if set(i64(guildID), name, ix.GuildName()) {
@@ -820,7 +804,7 @@ func (b *Bot) roleNameModal(guildID snowflake.ID, cfg *db.GuildConfig, admin boo
 				okKey = "admin.role.bot_admin_set"
 			}
 			ix.Respond(embedMsg(successEmbed(t(okKey, lang, "role", name), lang), true))
-			rclog.Info("%s set to '%s' in guild %s", kind, name, ix.GuildName())
+			alog.Info("%s set to '%s' in guild %s", kind, name, ix.GuildName())
 		} else {
 			fail(t(p+"update_failed", lang))
 		}
@@ -869,7 +853,7 @@ func (b *Bot) trackOnlyRolesModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mo
 		if text == "" {
 			if b.DB.SetTrackOnlyRoles(i64(guildID), nil, ix.GuildName()) {
 				ix.Respond(embedMsg(successEmbed(t(p+"cleared", lang), lang), true))
-				rclog.Info("Track only roles cleared in guild %s", ix.GuildName())
+				alog.Info("Track only roles cleared in guild %s", ix.GuildName())
 			} else {
 				ix.Respond(embedMsg(errorEmbed(t(p+"update_failed", lang), lang), true))
 			}
@@ -895,7 +879,7 @@ func (b *Bot) trackOnlyRolesModal(guildID snowflake.ID, cfg *db.GuildConfig) *Mo
 			msg += t(p+"set_warning", lang, "roles", strings.Join(missing, ", "))
 		}
 		ix.Respond(embedMsg(successEmbed(msg, lang), true))
-		rclog.Info("Track only roles set to %s in guild %s", pyStrList(names), ix.GuildName())
+		alog.Info("Track only roles set to %q in guild %s", names, ix.GuildName())
 	})
 	md.TextDisplay(t(p+"info", lang))
 	def := ""
@@ -924,7 +908,7 @@ func (b *Bot) allowedChannelsModal(guildID snowflake.ID, cfg *db.GuildConfig) *M
 		if text == "" {
 			if b.DB.SetAllowedChannels(i64(guildID), nil, ix.GuildName()) {
 				ix.Respond(embedMsg(successEmbed(t(p+"cleared", lang), lang), true))
-				cflog.Info("Allowed channels cleared in guild %s", ix.GuildName())
+				alog.Info("Allowed channels cleared in guild %s", ix.GuildName())
 			} else {
 				ix.Respond(embedMsg(errorEmbed(t(p+"update_failed", lang), lang), true))
 			}
@@ -940,7 +924,7 @@ func (b *Bot) allowedChannelsModal(guildID snowflake.ID, cfg *db.GuildConfig) *M
 		for _, ident := range idents {
 			var ch discord.GuildChannel
 			var ok bool
-			if id, isInt := pyParseInt(ident); isInt {
+			if id, isInt := parseIntInput(ident); isInt {
 				ch, ok = b.channelNoThread(guildID, id)
 			} else {
 				ch, ok = b.textChannelByName(guildID, strings.ToLower(strings.TrimLeft(ident, "#")))
@@ -970,7 +954,7 @@ func (b *Bot) allowedChannelsModal(guildID snowflake.ID, cfg *db.GuildConfig) *M
 			msg += t(p+"set_warning", lang, "channels", strings.Join(missing, ", "))
 		}
 		ix.Respond(embedMsg(successEmbed(msg, lang), true))
-		cflog.Info("Allowed channels set to %s in guild %s", pyIntList(ids), ix.GuildName())
+		alog.Info("Allowed channels set to %v in guild %s", ids, ix.GuildName())
 	})
 	md.TextDisplay(t(p+"info", lang))
 	input = md.Input(TextInput{
@@ -1090,7 +1074,7 @@ func (b *Bot) quickSetupView(guildID snowflake.ID, cfg *db.GuildConfig) (*View, 
 	next = v.Button("", discord.ButtonStylePrimary, "", 0, func(ix *Ix) {
 		if step == quickSetupSteps-1 {
 			ix.Update(Msg{Embeds: []discord.Embed{successEmbed(t(p+"finished", lang), lang)}, ClearView: true})
-			qslog.Info("Quick setup completed for guild %s", ix.GuildName())
+			alog.Info("Quick setup completed for guild %s", ix.GuildName())
 			return
 		}
 		step = min(quickSetupSteps-1, step+1)
@@ -1121,7 +1105,7 @@ func (b *Bot) quickSetupView(guildID snowflake.ID, cfg *db.GuildConfig) (*View, 
 		e := newEmbed(t(p+"cancelled_title", lang), ColorRed)
 		e.Description = t(p+"cancelled_desc", lang)
 		ix.Update(Msg{Embeds: []discord.Embed{e}, ClearView: true})
-		qslog.Info("Quick setup cancelled for guild %s", ix.GuildName())
+		alog.Info("Quick setup cancelled for guild %s", ix.GuildName())
 	})
 	updateButtons()
 	return v, stepEmbed()

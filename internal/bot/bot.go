@@ -1,6 +1,5 @@
 // Package bot is the Discord side of LastSeen: the gateway client, event
 // tracking, slash commands, admin panels, watches and scheduled reports.
-// It is a port of the Python bot's bot/ and cogs/ packages.
 package bot
 
 import (
@@ -29,7 +28,7 @@ import (
 	"lastseen/internal/logx"
 )
 
-var log = logx.Get("bot.client")
+var log = logx.Get("bot")
 
 const (
 	// ChunkConcurrency is how many guilds are chunked at once.
@@ -39,7 +38,7 @@ const (
 	// DBWorkers sizes the database connection pool.
 	DBWorkers = 8
 	// guildReadyTimeout: a shard counts as ready once no GUILD_CREATE has
-	// arrived for this long (discord.py's guild_ready_timeout).
+	// arrived for this long.
 	guildReadyTimeout = 2 * time.Second
 	// IntentsRetryDelay: wait before exiting when Discord refuses the
 	// privileged intents, so the restart loop retries slowly.
@@ -61,7 +60,7 @@ type ExitError struct {
 
 func (e *ExitError) Error() string { return e.Err.Error() }
 
-// Bot holds the Discord client and the bot-wide state shared by the cogs.
+// Bot holds the Discord client and the state shared by the bot's parts.
 type Bot struct {
 	Client   *disgobot.Client
 	DB       *db.DB
@@ -92,7 +91,7 @@ type Bot struct {
 	commands      map[string]commandSpec
 	autocompletes map[string]autocompleteFunc
 
-	// readyCh is closed at the first on_ready (discord.py's wait_until_ready).
+	// readyCh is closed once the bot is first ready (every shard connected).
 	readyCh   chan struct{}
 	readyOnce sync.Once
 
@@ -101,7 +100,7 @@ type Bot struct {
 	fatal  chan *ExitError
 }
 
-// New loads the caches and cogs. Call Run to connect.
+// New creates the bot; nothing connects yet. Call Run to connect.
 func New(cfg *config.Config, database *db.DB) *Bot {
 	b := &Bot{
 		DB:           database,
@@ -129,8 +128,7 @@ func (b *Bot) fail(code int, err error) {
 	}
 }
 
-// goSafe runs fn in a goroutine, logging a panic instead of crashing (the
-// Python bot's on_error handler).
+// goSafe runs fn in a goroutine, logging a panic instead of crashing the bot.
 func goSafe(what string, fn func()) {
 	go func() {
 		defer recoverLog(what)
@@ -147,7 +145,7 @@ func recoverLog(what string) {
 // Run connects to Discord and blocks until ctx is cancelled (clean exit) or
 // a fatal error occurs.
 func (b *Bot) Run(ctx context.Context) error {
-	b.loadCogs()
+	b.initComponents()
 
 	log.Info("Starting bot...")
 	// The shard count must be known before any shard connects (ready
@@ -239,8 +237,9 @@ func (b *Bot) openShards(ids []int) error {
 	return nil
 }
 
-// onShardClosed runs when a shard's connection ends (auto-reconnect is off
-// so the disconnect can be observed, like discord.py's on_shard_disconnect).
+// onShardClosed runs when a shard's connection ends. disgo's own
+// auto-reconnect is off so the bot sees every disconnect; it reconnects
+// the shard itself.
 func (b *Bot) onShardClosed(g gateway.Gateway, err error, reconnect bool) {
 	shardID := g.ShardID()
 	if b.ctx.Err() != nil {
@@ -270,7 +269,7 @@ func (b *Bot) onShardClosed(g gateway.Gateway, err error, reconnect bool) {
 	}()
 }
 
-// fatalClose maps a fatal gateway close to the Python bot's exits: a bad
+// fatalClose maps a fatal gateway close to an exit code: a bad
 // token is a configuration error, refused privileged intents wait
 // IntentsRetryDelay and then crash (so the restart loop retries slowly).
 func (b *Bot) fatalClose(err error, shardID int) error {
@@ -313,19 +312,11 @@ func (b *Bot) Close() {
 	}
 }
 
-func (b *Bot) loadCogs() {
-	for _, cog := range []struct {
-		name string
-		load func()
-	}{
-		{"cogs.tracking", func() { b.tracking = newTracking(b) }},
-		{"cogs.commands", func() {}},
-		{"cogs.admin", func() {}},
-		{"cogs.watch", func() { b.watch = newWatch(b) }},
-	} {
-		cog.load()
-		log.Info("Loaded cog: %s", cog.name)
-	}
+// initComponents creates the tracking and watch components and registers the
+// slash commands, before any shard connects.
+func (b *Bot) initComponents() {
+	b.tracking = newTracking(b)
+	b.watch = newWatch(b)
 	b.registerCommands()
 }
 
@@ -368,7 +359,7 @@ func (b *Bot) shardOf(guildID snowflake.ID) int {
 	return int((uint64(guildID) >> 22) % uint64(b.shardCount))
 }
 
-// isChunked is discord.py's guild.chunked: every member is cached.
+// isChunked reports whether every member of the guild is cached.
 func (b *Bot) isChunked(guildID snowflake.ID) bool {
 	g, ok := b.Client.Caches.Guild(guildID)
 	if !ok {
@@ -448,7 +439,7 @@ func (b *Bot) listeners() *events.ListenerAdapter {
 		OnGuildMemberJoin: func(e *events.GuildMemberJoin) { b.tracking.onMemberJoin(e.GuildID, e.Member) },
 		OnGuildMemberLeave: func(e *events.GuildMemberLeave) {
 			b.tracking.onMemberRemove(e.GuildID, e.User, e.Member)
-			if e.Member.User.ID != 0 { // discord.py only dispatches on_member_remove for cached members
+			if e.Member.User.ID != 0 { // as in tracking: only cached members count as departures
 				goSafe("watch member remove", func() { b.watch.onMemberRemove(e.GuildID, e.User) })
 			}
 		},
@@ -508,7 +499,7 @@ func interactionTypeName(t discord.InteractionType) string {
 	return "ping"
 }
 
-// --- ready handling (discord.py's on_shard_ready / on_ready) ---
+// --- ready handling: per shard, and once every shard is ready ---
 
 // onReadyEvent: a shard (re)identified. Its guilds will now be re-sent, so
 // their cached members and statuses are dropped and rebuilt from scratch.
@@ -579,7 +570,8 @@ func (b *Bot) waitShardReady(shardID int) {
 
 func (b *Bot) onResumed(e *events.Resumed) { b.tracking.onShardResumed(e.ShardID()) }
 
-// onReady mirrors client.on_ready plus the cogs' on_ready listeners.
+// onReady runs each time every shard is ready: at startup and after a
+// full reconnect.
 func (b *Bot) onReady() {
 	if b.startTime.Load() == 0 {
 		b.startTime.Store(time.Now().Unix())

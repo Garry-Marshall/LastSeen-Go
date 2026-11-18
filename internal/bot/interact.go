@@ -21,12 +21,11 @@ import (
 	"lastseen/internal/logx"
 )
 
-// A small interaction framework mirroring the discord.py behaviour the
-// Python bot relied on: views (buttons/selects with discord.py's row
-// layout, owner checks, refreshed timeouts, stop()), modals, per-command
-// cooldowns and the global command error reply.
+// A small interaction framework: views (buttons and select menus with
+// automatic row layout, owner checks, refreshed timeouts, stop()), modals,
+// per-command cooldowns and the global command error reply.
 
-var ilog = logx.Get("bot.client")
+var ilog = logx.Get("interactions")
 
 // Msg is a message to send, or an edit to apply to one.
 type Msg struct {
@@ -350,8 +349,8 @@ func (v *View) Select(placeholder string, options []discord.StringSelectMenuOpti
 		MinValues: minV, MaxValues: maxV, Row: row, handler: fn})
 }
 
-// components lays the items out like discord.py's _ViewWeights: explicit
-// rows first, then each automatic item in the first row with room.
+// components lays the items out in rows: items with an explicit row
+// first, then each other item in the first row with room.
 func (v *View) components() []discord.LayoutComponent {
 	v.itemsMu.Lock()
 	defer v.itemsMu.Unlock()
@@ -690,7 +689,7 @@ func (b *Bot) handleComponent(e *events.ComponentInteractionCreate) {
 	}
 	v := b.ui.view(parts[1])
 	if v == nil {
-		return // expired or from before a restart: discord.py ignores it too
+		return // expired, or from before a restart: ignored
 	}
 	idx, err := strconv.Atoi(parts[2])
 	if err != nil {

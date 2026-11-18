@@ -9,7 +9,7 @@ import (
 	"github.com/disgoorg/snowflake/v2"
 )
 
-// Views shared by several commands (cogs/commands.py).
+// Views shared by several commands.
 
 // exportMember is one row of the pagination view's CSV export.
 type exportMember struct {
@@ -31,7 +31,7 @@ func sanitizeCSVValue(v string) string {
 	return v
 }
 
-// csvQuoteAll writes rows like Python's csv module with QUOTE_ALL.
+// csvQuoteAll writes CSV with every field quoted and CRLF line endings.
 func csvQuoteAll(rows [][]string) string {
 	var sb strings.Builder
 	for _, row := range rows {

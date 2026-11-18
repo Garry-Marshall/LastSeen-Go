@@ -9,9 +9,9 @@ import (
 	"github.com/disgoorg/disgo/rest"
 )
 
-// commandsJSON is the exact application command payload the Python bot's
-// tree.sync() sent (dumped from discord.py), so names, descriptions, options
-// and contexts stay identical.
+// commandsJSON is the slash command definitions registered with Discord:
+// names, descriptions, options and contexts. It is what the Python bot
+// registered, so the commands look exactly the same to users.
 //
 //go:embed commands.json
 var commandsJSON []byte
@@ -37,7 +37,7 @@ func (b *Bot) registerCommands() {
 	}
 	sec := func(n float64) time.Duration { return time.Duration(n * float64(time.Second)) }
 
-	// cogs.commands
+	// User commands
 	cmd("whois", sec(5), false, b.cmdWhois)
 	cmd("lastseen", sec(5), false, func(ix *Ix) { b.lastseenImpl(ix, "lastseen") })
 	cmd("seen", sec(5), false, func(ix *Ix) { b.lastseenImpl(ix, "seen") })
@@ -55,12 +55,12 @@ func (b *Bot) registerCommands() {
 		b.autocompletes[name] = b.userAutocomplete
 	}
 
-	// cogs.admin
+	// Admin
 	cmd("config", sec(30), true, b.cmdConfig)
 	cmd("help", 0, false, b.cmdHelp)
 	b.autocompletes["help"] = b.helpAutocomplete
 
-	// cogs.watch
+	// Watches
 	cmd("watch online", 0, false, b.watch.cmdOnline)
 	cmd("watch offline", 0, false, b.watch.cmdOffline)
 	cmd("watch list", 0, false, b.watch.cmdList)

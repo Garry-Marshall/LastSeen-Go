@@ -1,9 +1,9 @@
-// Package db is the SQLite storage layer, a port of database/db_manager.py.
+// Package db is the SQLite storage layer.
 //
-// The schema is kept identical to the Python bot's, so the Go bot opens an
-// existing lastseen_bot.db as-is (and the Python bot can still open a
-// database the Go bot has written). JSON columns are written exactly like
-// Python's json.dumps (see pyjson.go) for the same reason.
+// The schema is the Python bot's, unchanged: the Go bot opens an existing
+// lastseen_bot.db as-is, and the Python bot can still open a database the
+// Go bot has written. JSON columns are written byte for byte as the Python
+// bot wrote them (see pyjson.go), which the compatibility test relies on.
 package db
 
 import (
@@ -24,7 +24,7 @@ import (
 	"lastseen/internal/logx"
 )
 
-var log = logx.Get("database.db_manager")
+var log = logx.Get("db")
 
 const (
 	SecondsPerDay  = 86400
@@ -71,7 +71,7 @@ func nameLikeSQL(col string) string {
 
 var folder = cases.Fold()
 
-// Casefold is Python's str.casefold().
+// Casefold is full Unicode case folding, for case-insensitive matching.
 func Casefold(s string) string { return folder.String(s) }
 
 var registerOnce sync.Once
@@ -384,8 +384,8 @@ var laterSchema = []string{
 	)`,
 }
 
-// initialize creates the tables and runs every migration the Python bot runs,
-// in the same order, so either bot can open a database the other created.
+// initialize creates the tables and runs the migrations, in the same order
+// as the Python bot, so either bot can open a database the other created.
 func (d *DB) initialize() error {
 	// One connection for the whole setup: PRAGMA user_version and the DDL must
 	// see each other's effects.
@@ -605,7 +605,8 @@ func (d *DB) backfillSummary(conn *sql.Conn) error {
 	return nil
 }
 
-// floorDiv is Python's // for integers.
+// floorDiv divides and rounds down (towards minus infinity); Go's / rounds
+// towards zero.
 func floorDiv(a, b int64) int64 {
 	q := a / b
 	if (a%b != 0) && ((a < 0) != (b < 0)) {

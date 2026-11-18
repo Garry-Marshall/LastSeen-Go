@@ -21,7 +21,7 @@ import (
 	"lastseen/internal/tzdb"
 )
 
-var tlog = logx.Get("cogs.tracking")
+var tlog = logx.Get("tracking")
 
 const (
 	flushInterval            = 30 * time.Second
@@ -222,8 +222,8 @@ func (tr *Tracking) waitReady() bool {
 	}
 }
 
-// loop runs fn now and then every interval once the bot is ready, like a
-// discord.py tasks.loop; before runs once first. A panic in one iteration is
+// loop runs fn now and then every interval once the bot is ready; before
+// runs once first. A panic in one iteration is
 // logged and the loop continues.
 func (tr *Tracking) loop(name string, interval time.Duration, before func() bool, fn func(iteration int)) {
 	tr.spawn(func() {
@@ -341,7 +341,7 @@ func (tr *Tracking) processGuildMembers(guildID snowflake.ID) {
 			}
 		}
 		if !ok {
-			tlog.Error("Gave up chunking %s; member enumeration will retry on the next on_ready", name)
+			tlog.Error("Gave up chunking %s; member enumeration will retry at the next (re)connect", name)
 			tr.forgetEnumeration(guildID)
 			return
 		}
@@ -487,7 +487,7 @@ func (tr *Tracking) onReady() {
 		if tr.db.GetGuildConfig(gid) == nil {
 			tr.db.AddGuild(gid, g.Name, 10)
 			missing++
-			tlog.Info("Guild '%s' (ID: %d) was added to database (on_ready sync)", g.Name, gid)
+			tlog.Info("Guild '%s' (ID: %d) was added to database (sync after connecting)", g.Name, gid)
 		}
 		if enumerating[gid] {
 			continue
@@ -501,7 +501,7 @@ func (tr *Tracking) onReady() {
 		}
 	}
 	if missing > 0 {
-		tlog.Warn("Added %d missing guild(s) to database during on_ready sync", missing)
+		tlog.Warn("Added %d missing guild(s) to database while syncing after connecting", missing)
 	}
 	for _, g := range needsEnum {
 		tlog.Info("Guild %s has no members in database, scheduling member enumeration...", g.Name)
@@ -616,7 +616,7 @@ func (tr *Tracking) onMemberJoin(guildID snowflake.ID, m discord.Member) {
 }
 
 func (tr *Tracking) onMemberRemove(guildID snowflake.ID, user discord.User, m discord.Member) {
-	// discord.py only reports departures of cached members.
+	// Only members that were cached count as departures.
 	if m.User.ID == 0 || user.Bot {
 		return
 	}
@@ -707,10 +707,10 @@ func (tr *Tracking) sendLeaveNotification(guildID snowflake.ID, guildName string
 
 // onMemberUpdate records display name, username and role changes. disgo's
 // OldMember is the true previous state, so username and global display name
-// changes (discord.py's on_user_update) are handled here too, per guild.
+// changes are handled here too, per guild.
 func (tr *Tracking) onMemberUpdate(guildID snowflake.ID, before, after discord.Member) {
 	if after.User.Bot || before.User.ID == 0 {
-		return // bots, and members that were not cached (discord.py drops those)
+		return // bots, and members that were not cached
 	}
 	b := tr.b
 	gid, uid := i64(guildID), i64(after.User.ID)
@@ -854,7 +854,7 @@ func (tr *Tracking) onPresenceUpdate(e *events.PresenceUpdate) {
 	guildID, userID := e.GuildID, e.PresenceUser.ID
 	m, ok := tr.b.Client.Caches.Member(guildID, userID)
 	if !ok || m.User.Bot {
-		return // discord.py ignores presences of uncached members
+		return // presences of members that aren't cached are ignored
 	}
 	st := tr.stripe(guildID)
 	st.RLock()
@@ -1467,7 +1467,7 @@ func (tr *Tracking) checkGuildReport(rg db.ReportGuild, nowUTC time.Time) {
 		return !sameLocalDay(*last)
 	}
 	freq := rg.Frequency
-	if (freq == "weekly" || freq == "both") && due(pyWeekdayOf(local) == intOr(rg.DayWeekly, 0), rg.LastWeekly) {
+	if (freq == "weekly" || freq == "both") && due(weekdayFromMonday(local) == intOr(rg.DayWeekly, 0), rg.LastWeekly) {
 		tlog.Info("Sending weekly report for guild %s at %02d:00 %s", g.Name, local.Hour(), tzName)
 		sent := tr.b.sendScheduledReport(guildID, rg.ChannelID, types, 7)
 		// Marked even on failure so a persistent error does not retry hourly.
@@ -1486,12 +1486,13 @@ func (tr *Tracking) checkGuildReport(rg db.ReportGuild, nowUTC time.Time) {
 	}
 }
 
-// pyWeekdayOf is Python's date.weekday() (Monday = 0).
-func pyWeekdayOf(t time.Time) int { return (int(t.Weekday()) + 6) % 7 }
+// weekdayFromMonday is the day of the week counted from Monday (0) to
+// Sunday (6).
+func weekdayFromMonday(t time.Time) int { return (int(t.Weekday()) + 6) % 7 }
 
 // unload stops the loops and writes everything still buffered (shutdown).
 func (tr *Tracking) unload() {
-	tlog.Info("TrackingCog unloading, flushing remaining buffers...")
+	tlog.Info("Shutting down, flushing remaining buffers...")
 	tr.cancel()
 	done := make(chan struct{})
 	go func() {

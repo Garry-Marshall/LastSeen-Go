@@ -1,8 +1,13 @@
-// Package tzdb validates and loads guild time zones the way the Python bot
-// did with pytz: a name is valid when it is in pytz.all_timezones (embedded
-// in zones_gen.go), and the zone data comes from Go's embedded tzdata so it
-// works the same on Windows and Linux.
+// Package tzdb validates and loads guild time zones.
+//
+// A name is valid when it is in the IANA time zone database as shipped with
+// Go: zones_gen.go lists those names, generated from the Go toolchain's own
+// copy of the database (see gen_zones.go). The zone data itself is built into
+// the binary through time/tzdata, so every listed zone loads on Windows (which
+// has no system time zone database) as well as on Linux.
 package tzdb
+
+//go:generate go run gen_zones.go
 
 import (
 	"strings"
@@ -26,17 +31,15 @@ func index() {
 	})
 }
 
-// Valid reports whether name is in pytz.all_timezones.
+// Valid reports whether name is a known time zone name (case-sensitive,
+// e.g. "Europe/Brussels").
 func Valid(name string) bool {
 	index()
 	return valid[name]
 }
 
-// All is pytz.all_timezones (do not modify).
-func All() []string { return allZones }
-
-// Suggestions is the first n zones containing s, case-insensitively
-// ([tz for tz in pytz.all_timezones if s.lower() in tz.lower()][:n]).
+// Suggestions returns up to n zone names containing s, case-insensitively,
+// in alphabetical order.
 func Suggestions(s string, n int) []string {
 	low := strings.ToLower(s)
 	var out []string
@@ -51,8 +54,7 @@ func Suggestions(s string, n int) []string {
 	return out
 }
 
-// Load returns the location for a valid zone name, or UTC (like the Python
-// bot's `pytz.timezone(tz) if tz in pytz.all_timezones else pytz.UTC`).
+// Load returns the location for a valid zone name, or UTC for anything else.
 func Load(name string) *time.Location {
 	if !Valid(name) {
 		return time.UTC

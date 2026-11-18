@@ -8,9 +8,9 @@ import (
 	"unicode/utf8"
 )
 
-// Num is an int64 or a float64. Some Python results are a float normally
-// but the int 0 when there is no data (e.g. `round(x / n, 1) if n else 0`);
-// keeping the exact type keeps the rendered text identical ("0" vs "0.0").
+// Num is an int64 or a float64. Some averages are a float normally but the
+// int 0 when there is no data; the type decides the rendered text ("0" or
+// "0.0"), which stays as users know it.
 type Num = any
 
 // ---- Role changes ----
@@ -468,7 +468,7 @@ func (d *DB) GetActivityPercentile(guildID, userID int64, days int) *Percentile 
 	}
 	var pct int64
 	if totalRanked.Int64 > 1 {
-		pct = pyRound(float64(below.Int64) / float64(totalRanked.Int64-1) * 100)
+		pct = roundHalfEven(float64(below.Int64) / float64(totalRanked.Int64-1) * 100)
 	}
 	return &Percentile{Percentile: pct, Rank: above.Int64 + 1, TotalRanked: totalRanked.Int64, CallerTotal: caller}
 }
@@ -539,7 +539,7 @@ func (d *DB) GetActivityProfile(guildID, userID int64, days int, tzName string) 
 			return empty
 		}
 		local := time.Unix(ts, 0).In(loc)
-		p.ByWeekday[pyWeekday(local)] += cnt.Int64
+		p.ByWeekday[weekdayFromMonday(local)] += cnt.Int64
 		p.ByHour[local.Hour()] += cnt.Int64
 		y, m, dd := local.Date()
 		perDate[ymd{y, int(m), dd}] += cnt.Int64
@@ -599,9 +599,6 @@ func (d *DB) GetActivityProfile(guildID, userID int64, days int, tzName string) 
 	}
 	return p
 }
-
-// pyWeekday is Python's date.weekday(): Monday=0 .. Sunday=6.
-func pyWeekday(t time.Time) int { return (int(t.Weekday()) + 6) % 7 }
 
 // WhoisPanel bundles the per-member activity reads /whois needs.
 type WhoisPanel struct {

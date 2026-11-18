@@ -11,7 +11,7 @@ import (
 
 	"modernc.org/sqlite"
 
-	"lastseen/internal/pyfmt"
+	"lastseen/internal/textfmt"
 )
 
 // CreateBackup copies the database page by page (SQLite's online backup API)
@@ -195,7 +195,7 @@ func (d *DB) VacuumIfFragmented() bool {
 		return false
 	}
 	ratio := float64(free) / float64(pages)
-	desc := pyfmt.MustValue(freeMB, ".1f") + " MB free (" + pyfmt.MustValue(ratio, ".0%") + " of file)"
+	desc := textfmt.Value(freeMB, ".1f") + " MB free (" + textfmt.Value(ratio, ".0%") + " of file)"
 	if ratio < vacuumMinFreeRatio || freeMB < vacuumMinFreeMB {
 		log.Info("Database has %s; no VACUUM needed", desc)
 		return false
@@ -212,7 +212,7 @@ func (d *DB) VacuumIfFragmented() bool {
 	if err != nil {
 		return fail(err)
 	}
-	log.Info("VACUUM completed in %ss: %s MB -> %s MB", pyfmt.MustValue(time.Since(start).Seconds(), ".1f"),
-		pyfmt.MustValue(mb(pages), ".1f"), pyfmt.MustValue(mb(after), ".1f"))
+	log.Info("VACUUM completed in %ss: %s MB -> %s MB", textfmt.Value(time.Since(start).Seconds(), ".1f"),
+		textfmt.Value(mb(pages), ".1f"), textfmt.Value(mb(after), ".1f"))
 	return true
 }

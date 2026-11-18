@@ -12,10 +12,10 @@ import (
 
 	"lastseen/internal/db"
 	"lastseen/internal/locale"
-	"lastseen/internal/pyfmt"
+	"lastseen/internal/textfmt"
 )
 
-// discord.py colour values used by the Python bot's embeds.
+// Embed colours.
 const (
 	ColorBlue     = 0x3498DB
 	ColorGreen    = 0x2ECC71
@@ -49,8 +49,8 @@ func formatTimestamp(ts *int64, style, lang string) string {
 // formatUTCDate is a plain YYYY-MM-DD for a UTC day bucket.
 func formatUTCDate(ts int64) string { return time.Unix(ts, 0).UTC().Format("2006-01-02") }
 
-// userTag is Python's str(user): the username, or name#discriminator for
-// the few accounts that still have one.
+// userTag is how a user is named in texts and logs: the username, or
+// name#discriminator for the few accounts that still have one.
 func userTag(u discord.User) string {
 	if u.Discriminator == "" || u.Discriminator == "0" {
 		return u.Username
@@ -92,7 +92,7 @@ func joinTimestamp(m discord.Member, fallback int64) int64 {
 	return m.JoinedAt.Unix()
 }
 
-// sortRoles orders roles like discord.py (position, then id).
+// sortRoles orders roles by position, then id.
 func sortRoles(roles []discord.Role) {
 	sort.Slice(roles, func(i, j int) bool {
 		if roles[i].Position != roles[j].Position {
@@ -137,8 +137,7 @@ func (b *Bot) memberRoleNames(guildID snowflake.ID, roleIDs []snowflake.ID) []st
 
 func boolPtr(v bool) *bool { return &v }
 
-// field is an embed field (discord.py defaults inline to True, so every
-// call site states it).
+// field is an embed field; every call site states inline explicitly.
 func field(name, value string, inline bool) discord.EmbedField {
 	return discord.EmbedField{Name: name, Value: value, Inline: boolPtr(inline)}
 }
@@ -245,7 +244,7 @@ func joinCapped(items []string, lang string, limit int, sep string) string {
 func formatHealthDelta(cur, prev int64, lang string) string {
 	if prev > 0 {
 		pct := float64(cur-prev) / float64(prev) * 100
-		r := pyfmt.Round(pct)
+		r := textfmt.Round(pct)
 		if r > 0 {
 			return t("commands.stats_view.health_delta_up", lang, "pct", r, "prev", prev)
 		}
@@ -315,7 +314,7 @@ func computeCommunityPulse(h *db.ServerHealth) Pulse {
 
 // formatPctArrow is the compact pulse percentage (e.g. "↑8%").
 func formatPctArrow(pct float64) string {
-	r := pyfmt.Round(pct)
+	r := textfmt.Round(pct)
 	switch {
 	case r > 0:
 		return fmt.Sprintf("↑%d%%", r)

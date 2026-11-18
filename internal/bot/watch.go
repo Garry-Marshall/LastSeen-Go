@@ -18,7 +18,7 @@ import (
 	"lastseen/internal/logx"
 )
 
-// Port of cogs/watch.py: admin-configured presence alerts.
+// /watch: admin-configured presence alerts.
 //
 //   - online_return fires on the offline->online transition (optionally only
 //     after a minimum time away), with a 5m away floor and a per-member
@@ -27,7 +27,7 @@ import (
 //   - offline_for is swept every minute and fires once when a target crosses
 //     its threshold, re-arming when the target next comes online.
 
-var wlog = logx.Get("cogs.watch")
+var wlog = logx.Get("watch")
 
 const (
 	maxWatchesPerGuild   = 50
@@ -49,14 +49,14 @@ var durationRe = regexp.MustCompile(`(?i)^\s*(\d+)\s*([mhd])\s*$`)
 // parseDuration parses '30m' / '48h' / '7d' into seconds (ok=false when the
 // format is unrecognised; the range is not enforced here).
 func parseDuration(text string) (int64, bool) {
-	m := durationRe.FindStringSubmatch(strings.TrimSpace(text)) // Python's \s also matches Unicode spaces
+	m := durationRe.FindStringSubmatch(strings.TrimSpace(text)) // TrimSpace also removes Unicode spaces such as NBSP
 	if m == nil {
 		return 0, false
 	}
 	unit := map[string]int64{"m": 60, "h": 3600, "d": 86400}[strings.ToLower(m[2])]
 	v, err := strconv.ParseInt(m[1], 10, 64)
 	if err != nil || v > math.MaxInt64/unit {
-		return math.MaxInt64, true // out of range, like Python's big ints
+		return math.MaxInt64, true // too large to represent: saturate
 	}
 	if v <= 0 {
 		return 0, false
@@ -91,11 +91,12 @@ type cooldownID struct{ watchID, userID int64 }
 // roleDigest collects a role watch's returns until it is posted.
 type roleDigest struct {
 	since   int64
-	order   []int64 // first-return order (a Python dict keeps insertion order)
+	order   []int64 // members in the order they came back
 	members map[int64]*int64
 }
 
-// Watch is the WatchCog.
+// Watch runs the watchlists: it checks presence changes and the offline
+// thresholds, and posts the alerts.
 type Watch struct {
 	b  *Bot
 	mu sync.Mutex
@@ -118,7 +119,7 @@ func newWatch(b *Bot) *Watch {
 
 func (w *Watch) onReady() {
 	w.suppressOnlineUntil.Store(nowUnix() + startupGraceSecs)
-	wlog.Info("WatchCog: suppressing online-return alerts for %ds after (re)connect", startupGraceSecs)
+	wlog.Info("Suppressing online-return alerts for %ds after (re)connect", startupGraceSecs)
 }
 
 // onMemberRemove deletes DM watches that deliver to a member who left.
@@ -637,7 +638,7 @@ func (w *Watch) cmdRemove(ix *Ix) {
 		msg = t("watch.removed_target", lang, "count", removed, "target", w.targetLabel(ix.GuildID, &matched[0]))
 	}
 	ix.Respond(embedMsg(successEmbed(msg, lang), true))
-	wlog.Info("Removed %d watch(es) (%s) in guild %s by %s", removed, pyIntList(ids), ix.GuildName(), userTag(ix.User))
+	wlog.Info("Removed %d watch(es) %v in guild %s by %s", removed, ids, ix.GuildName(), userTag(ix.User))
 }
 
 // ==================== online_return firing + re-arm ====================
@@ -746,7 +747,7 @@ func firedSet(wt *db.Watch) map[int64]bool {
 	return out
 }
 
-// dumpSortedSet is json.dumps(sorted(ids)).
+// dumpSortedSet stores a set of ids as a sorted JSON array.
 func dumpSortedSet(set map[int64]bool) string {
 	ids := make([]int64, 0, len(set))
 	for id := range set {
@@ -1069,7 +1070,7 @@ func (w *Watch) fireAlert(guildID snowflake.ID, wt *db.Watch, target string, a a
 		ch, ok = b.guildChannel(guildID, sf(*wt.ChannelID))
 	}
 	if !ok {
-		wlog.Warn("Watch #%d: channel %s not found in guild %s; can't deliver", wt.ID, pyOptInt(wt.ChannelID), guildName)
+		wlog.Warn("Watch #%d: channel %s not found in guild %s; can't deliver", wt.ID, intOrNone(wt.ChannelID), guildName)
 		w.recordDeliveryFailure(guildID, wt)
 		return true
 	}
@@ -1095,8 +1096,9 @@ func (w *Watch) fireAlert(guildID snowflake.ID, wt *db.Watch, target string, a a
 	return true
 }
 
-// pyOptInt formats an optional int like Python's f-string (None when nil).
-func pyOptInt(v *int64) string {
+// intOrNone formats an optional id, or "None" when unset (shown as such in
+// the config overview).
+func intOrNone(v *int64) string {
 	if v == nil {
 		return "None"
 	}
@@ -1117,6 +1119,6 @@ func (w *Watch) recordDeliveryFailure(guildID snowflake.ID, wt *db.Watch) {
 	if b.DB.RemoveWatch(i64(guildID), wt.ID) {
 		w.refreshWatchGuilds()
 		wlog.Info("Removed watch #%d (%s, %s:%d) in guild %s: %d consecutive failed deliveries to channel %s",
-			wt.Seq, wt.AlertType, wt.TargetType, wt.TargetID, b.guildName(guildID), failures, pyOptInt(wt.ChannelID))
+			wt.Seq, wt.AlertType, wt.TargetType, wt.TargetID, b.guildName(guildID), failures, intOrNone(wt.ChannelID))
 	}
 }

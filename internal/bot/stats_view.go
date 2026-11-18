@@ -11,10 +11,10 @@ import (
 
 	"lastseen/internal/db"
 	"lastseen/internal/locale"
-	"lastseen/internal/pyfmt"
+	"lastseen/internal/textfmt"
 )
 
-// /user-stats: the admin analytics dashboard (cogs/commands.py).
+// /user-stats: the admin analytics dashboard.
 
 func (b *Bot) cmdUserStats(ix *Ix) {
 	gid := i64(ix.GuildID)
@@ -97,7 +97,7 @@ func (b *Bot) statsOverviewEmbed(gid int64, s *db.SnapshotStats, growthRate floa
 	a := b.DB.GetActivityStats(gid, nil)
 	maxOffline := max(a.Offline1h, a.Offline24h, a.Offline7d, a.Offline30d, a.Offline30dPlus, 1)
 	row := func(label string, n int64) string {
-		return label + " " + bar(int(float64(n)/float64(maxOffline)*20), 20) + " " + pyfmt.MustValue(n, ">5,") + "\n"
+		return label + " " + bar(int(float64(n)/float64(maxOffline)*20), 20) + " " + textfmt.Value(n, ">5,") + "\n"
 	}
 	chart := "```\n" + row("<1 hour ", a.Offline1h) + row("<24 hrs ", a.Offline24h) + row("<7 days ", a.Offline7d) +
 		row("<30 days", a.Offline30d) + row("30+ days", a.Offline30dPlus) + "```"
@@ -107,7 +107,7 @@ func (b *Bot) statsOverviewEmbed(gid int64, s *db.SnapshotStats, growthRate floa
 	if seg.Lurkers != 0 || seg.Ghosts != 0 {
 		e.Fields = append(e.Fields, field(t("commands.user_stats.participation_title", lang),
 			t("commands.user_stats.participation_value", lang, "lurkers", seg.Lurkers,
-				"pct", pyfmt.Round(seg.LurkerPct), "ghosts", seg.Ghosts), false))
+				"pct", textfmt.Round(seg.LurkerPct), "ghosts", seg.Ghosts), false))
 	}
 	e.Footer = &discord.EmbedFooter{Text: t("commands.user_stats.overview_footer", lang)}
 	return e
@@ -220,18 +220,18 @@ func (b *Bot) statsReport(gid int64) (string, bool) {
 	fmt.Fprintf(&sb, "Joins:             %d\n", g30.Joins)
 	fmt.Fprintf(&sb, "Leaves:            %d\n", g30.Leaves)
 	fmt.Fprintf(&sb, "Net Growth:        %d\n", g30.NetGrowth)
-	fmt.Fprintf(&sb, "Growth Rate:       %s%%\n\n", pyfmt.MustValue(g30.GrowthRate, ".2f"))
+	fmt.Fprintf(&sb, "Growth Rate:       %s%%\n\n", textfmt.Value(g30.GrowthRate, ".2f"))
 	sb.WriteString("ACTIVITY (30 DAYS)\n" + dash)
 	fmt.Fprintf(&sb, "Total Messages:    %d\n", s.TotalMessages30d)
-	fmt.Fprintf(&sb, "Avg per Member:    %s\n\n", pyfmt.MustValue(s.AvgMessagesPerMember, ".1f"))
+	fmt.Fprintf(&sb, "Avg per Member:    %s\n\n", textfmt.Value(s.AvgMessagesPerMember, ".1f"))
 	sb.WriteString("TOP 25 MOST ACTIVE MEMBERS\n" + dash)
-	sb.WriteString(pyfmt.MustValue("Rank", "<6") + " " + pyfmt.MustValue("Username", "<30") + " " +
-		pyfmt.MustValue("Display Name", "<30") + " " + pyfmt.MustValue("Messages", "<10") + "\n")
+	sb.WriteString(textfmt.Value("Rank", "<6") + " " + textfmt.Value("Username", "<30") + " " +
+		textfmt.Value("Display Name", "<30") + " " + textfmt.Value("Messages", "<10") + "\n")
 	sb.WriteString(dash)
 	for i, m := range board {
 		display := strOr(m.Nickname, m.Username)
-		sb.WriteString(pyfmt.MustValue(int64(i+1), "<6") + " " + pyfmt.MustValue(runeCut(m.Username, 28), "<30") + " " +
-			pyfmt.MustValue(runeCut(display, 28), "<30") + " " + pyfmt.MustValue(m.TotalMessages, "<10") + "\n")
+		sb.WriteString(textfmt.Value(int64(i+1), "<6") + " " + textfmt.Value(runeCut(m.Username, 28), "<30") + " " +
+			textfmt.Value(runeCut(display, 28), "<30") + " " + textfmt.Value(m.TotalMessages, "<10") + "\n")
 	}
 	return sb.String(), true
 }
@@ -264,8 +264,8 @@ func retentionEmbed(cohorts map[string]db.Cohort, funnel db.ActivationFunnel, li
 	if len(funnel.Checkpoints) > 0 {
 		var lines []string
 		for _, cp := range funnel.Checkpoints {
-			lines = append(lines, pyfmt.MustValue(cp.Label, "<4")+bar(int(cp.Rate/100*20), 20)+" "+
-				pyfmt.MustValue(cp.Rate, ">3.0f")+"%  (n="+pyfmt.MustValue(cp.Matured, ",")+")")
+			lines = append(lines, textfmt.Value(cp.Label, "<4")+bar(int(cp.Rate/100*20), 20)+" "+
+				textfmt.Value(cp.Rate, ">3.0f")+"%  (n="+textfmt.Value(cp.Matured, ",")+")")
 		}
 		value := t("commands.stats_view.funnel_intro", lang) + "\n```\n" + strings.Join(lines, "\n") + "\n```"
 		if d := funnel.LargestDropoff; d != nil {
@@ -286,12 +286,12 @@ func retentionEmbed(cohorts map[string]db.Cohort, funnel db.ActivationFunnel, li
 		}
 		var lines []string
 		for i, label := range labels {
-			lines = append(lines, pyfmt.MustValue(label, "<8")+" "+bar(int(float64(counts[i])/float64(maxCount)*20), 20)+" "+
-				pyfmt.MustValue(counts[i], ">4"))
+			lines = append(lines, textfmt.Value(label, "<8")+" "+bar(int(float64(counts[i])/float64(maxCount)*20), 20)+" "+
+				textfmt.Value(counts[i], ">4"))
 		}
 		value := t("commands.stats_view.lifespan_summary", lang, "sample", life.Sample, "median", life.MedianDays, "avg", life.AvgDays)
 		value += "\n```\n" + strings.Join(lines, "\n") + "\n```"
-		value += t("commands.stats_view.lifespan_early_churn", lang, "pct", pyfmt.Round(life.EarlyChurnPct))
+		value += t("commands.stats_view.lifespan_early_churn", lang, "pct", textfmt.Round(life.EarlyChurnPct))
 		e.Fields = append(e.Fields, field(t("commands.stats_view.lifespan_title", lang), value, false))
 	} else {
 		e.Fields = append(e.Fields, field(t("commands.stats_view.lifespan_title", lang), t("commands.stats_view.lifespan_no_data", lang), false))
@@ -341,7 +341,7 @@ func heatmapEmbed(w db.ActivityWindows, tz, lang string) discord.Embed {
 		if maxDay > 0 {
 			n = int(float64(w.ByWeekday[d]) / float64(maxDay) * 20)
 		}
-		lines = append(lines, pyfmt.MustValue(names[d], "<"+strconv.Itoa(width))+" "+bar(n, 20)+" "+pyfmt.MustValue(w.ByWeekday[d], ">6,"))
+		lines = append(lines, textfmt.Value(names[d], "<"+strconv.Itoa(width))+" "+bar(n, 20)+" "+textfmt.Value(w.ByWeekday[d], ">6,"))
 	}
 	e.Fields = append(e.Fields, field(t("commands.stats_view.heatmap_day_title", lang), "```\n"+strings.Join(lines, "\n")+"\n```", false))
 
@@ -374,7 +374,7 @@ func heatmapEmbed(w db.ActivityWindows, tz, lang string) discord.Embed {
 			if maxHour > 0 {
 				n = int(float64(total) / float64(maxHour*6) * 15)
 			}
-			hl = append(hl, pyfmt.MustValue(label, "<"+strconv.Itoa(bw))+" "+bar(n, 15)+" "+pyfmt.MustValue(total, ">5,"))
+			hl = append(hl, textfmt.Value(label, "<"+strconv.Itoa(bw))+" "+bar(n, 15)+" "+textfmt.Value(total, ">5,"))
 		}
 		e.Fields = append(e.Fields, field(t("commands.stats_view.heatmap_time_title", lang), "```\n"+strings.Join(hl, "\n")+"\n```", false))
 		if w.PeakHour != nil {
@@ -535,7 +535,7 @@ func healthEmbed(h *db.ServerHealth, history []db.HealthSnapshot, lang string) d
 		for _, r := range history {
 			label := time.Unix(r.Date, 0).UTC().Format("01-02")
 			lines = append(lines, label+" "+bar(int(float64(r.Posters7d)/float64(maxPosters)*12), 12)+" "+
-				pyfmt.MustValue(r.Posters7d, ">5,")+" │ "+pyfmt.MustValue(r.ActiveMembers, ">6,"))
+				textfmt.Value(r.Posters7d, ">5,")+" │ "+textfmt.Value(r.ActiveMembers, ">6,"))
 		}
 		e.Fields = append(e.Fields, field(t("commands.stats_view.health_trend_title", lang), "```\n"+strings.Join(lines, "\n")+"\n```", false))
 	} else {

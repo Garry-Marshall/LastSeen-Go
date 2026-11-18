@@ -1,8 +1,7 @@
 // Command lastseen runs the LastSeen Discord bot.
 //
-// It is the Go port of the Python bot's main.py: same startup sequence, log
-// lines and exit codes (0 clean stop, 1 crash = restart, 2 configuration
-// error = do not restart). Run it from the bot's folder: .env, the database,
+// Exit codes: 0 clean stop, 1 crash (restart), 2 configuration error (do not
+// restart). Run it from the bot's folder: .env, the database,
 // locales/, logs/ and backups/ are resolved relative to the working directory.
 package main
 
@@ -27,7 +26,7 @@ import (
 	"lastseen/internal/logx"
 )
 
-var log = logx.Get("__main__")
+var log = logx.Get("main")
 
 // version is set at build time (-ldflags "-X main.version=...").
 var version = "dev"

@@ -317,7 +317,7 @@ func (d *DB) SetMemberLeftDate(guildID, userID int64, ts *int64) bool {
 }
 
 // RecordDeparture stores a member leaving: inactive, left_date and last_seen
-// set to ts, in one transaction. (The Python bot used three separate calls.)
+// set to ts, in one transaction.
 func (d *DB) RecordDeparture(guildID, userID, ts int64) bool {
 	return d.execRows(sprintf("record departure of %d in guild %d", userID, guildID),
 		"UPDATE members SET is_active = 0, left_date = ?, last_seen = ? WHERE guild_id = ? AND user_id = ?",
@@ -719,8 +719,8 @@ type MemberSnapshot struct {
 }
 
 // ReconcileMembers applies the differences between the live member cache and
-// the database (see the Python docstring: every statement is idempotent, so
-// a partial failure is repaired by the next reconciliation).
+// the database. Every statement is idempotent, so a partial failure is
+// repaired by the next reconciliation.
 func (d *DB) ReconcileMembers(guildID int64, onlineIDs, offlineIDs, departedIDs []int64, rejoined, newMembers []MemberSnapshot, since int64) bool {
 	run := func() error {
 		var p [][]any

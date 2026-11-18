@@ -1,4 +1,4 @@
-// Package config loads the bot configuration from .env, like bot/config.py.
+// Package config loads the bot configuration from .env.
 package config
 
 import (
@@ -12,7 +12,7 @@ import (
 	"lastseen/internal/logx"
 )
 
-var log = logx.Get("bot.config")
+var log = logx.Get("config")
 
 // ErrMissingEnv means no .env existed; a default one was written.
 var ErrMissingEnv = errors.New("Please edit .env file and add your Discord bot token, then restart the bot.")
@@ -44,8 +44,7 @@ type Config struct {
 }
 
 // Load reads .env (creating a default one, and failing with ErrMissingEnv,
-// if it does not exist). Values already set in the process environment win,
-// as with python-dotenv's load_dotenv.
+// if it does not exist). Values already set in the process environment win.
 func Load() (*Config, error) {
 	const envPath = ".env"
 	if _, err := os.Stat(envPath); errors.Is(err, os.ErrNotExist) {
@@ -134,7 +133,7 @@ func getenv(key, def string) string {
 	return def
 }
 
-// intEnv parses an integer setting. Like the Python bot, an unparsable value
+// intEnv parses an integer setting. An unparsable value
 // falls back to def with invalidMsg, and a value below min falls back to def
 // with lowMsg (min 0 = no lower bound check).
 func intEnv(key string, def, min int, invalidMsg, lowMsg string) int {
@@ -152,9 +151,8 @@ func intEnv(key string, def, min int, invalidMsg, lowMsg string) int {
 }
 
 // LoadDotenv sets the variables from a .env file that are not already set in
-// the environment. It follows python-dotenv's rules for the cases a .env
-// uses: comments, "export " prefixes, quoted values and inline " #" comments
-// after unquoted values.
+// the environment. It understands comments, "export " prefixes, quoted
+// values and inline " #" comments after unquoted values.
 func LoadDotenv(path string) error {
 	f, err := os.Open(path)
 	if err != nil {

@@ -1,9 +1,9 @@
 // Package locale loads the translation catalogs (locales/<lang>.json) and
-// renders user-facing text, exactly like bot/locale.py in the Python bot.
+// renders user-facing text.
 //
 // English ("en") is the canonical catalog and the fallback for any key missing
-// from another language. Templates use Python str.format named placeholders
-// (rendered by pyfmt), e.g. "Removed {count:,} record(s)".
+// from another language. Templates use named placeholders with an optional
+// number format (rendered by textfmt), e.g. "Removed {count:,} record(s)".
 package locale
 
 import (
@@ -15,14 +15,14 @@ import (
 	"sort"
 	"strings"
 
-	"lastseen/internal/pyfmt"
+	"lastseen/internal/textfmt"
 )
 
 // Default is the canonical language and the fallback for missing keys.
 const Default = "en"
 
 var (
-	log      = logx.Get("bot.locale")
+	log      = logx.Get("locale")
 	catalogs = map[string]map[string]string{}
 )
 
@@ -142,13 +142,13 @@ func TA(key, lang string, args A) string {
 		log.Warn("Missing translation key: '%s'", key)
 		return key
 	}
-	out, err := pyfmt.Format(template, args)
+	out, err := textfmt.Format(template, args)
 	if err == nil {
 		return out
 	}
 	log.Error("Failed to format translation key '%s' (%s): %v", key, lang, err)
 	if en, ok := catalogs[Default][key]; ok && en != template {
-		if out, err := pyfmt.Format(en, args); err == nil {
+		if out, err := textfmt.Format(en, args); err == nil {
 			return out
 		}
 		return en

@@ -11,8 +11,8 @@ import (
 
 // statusCache is disgo's presence cache, stored compactly: only the status
 // of members who are not offline (activities and client status are never
-// kept). An offline presence removes the entry, so "absent" means offline,
-// exactly like discord.py's member.status for a member with no presence.
+// kept). An offline presence removes the entry, so a member without one is
+// offline.
 type statusCache struct {
 	mu sync.RWMutex
 	m  map[snowflake.ID]map[snowflake.ID]discord.OnlineStatus

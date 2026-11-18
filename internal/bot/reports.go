@@ -14,10 +14,10 @@ import (
 	"lastseen/internal/db"
 	"lastseen/internal/locale"
 	"lastseen/internal/logx"
-	"lastseen/internal/pyfmt"
+	"lastseen/internal/textfmt"
 )
 
-var reportLog = logx.Get("bot.reports")
+var reportLog = logx.Get("reports")
 
 // reportRateLimitWindow is the minimum gap between two reports to one guild.
 const reportRateLimitWindow = 60 * time.Second
@@ -216,10 +216,10 @@ func (b *Bot) generateActivityReport(guildID snowflake.ID, guildName string, day
 		desc += t("report.participation_header", lang)
 		if breadthMembers != 0 {
 			pct := float64(breadthPosters) / float64(breadthMembers) * 100
-			desc += t("report.breadth", lang, "posters", breadthPosters, "members", breadthMembers, "pct", pyfmt.Round(pct))
+			desc += t("report.breadth", lang, "posters", breadthPosters, "members", breadthMembers, "pct", textfmt.Round(pct))
 		}
 		if haveSegments {
-			desc += t("report.lurkers", lang, "count", seg.Lurkers, "pct", pyfmt.Round(seg.LurkerPct))
+			desc += t("report.lurkers", lang, "count", seg.Lurkers, "pct", textfmt.Round(seg.LurkerPct))
 			desc += t("report.ghosts", lang, "count", seg.Ghosts)
 		}
 		desc += "\n"
@@ -260,7 +260,7 @@ func (b *Bot) generateActivityReport(guildID snowflake.ID, guildName string, day
 		ls := b.DB.GetDepartureLifespan(gid, tracked)
 		if ls.Sample >= 3 {
 			desc += t("report.lifespan_header", lang)
-			desc += t("report.lifespan_line", lang, "median", ls.MedianDays, "avg", ls.AvgDays, "pct", pyfmt.Round(ls.EarlyChurnPct))
+			desc += t("report.lifespan_line", lang, "median", ls.MedianDays, "avg", ls.AvgDays, "pct", textfmt.Round(ls.EarlyChurnPct))
 			desc += "\n"
 		}
 	}

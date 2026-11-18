@@ -20,10 +20,10 @@ import (
 // failures are logged and swallowed so an outage never disrupts the bot.
 
 var (
-	topggLog    = logx.Get("bot.topgg")
-	dblLog      = logx.Get("bot.discordbotlist")
-	voidLog     = logx.Get("bot.voidbots")
-	statsLog    = logx.Get("bot.stats_push")
+	topggLog    = logx.Get("topgg")
+	dblLog      = logx.Get("discordbotlist")
+	voidLog     = logx.Get("voidbots")
+	statsLog    = logx.Get("stats-push")
 	listingHTTP = &http.Client{Timeout: 60 * time.Second}
 )
 
@@ -150,7 +150,7 @@ func (b *Bot) pushStats() {
 	}
 	stats := b.DB.GetBotStatistics()
 	updated := time.Now().UTC().Format("2006-01-02T15:04:05Z")
-	// Same layout as Python's json.dumps.
+	// The file the website reads: server and user counts, and when (UTC).
 	data := fmt.Sprintf(`{"servers": %d, "users": %d, "updated": "%s"}`, stats.TotalGuilds, stats.TotalUsers, updated)
 	if err := os.WriteFile(statsLocal, []byte(data), 0o644); err != nil {
 		statsLog.Error("Failed to write %s: %v", statsLocal, err)

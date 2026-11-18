@@ -374,10 +374,21 @@ On Linux, keep the stats-push SSH key inside `/opt/lastseen` (e.g. `/opt/lastsee
 
 ## Logging
 
+Each line says when, how serious, and which part of the bot wrote it:
+
+```
+2026-01-27 14:03:11 [INFO] tracking: Recorded health snapshots for 12 guilds
+```
+
+The parts are `main`, `config`, `bot`, `interactions`, `commands`, `admin`, `tracking`, `watch`, `reports`, `db`, `locale`, the bot lists (`topgg`, `discordbotlist`, `voidbots`), `stats-push`, and `disgo` (the Discord library).
+
 - `logs/bot.log` is the current log. At midnight (UTC) it is renamed to `logs/YYYY-MM-DD.log`.
 - Logs older than `DEBUG_LOGS_DAYS_TO_KEEP` days are deleted at startup and at each rotation.
 - `logs/crash.log` records every abnormal exit, with the error.
-- On Linux the same output also goes to the systemd journal (`journalctl -u lastseen`).
+- On Linux the same output also goes to the systemd journal. The journal adds its own timestamp, so the bot leaves its own out there, and it passes each line's level on to the journal. `journalctl` shows errors and warnings in colour, and can filter on them:
+  ```bash
+  sudo journalctl -u lastseen -p warning     # only warnings and errors
+  ```
 
 ## Troubleshooting
 
@@ -428,7 +439,7 @@ LastSeen-Go/
 │   ├── config/              # .env loading
 │   ├── locale/              # translations
 │   ├── logx/                # logging with daily rotation
-│   ├── pyfmt/               # Python-compatible number/text formatting
+│   ├── textfmt/             # fills in text placeholders and number formats
 │   └── tzdb/                # timezone list and data (built into the binary)
 ├── locales/                 # translation files (one JSON per language; deploy with the binary)
 ├── deploy/
@@ -452,6 +463,12 @@ The tests include **golden tests** that compare the Go bot with the Python bot. 
 
 ```bash
 python tools/gen_pyref.py <path-to-LastSeen-Python>
+```
+
+The list of valid time zones (`internal/tzdb/zones_gen.go`) is generated from the time zone database that comes with Go. After upgrading Go, regenerate it; a test fails as a reminder when it's out of date:
+
+```bash
+go generate ./internal/tzdb
 ```
 
 ## Privacy & Data

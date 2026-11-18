@@ -575,12 +575,12 @@ func (d *DB) GetDepartureLifespan(guildID int64, f *UserFilter) DepartureLifespa
 	} else {
 		median = float64(tenures[mid-1]+tenures[mid]) / 2
 	}
-	r.MedianDays = pyRound(median / SecondsPerDay)
+	r.MedianDays = roundHalfEven(median / SecondsPerDay)
 	var sum int64
 	for _, t := range tenures {
 		sum += t
 	}
-	r.AvgDays = pyRound(float64(sum) / float64(n) / SecondsPerDay)
+	r.AvgDays = roundHalfEven(float64(sum) / float64(n) / SecondsPerDay)
 	const dd = SecondsPerDay
 	early := 0
 	for _, t := range tenures {

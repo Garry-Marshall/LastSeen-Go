@@ -16,7 +16,7 @@ import (
 	"lastseen/internal/db"
 )
 
-// /search: filter members and display or export them (cogs/commands.py).
+// /search: filter members and display or export them.
 
 const searchMaxResults = 1000
 
@@ -195,7 +195,7 @@ func (b *Bot) parseSearchFilters(guildID snowflake.ID, roles, status, inactive, 
 				parts = append(parts, strings.TrimSpace(p))
 			}
 		}
-		clog.Info("Role filter input: '%s' -> parsed as: %s", roles, pyStrList(parts))
+		clog.Info("Role filter input: %q -> parsed as: %q", roles, parts)
 		guildRoles := b.guildRoles(guildID)
 		for _, rs := range parts {
 			rs = strings.TrimSpace(rs)
@@ -233,7 +233,7 @@ func (b *Bot) parseSearchFilters(guildID snowflake.ID, roles, status, inactive, 
 			for i, r := range f.roles {
 				ids[i] = i64(r)
 			}
-			clog.Info("Final role filter: %d role(s) - IDs: %s", len(ids), pyIntList(ids))
+			clog.Info("Final role filter: %d role(s) - IDs: %v", len(ids), ids)
 		} else {
 			clog.Warn("No valid roles found in filter - will return 0 results")
 		}
@@ -275,29 +275,6 @@ func (b *Bot) parseSearchFilters(guildID snowflake.ID, roles, status, inactive, 
 		f.username = strings.ToLower(username)
 	}
 	return f, nil
-}
-
-// pyStrList is repr() of a Python list of strings.
-func pyStrList(items []string) string {
-	parts := make([]string, len(items))
-	for i, s := range items {
-		parts[i] = pyReprStr(s)
-	}
-	return "[" + strings.Join(parts, ", ") + "]"
-}
-
-// pyReprStr is repr() of a str (quote choice as in Python).
-func pyReprStr(s string) string {
-	q := "'"
-	if strings.Contains(s, "'") && !strings.Contains(s, `"`) {
-		q = `"`
-	}
-	r := strings.NewReplacer(`\`, `\\`, "\n", `\n`, "\r", `\r`, "\t", `\t`)
-	s = r.Replace(s)
-	if q == "'" {
-		s = strings.ReplaceAll(s, "'", `\'`)
-	}
-	return q + s + q
 }
 
 func parseFilterValue(raw, unit, lang string) (*cmpFilter, error) {
@@ -366,7 +343,8 @@ func (c *cmpFilter) matchDay(ts int64) bool {
 	return c.value <= ts && ts < c.value+86400
 }
 
-// daysSince is int((now - since) // 86400) with a float now, like Python.
+// daysSince is the number of whole days since the timestamp, rounded down
+// (negative for a future one).
 func daysSince(since int64) int64 {
 	now := float64(time.Now().UnixMicro()) / 1e6
 	return int64(math.Floor((now - float64(since)) / 86400))
@@ -506,8 +484,8 @@ func (b *Bot) enrichResult(guildID snowflake.ID, md *db.Member, dm discord.Membe
 	}
 }
 
-// formatRelativeTime is the search's coarse "N days ago" text, using
-// Python timedelta semantics (days floor, seconds 0..86399).
+// formatRelativeTime is the search's coarse "N days ago" text. Days are
+// counted rounded down, with the leftover seconds in 0..86399.
 func formatRelativeTime(ts *int64, lang string) string {
 	switch {
 	case ts == nil:
@@ -541,7 +519,7 @@ func formatRelativeTime(ts *int64, lang string) string {
 
 // ---- exports ----
 
-func pyOptIntBlank(p *int64) string {
+func intOrBlank(p *int64) string {
 	if p == nil {
 		return ""
 	}
@@ -559,7 +537,7 @@ func searchCSV(results []searchResult) string {
 			r.Status,
 			r.LastSeenStr,
 			r.JoinedAtStr,
-			pyOptIntBlank(r.JoinPosition),
+			intOrBlank(r.JoinPosition),
 			strconv.FormatInt(r.Activity30d, 10),
 			strconv.FormatInt(r.Activity7d, 10),
 			strconv.FormatInt(r.ActivityDay, 10),

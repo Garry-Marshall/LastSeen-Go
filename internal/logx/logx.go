@@ -1,7 +1,15 @@
-// Package logx is the bot's logger. It writes the same line format as the
-// Python bot ("2026-01-27 14:03:11 [INFO] cogs.tracking: message") to the
-// console and to logs/bot.log, which rotates at UTC midnight into
-// logs/YYYY-MM-DD.log (the date of the day that ended).
+// Package logx is the bot's logger. Every line names the part of the bot it
+// comes from:
+//
+//	2026-01-27 14:03:11 [INFO] tracking: message
+//
+// Lines go to the console (stderr) and to logs/bot.log, which rotates at UTC
+// midnight into logs/YYYY-MM-DD.log (the date of the day that ended).
+//
+// Under systemd the console is the journal, which timestamps every entry
+// itself. There the timestamp is left out and each line starts with its
+// syslog priority, so journalctl colours errors and warnings and
+// "journalctl -p warning" filters on them.
 package logx
 
 import (
@@ -17,70 +25,73 @@ import (
 	"time"
 )
 
-// Level mirrors Python's logging levels.
+// Level is a message's severity.
 type Level int
 
 const (
-	Debug   Level = 10
-	Info    Level = 20
-	Warning Level = 30
-	Error   Level = 40
+	Debug Level = iota
+	Info
+	Warning
+	Error
 )
 
 func (l Level) String() string {
-	switch {
-	case l <= Debug:
+	switch l {
+	case Debug:
 		return "DEBUG"
-	case l <= Info:
+	case Info:
 		return "INFO"
-	case l <= Warning:
+	case Warning:
 		return "WARNING"
-	case l <= Error:
-		return "ERROR"
 	}
-	return "CRITICAL"
+	return "ERROR"
+}
+
+// priority is the syslog priority prefix the journal reads from a line.
+func (l Level) priority() string {
+	switch l {
+	case Debug:
+		return "<7>"
+	case Info:
+		return "<6>"
+	case Warning:
+		return "<4>"
+	}
+	return "<3>"
 }
 
 // ParseLevel maps a DEBUG_LEVEL value (case-insensitive) to a Level; unknown
-// values give Info, like getattr(logging, name, logging.INFO).
+// values give Info.
 func ParseLevel(s string) Level {
 	switch strings.ToUpper(strings.TrimSpace(s)) {
 	case "DEBUG":
 		return Debug
 	case "WARNING", "WARN":
 		return Warning
-	case "ERROR":
+	case "ERROR", "CRITICAL", "FATAL":
 		return Error
-	case "CRITICAL", "FATAL":
-		return 50
 	}
 	return Info
 }
 
 var (
 	mu       sync.Mutex
-	minLevel             = Info
-	outputs  []io.Writer = []io.Writer{os.Stderr}
+	minLevel           = Info
+	console  io.Writer = os.Stderr
+	journal            = stderrIsJournal()
 	file     *rotatingFile
 )
 
-// Logger is a named logger (the name is the Python module name it replaces).
+// Logger writes lines tagged with a component name ("tracking", "db"...).
 type Logger struct{ name string }
 
-// Get returns the logger with the given name.
+// Get returns the logger for a component.
 func Get(name string) *Logger { return &Logger{name: name} }
 
 func (l *Logger) Debug(format string, args ...any) { l.log(Debug, format, args...) }
 func (l *Logger) Info(format string, args ...any)  { l.log(Info, format, args...) }
 func (l *Logger) Warn(format string, args ...any)  { l.log(Warning, format, args...) }
 func (l *Logger) Error(format string, args ...any) { l.log(Error, format, args...) }
-
-// Enabled reports whether a message at level would be written.
-func (l *Logger) Enabled(level Level) bool {
-	mu.Lock()
-	defer mu.Unlock()
-	return level >= minLevel
-}
 
 func (l *Logger) log(level Level, format string, args ...any) {
 	msg := format
@@ -90,24 +101,39 @@ func (l *Logger) log(level Level, format string, args ...any) {
 	write(level, l.name, msg)
 }
 
+// fileLine is the full line, as written to logs/bot.log.
+func fileLine(now time.Time, level Level, name, msg string) string {
+	return fmt.Sprintf("%s [%s] %s: %s\n", now.Format("2006-01-02 15:04:05"), level, name, msg)
+}
+
+// journalLine drops the timestamp (the journal adds its own) and prefixes
+// every line of the message with its priority, so a multi-line message keeps
+// its level throughout.
+func journalLine(level Level, name, msg string) string {
+	p := level.priority()
+	return fmt.Sprintf("%s[%s] %s: %s\n", p, level, name, strings.ReplaceAll(msg, "\n", "\n"+p))
+}
+
 func write(level Level, name, msg string) {
 	now := time.Now()
-	line := fmt.Sprintf("%s [%s] %s: %s\n", now.Format("2006-01-02 15:04:05"), level, name, msg)
 	mu.Lock()
 	defer mu.Unlock()
 	if level < minLevel {
 		return
 	}
-	for _, w := range outputs {
-		_, _ = io.WriteString(w, line)
+	line := fileLine(now, level, name, msg)
+	if journal {
+		_, _ = io.WriteString(console, journalLine(level, name, msg))
+	} else {
+		_, _ = io.WriteString(console, line)
 	}
 	if file != nil {
 		file.write(now, line)
 	}
 }
 
-// Setup configures the level and the rotating file in dir/bot.log, after
-// deleting dated log files older than keepDays (like Config.setup_logging).
+// Setup sets the level and starts writing to dir/bot.log, after deleting
+// dated log files older than keepDays.
 func Setup(dir string, level Level, keepDays int) error {
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return err
@@ -124,18 +150,11 @@ func Setup(dir string, level Level, keepDays int) error {
 	}
 	file = rf
 	mu.Unlock()
-	Get("bot.config").Info("Logging configured: %s", filepath.Join(dir, "bot.log"))
+	Get("config").Info("Logging configured: %s", filepath.Join(dir, "bot.log"))
 	return nil
 }
 
-// SetLevel changes the minimum level.
-func SetLevel(level Level) {
-	mu.Lock()
-	minLevel = level
-	mu.Unlock()
-}
-
-// Close flushes and closes the log file.
+// Close closes the log file.
 func Close() {
 	mu.Lock()
 	defer mu.Unlock()
@@ -145,12 +164,14 @@ func Close() {
 	}
 }
 
+// datePattern finds the date in a rotated log's name: YYYY-MM-DD.log, or
+// bot.log.YYYY-MM-DD as the Python bot named them.
 var datePattern = regexp.MustCompile(`^(?:.*\.)?(\d{4}-\d{2}-\d{2})`)
 
-// CleanupOldLogs deletes dated log files (YYYY-MM-DD.log, bot.log.YYYY-MM-DD)
-// older than keepDays; bot.log itself is never touched.
+// CleanupOldLogs deletes dated log files older than keepDays; bot.log itself
+// is never touched.
 func CleanupOldLogs(dir string, keepDays int) {
-	log := Get("bot.config")
+	log := Get("config")
 	matches, err := filepath.Glob(filepath.Join(dir, "*.log*"))
 	if err != nil {
 		log.Error("Error during log cleanup: %v", err)
@@ -259,16 +280,17 @@ func (r *rotatingFile) close() {
 	}
 }
 
-// SlogHandler adapts library logging (disgo uses log/slog) to this logger.
-// Records below minLevel are dropped; the Python bot keeps discord.py's own
-// loggers at INFO even in debug mode, so pass Info for library loggers.
+// SlogHandler routes a library's log/slog output (disgo's) into this logger
+// under one component name. Records below min are dropped: pass slog.LevelInfo
+// to keep a library's very chatty debug output out even when the bot itself
+// logs at debug level.
 type SlogHandler struct {
 	name  string
 	min   slog.Level
 	attrs []slog.Attr
 }
 
-// NewSlogHandler returns a slog.Handler writing as logger name.
+// NewSlogHandler returns a slog.Handler writing as component name.
 func NewSlogHandler(name string, min slog.Level) *SlogHandler {
 	return &SlogHandler{name: name, min: min}
 }
@@ -282,10 +304,7 @@ func (h *SlogHandler) Handle(_ context.Context, r slog.Record) error {
 		if a.Key == "name" {
 			return true
 		}
-		b.WriteString(" ")
-		b.WriteString(a.Key)
-		b.WriteString("=")
-		b.WriteString(a.Value.String())
+		fmt.Fprintf(&b, " %s=%s", a.Key, a.Value)
 		return true
 	}
 	for _, a := range h.attrs {

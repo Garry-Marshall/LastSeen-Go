@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// procStats is what /about shows about this process (psutil in Python).
+// procStats is what /about shows about this process.
 type procStats struct {
 	memMB   float64
 	cpuPct  float64 // over a 0.1s sample, like cpu_percent(0.1)

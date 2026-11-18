@@ -4,7 +4,6 @@ import (
 	"errors"
 	"slices"
 	"strconv"
-	"strings"
 
 	"github.com/disgoorg/disgo/discord"
 	"github.com/disgoorg/disgo/gateway"
@@ -12,7 +11,7 @@ import (
 	"github.com/disgoorg/snowflake/v2"
 )
 
-// Small Discord helpers standing in for discord.py conveniences.
+// Small helpers on top of disgo's caches and REST client.
 
 // shards is a snapshot of the shard manager's shards. Always use this
 // instead of ranging over ShardManager.Shards() directly: that iterator
@@ -47,8 +46,8 @@ func (b *Bot) guildChannel(guildID, channelID snowflake.ID) (discord.GuildChanne
 	return ch, true
 }
 
-// selfPermissionsIn is channel.permissions_for(guild.me); a thread uses its
-// parent's permissions, like discord.py.
+// selfPermissionsIn is the bot's own permissions in a channel; a thread
+// uses its parent channel's permissions.
 func (b *Bot) selfPermissionsIn(ch discord.GuildChannel) (discord.Permissions, bool) {
 	self, ok := b.Client.Caches.SelfMember(ch.GuildID())
 	if !ok {
@@ -114,7 +113,7 @@ func (b *Bot) sendDM(userID snowflake.ID, m discord.MessageCreate) error {
 	return err
 }
 
-// runeCut is Python's s[:n] (code points, not bytes).
+// runeCut keeps the first n characters of s (code points, not bytes).
 func runeCut(s string, n int) string {
 	if n <= 0 {
 		return ""
@@ -140,15 +139,6 @@ func isASCIIDigits(s string) bool {
 		}
 	}
 	return true
-}
-
-// pyIntList is repr() of a Python list of ints: "[1, 2, 3]".
-func pyIntList(ids []int64) string {
-	parts := make([]string, len(ids))
-	for i, id := range ids {
-		parts[i] = strconv.FormatInt(id, 10)
-	}
-	return "[" + strings.Join(parts, ", ") + "]"
 }
 
 // chunk is chunk_list: consecutive slices of at most size items.

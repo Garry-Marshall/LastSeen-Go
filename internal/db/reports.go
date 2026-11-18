@@ -206,9 +206,6 @@ func (d *DB) GetTopActiveUsersPeriod(guildID int64, days, limit int, f *UserFilt
 		ORDER BY total_messages DESC LIMIT ?`, args...)
 }
 
-// pyWeekdayOf is Python's date.weekday() (Monday = 0).
-func pyWeekdayOf(t time.Time) int { return (int(t.Weekday()) + 6) % 7 }
-
 // GetActivityByDay sums messages per local weekday (Monday = 0) over the
 // last days days, from the hourly table so the weekday is right in the
 // guild's time zone. ok is false on error.
@@ -230,7 +227,7 @@ func (d *DB) GetActivityByDay(guildID int64, days int, f *UserFilter, tz string)
 			log.Error("Failed to get activity by day for guild %d: %v", guildID, err)
 			return [7]int64{}, false
 		}
-		counts[pyWeekdayOf(time.Unix(ts, 0).In(loc))] += n.Int64
+		counts[weekdayFromMonday(time.Unix(ts, 0).In(loc))] += n.Int64
 	}
 	if err := rows.Err(); err != nil {
 		log.Error("Failed to get activity by day for guild %d: %v", guildID, err)
@@ -280,7 +277,7 @@ func (d *DB) GetServerActivityWindows(guildID int64, days int, tz string, f *Use
 			continue
 		}
 		local := time.Unix(ts, 0).In(loc)
-		wd, h := pyWeekdayOf(local), local.Hour()
+		wd, h := weekdayFromMonday(local), local.Hour()
 		w.ByWeekday[wd] += n.Int64
 		w.ByHour[h] += n.Int64
 		grid[wd][h] += n.Int64
