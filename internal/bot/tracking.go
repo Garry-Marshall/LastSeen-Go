@@ -465,8 +465,8 @@ func (tr *Tracking) onReady() {
 			tlog.Info("Found %d stale guild(s) in database, removing...", len(stale))
 		}
 		for _, id := range stale {
-			if tr.db.RemoveGuildData(id) {
-				tlog.Info("Removed stale guild %d from database", id)
+			if removed, ok := tr.db.RemoveGuildData(id); ok {
+				tlog.Info("Removed stale guild %d from database (%s)", id, removed)
 			} else {
 				tlog.Warn("Failed to remove stale guild %d", id)
 			}
@@ -519,18 +519,33 @@ func (tr *Tracking) onGuildJoin(guildID snowflake.ID, name string) {
 		tlog.Info("Joined guild: %s (ID: %s)", name, guildID)
 		tr.db.AddGuild(i64(guildID), name, tr.b.Cfg.DefaultInactiveDays)
 		tr.startMemberEnumeration(guildID)
-		tr.b.updateListings()
+		tr.b.scheduleListingsUpdate()
 	})
 }
 
 func (tr *Tracking) onGuildRemove(guildID snowflake.ID, name string) {
 	goSafe("on_guild_remove", func() {
 		gid := i64(guildID)
-		tlog.Info("Bot left guild: %s (%d). Cleaning up database...", name, gid)
-		ok := tr.db.RemoveGuildData(gid)
+		if name == "" { // Discord never sent the guild's data: use the stored name
+			if cfg := tr.db.GetGuildConfig(gid); cfg != nil {
+				name = cfg.GuildName
+			}
+		}
+		label := fmt.Sprint(gid)
+		if name != "" {
+			label = fmt.Sprintf("%s (%d)", name, gid)
+		}
+		removed, ok := tr.db.RemoveGuildData(gid)
 		tr.forgetEnumeration(guildID)
+		switch {
+		case !ok:
+			tlog.Error("Bot left guild %s; failed to remove its data", label)
+		case removed.Found:
+			tlog.Info("Bot left guild %s; removed it from the database (%s)", label, removed)
+		default:
+			tlog.Info("Bot left guild %s; nothing was stored for it", label)
+		}
 		if ok {
-			tlog.Info("Successfully wiped data for guild %d", gid)
 			tr.bufMu.Lock()
 			dailyPurged, hourlyPurged := 0, 0
 			for k := range tr.daily {
@@ -561,10 +576,8 @@ func (tr *Tracking) onGuildRemove(guildID snowflake.ID, name string) {
 				tlog.Info("Purged %d daily and %d hourly buffered activity entries for guild %d", dailyPurged, hourlyPurged, gid)
 			}
 			purgeGuildState(guildID)
-		} else {
-			tlog.Error("Failed to wipe data for guild %d during on_guild_remove", gid)
 		}
-		tr.b.updateListings()
+		tr.b.scheduleListingsUpdate()
 	})
 }
 

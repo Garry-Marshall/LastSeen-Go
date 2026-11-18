@@ -82,6 +82,9 @@ type Bot struct {
 	chunkStarted   atomic.Bool // the background chunker was launched once
 	chunkRunning   atomic.Bool
 
+	listingsMu    sync.Mutex
+	listingsTimer *time.Timer // pending listings update, see scheduleListingsUpdate
+
 	readyMu      sync.Mutex
 	readyCycle   map[int]bool      // shards that finished READY in this cycle
 	shardWaiters map[int]time.Time // shard -> last GUILD_CREATE seen while readying
@@ -304,6 +307,7 @@ func (b *Bot) Close() {
 	if b.tracking != nil {
 		b.tracking.unload()
 	}
+	b.stopListingsUpdate()
 	b.cancel()
 	if b.Client != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -436,7 +440,15 @@ func (b *Bot) listeners() *events.ListenerAdapter {
 		OnGuildAvailable:   func(e *events.GuildAvailable) { b.onGuildAvailable(e.GuildID) },
 		OnGuildUnavailable: func(e *events.GuildUnavailable) { b.tracking.onGuildUnavailable(e.GuildID) },
 		OnGuildJoin:        func(e *events.GuildJoin) { b.tracking.onGuildJoin(e.GuildID, e.Guild.Name) },
-		OnGuildLeave:       func(e *events.GuildLeave) { b.tracking.onGuildRemove(e.GuildID, e.Guild.Name) },
+		OnGuildLeave: func(e *events.GuildLeave) {
+			// disgo keeps the "not loaded yet" and "unavailable" marks of a
+			// guild removed before Discord sent its data (Discord lists such
+			// guilds at login, then removes them), so it would still count as
+			// one of the bot's guilds.
+			b.Client.Caches.SetGuildUnready(e.GuildID, false)
+			b.Client.Caches.SetGuildUnavailable(e.GuildID, false)
+			b.tracking.onGuildRemove(e.GuildID, e.Guild.Name)
+		},
 		OnGuildUpdate: func(e *events.GuildUpdate) {
 			b.tracking.onGuildUpdate(e.GuildID, e.OldGuild.Name, e.Guild.Name)
 		},

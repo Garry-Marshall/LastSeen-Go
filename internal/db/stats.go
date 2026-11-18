@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"sort"
 	"time"
 )
@@ -218,30 +219,39 @@ func (d *DB) GetGhosts(guildID int64, windowDays, limit int) []SegmentMember {
 		[]any{guildID, ws, ws}, limit)
 }
 
-// RemoveGuildData deletes a guild and (by cascade) all of its data.
-func (d *DB) RemoveGuildData(guildID int64) bool {
-	var members, daily, hourly int64
+// GuildRemoval is what RemoveGuildData deleted.
+type GuildRemoval struct {
+	Found                  bool // the guild was in the database
+	Members, Daily, Hourly int64
+}
+
+func (r GuildRemoval) String() string {
+	return fmt.Sprintf("%d members, %d daily and %d hourly activity records", r.Members, r.Daily, r.Hourly)
+}
+
+// RemoveGuildData deletes a guild and (by cascade) all of its data. ok is
+// false on a database error; the caller logs the outcome.
+func (d *DB) RemoveGuildData(guildID int64) (r GuildRemoval, ok bool) {
 	err := d.tx(func(tx *sql.Tx) error {
 		var err error
-		if members, err = scalarInt(tx, "SELECT COUNT(*) FROM members WHERE guild_id = ?", guildID); err != nil {
+		if r.Members, err = scalarInt(tx, "SELECT COUNT(*) FROM members WHERE guild_id = ?", guildID); err != nil {
 			return err
 		}
-		if daily, err = scalarInt(tx, "SELECT COUNT(*) FROM message_activity WHERE guild_id = ?", guildID); err != nil {
+		if r.Daily, err = scalarInt(tx, "SELECT COUNT(*) FROM message_activity WHERE guild_id = ?", guildID); err != nil {
 			return err
 		}
-		if hourly, err = scalarInt(tx, "SELECT COUNT(*) FROM message_activity_hourly WHERE guild_id = ?", guildID); err != nil {
+		if r.Hourly, err = scalarInt(tx, "SELECT COUNT(*) FROM message_activity_hourly WHERE guild_id = ?", guildID); err != nil {
 			return err
 		}
-		_, err = tx.ExecContext(ctx(), "DELETE FROM guilds WHERE guild_id = ?", guildID)
+		res, err := tx.ExecContext(ctx(), "DELETE FROM guilds WHERE guild_id = ?", guildID)
+		r.Found = affected(res) > 0
 		return err
 	})
 	if err != nil {
 		log.Error("Failed to remove guild data for %d: %v", guildID, err)
-		return false
+		return GuildRemoval{}, false
 	}
-	log.Info("Removed guild %d from database. Deleted %d members, %d daily and %d hourly activity records.",
-		guildID, members, daily, hourly)
-	return true
+	return r, true
 }
 
 func (d *DB) addedAt(q querier, guildID int64) (int64, error) {

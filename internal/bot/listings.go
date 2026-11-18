@@ -34,8 +34,36 @@ const (
 	statsLocal      = "stats.json"
 )
 
-// updateListings pushes the current counts to every configured listing
-// (guild join/leave).
+// listingsDelay is how long guild joins and leaves are collected before the
+// listings get one update: Discord can remove several guilds in the same
+// second, and VoidBots accepts one post per 3 minutes.
+const listingsDelay = 10 * time.Second
+
+// scheduleListingsUpdate updates the listings once no guild has joined or
+// left for listingsDelay.
+func (b *Bot) scheduleListingsUpdate() {
+	b.listingsMu.Lock()
+	defer b.listingsMu.Unlock()
+	if b.listingsTimer == nil {
+		b.listingsTimer = time.AfterFunc(listingsDelay, func() {
+			defer recoverLog("listings update")
+			b.updateListings()
+		})
+		return
+	}
+	b.listingsTimer.Reset(listingsDelay) // also re-arms it after it has fired
+}
+
+// stopListingsUpdate drops a pending update (shutdown).
+func (b *Bot) stopListingsUpdate() {
+	b.listingsMu.Lock()
+	defer b.listingsMu.Unlock()
+	if b.listingsTimer != nil {
+		b.listingsTimer.Stop()
+	}
+}
+
+// updateListings pushes the current counts to every configured listing.
 func (b *Bot) updateListings() {
 	b.updateTopGG()
 	b.updateDiscordBotList()

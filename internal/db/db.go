@@ -203,7 +203,12 @@ func scalarInt(q querier, query string, args ...any) (int64, error) {
 	return v.Int64, nil
 }
 
+// affected is the number of rows a statement changed; 0 when it failed
+// (res is nil then).
 func affected(res sql.Result) int64 {
+	if res == nil {
+		return 0
+	}
 	n, _ := res.RowsAffected()
 	return n
 }
